@@ -1,0 +1,243 @@
+.card.note {
+  padding: 5mm;
+  display: inline-block;
+  font-family: "Source Sans Pro";
+}
+.card.note *:first-child {
+  margin-top: 0;
+}
+.card.note p, .card.note ul, .card.note h4, .card.note h3, .card.note h2, .card.note table {
+  margin-bottom: 8pt;
+}
+.card.note h2, .card.note h3, .card.note h4 {
+  padding-bottom: 1pt;
+  border-bottom-width: 1pt;
+  border-bottom-style: solid;
+  border-bottom-color: black;
+}
+.card.note ul p, .card.note ol p, .card.note dl p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.card.note ul, .card.note ol {
+  padding-left: 2em;
+}
+.card.note ul ul, .card.note ul ol, .card.note ol ul, .card.note ol ol {
+  padding-left: 1em;
+  margin-bottom: 0;
+}
+.card.note dl dt {
+  font-weight: bold;
+}
+.card.note dl dd {
+  margin-left: 2em;
+}
+.card.note dl ul, .card.note dl ol {
+  padding-left: 1em;
+  margin-bottom: 0;
+}
+.card.note dl .not-indented ul, .card.note dl .not-indented ol {
+  padding-left: 0;
+}
+.card.note .not-indented ul, .card.note .not-indented ol {
+  padding-left: 5mm;
+}
+.card.note table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.card.note table th, .card.note table td {
+  text-align: left;
+  border-width: 1pt;
+  border-style: solid;
+  border-color: black;
+  padding-top: 2pt;
+  padding-left: 4pt;
+  padding-right: 4pt;
+  padding-bottom: 2pt;
+}
+.card.note table th.halign-right, .card.note table td.halign-right {
+  text-align: right;
+}
+.card.note table th.halign-center, .card.note table td.halign-center {
+  text-align: center;
+}
+.card.note table p {
+  margin-bottom: 0 !important;
+}
+.card.note[data-font=large], .card.note[data-font=large] h4, .card.note[data-font=large] table, .card.note[data-font=large] dl dt {
+  font-size: 11pt;
+}
+.card.note[data-font=large] h2 {
+  font-size: 15pt;
+}
+.card.note[data-font=large] h3 {
+  font-size: 13pt;
+}
+.card.note[data-font=medium], .card.note[data-font=medium] h4, .card.note[data-font=medium] table, .card.note[data-font=medium] dl dt {
+  font-size: 10pt;
+}
+.card.note[data-font=medium] h2 {
+  font-size: 14pt;
+}
+.card.note[data-font=medium] h3 {
+  font-size: 12pt;
+}
+.card.note[data-font=small], .card.note[data-font=small] h4, .card.note[data-font=small] table, .card.note[data-font=small] dl dt {
+  font-size: 9pt;
+}
+.card.note[data-font=small] h2 {
+  font-size: 13pt;
+}
+.card.note[data-font=small] h3 {
+  font-size: 11pt;
+}
+
+.word, .phrase {
+  padding: 10mm;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.word {
+  font-size: 16pt;
+  font-weight: 700;
+  font-family: "Source Sans Pro";
+}
+
+.phrase {
+  text-align: center;
+  font-size: 13pt;
+  font-weight: 400;
+  font-family: "Source Serif Pro";
+}
+
+.card.music {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.card.music img {
+  transform: scale(0.2);
+}
+
+.card.japanese.japanese-word {
+  line-height: 1.2em;
+  font-family: "Noto Sans JP";
+  writing-mode: vertical-rl;
+  letter-spacing: 6pt;
+  justify-content: center;
+}
+.card.japanese.japanese-word .group {
+  display: flex;
+  align-items: center;
+  writing-mode: initial;
+}
+.card.japanese.japanese-word .group .characters {
+  font-weight: 600;
+  writing-mode: vertical-rl;
+}
+.card.japanese.japanese-word .group .furigana {
+  font-weight: 400;
+  line-height: 0.6em;
+  letter-spacing: 4pt;
+  writing-mode: vertical-rl;
+}
+.card.japanese.japanese-word[data-font=large] {
+  font-size: 48pt;
+}
+.card.japanese.japanese-word[data-font=large] .furigana {
+  font-size: 10pt;
+}
+.card.japanese.japanese-word[data-font=medium] {
+  font-size: 36pt;
+}
+.card.japanese.japanese-word[data-font=medium] .furigana {
+  font-size: 8pt;
+}
+
+.card.japanese {
+  padding: 5mm;
+  display: inline-flex;
+  align-items: center;
+}
+
+.card.japanese.kanji {
+  font-size: 72pt;
+  font-weight: 700;
+  font-family: "Noto Serif JP";
+  justify-content: center;
+}
+
+.card.japanese.japanese-phrase {
+  font-size: 16pt;
+  font-weight: 400;
+  font-family: "Noto Serif JP";
+  line-height: 1.6em;
+  writing-mode: vertical-rl;
+  letter-spacing: 1pt;
+}
+.card.japanese.japanese-phrase strong {
+  font-weight: 700;
+}
+
+.card.simple-note {
+  padding: 5mm;
+  display: inline-flex;
+  font-family: "Source Sans Pro";
+  flex-direction: column;
+}
+.card.simple-note .head {
+  font-size: 15pt;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 8pt;
+  padding-bottom: 1pt;
+  border-bottom-width: 1pt;
+  border-bottom-style: solid;
+  border-bottom-color: black;
+}
+.card.simple-note .body {
+  display: flex;
+  font-size: 13pt;
+  flex-grow: 1;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+@page {
+  size: A4;
+  margin-top: 10mm;
+  margin-left: 10mm;
+  margin-right: 0;
+  margin-bottom: 0;
+}
+@media print {
+  body {
+    margin: 0;
+  }
+}
+.card {
+  box-sizing: border-box;
+  border-width: 1pt;
+  border-style: solid;
+  border-color: hsl(0, 0%, 95%);
+  break-inside: avoid;
+  vertical-align: top;
+}
+.card[data-size=B8] {
+  width: 62mm;
+  height: 88mm;
+}
+.card[data-size="credit card"] {
+  width: 86mm;
+  height: 54mm;
+}
+.card[data-size="B8 landscape"] {
+  width: 88mm;
+  height: 62mm;
+}
+
+/*# sourceMappingURL=cards.css.map */

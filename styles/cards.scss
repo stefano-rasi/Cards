@@ -1,0 +1,47 @@
+@import "note";
+@import "latin";
+@import "music";
+@import "japanese";
+@import "simple-note";
+
+@page {
+    size: A4;
+
+    margin-top: 10mm;
+    margin-left: 10mm;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+@media print {
+    body {
+        margin: 0;
+    }
+}
+
+.card {
+    box-sizing: border-box;
+
+    border-width: 1pt;
+    border-style: solid;
+    border-color: hsl(0, 0%, 95%);
+
+    break-inside: avoid;
+
+    vertical-align: top;
+    
+    &[data-size="B8"] {
+        width: 62mm;
+        height: 88mm;
+    }
+
+    &[data-size="credit card"] {
+        width: 86mm;
+        height: 54mm;
+    }
+
+    &[data-size="B8 landscape"] {
+        width: 88mm;
+        height: 62mm;
+    }
+}

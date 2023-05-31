@@ -1,0 +1,11 @@
+ruby:
+  @font = 'large' if not defined? @font
+
+div.card.japanese.japanese-word data-size=size data-font=@font
+  - @groups.each do |group|
+    div.group
+      div.characters
+        = group[:characters]
+      - if group.key? :furigana
+        div.furigana
+          = group[:furigana]

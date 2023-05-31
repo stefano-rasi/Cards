@@ -1,0 +1,5 @@
+ruby:
+  @font = 'large' if not defined? @font
+
+div.card class=css data-size=size data-font=@font
+  == @html

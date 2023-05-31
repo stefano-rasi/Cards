@@ -1,0 +1,25 @@
+\version "2.24.1"
+
+#(set-global-staff-size 30)
+
+upper = \fixed c' {
+    \clef <%= @staves[:upper][:clef] %>
+
+    \override Score.TimeSignature.stencil = ##f
+
+    < <%= @staves[:upper][:notes] %> >
+}
+
+lower = \fixed c {
+    \clef <%= @staves[:lower][:clef] %>
+
+    \override Score.TimeSignature.stencil = ##f
+
+    < <%= @staves[:lower][:notes] %> >
+}
+
+\new PianoStaff
+<<
+    \new Staff = "upper" \upper
+    \new Staff = "lower" \lower
+>>

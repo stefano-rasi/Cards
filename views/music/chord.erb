@@ -1,0 +1,19 @@
+\version "2.24.1"
+
+#(set-global-staff-size 30)
+
+<%
+    if @clef == 'bass'
+        fixed = 'c'
+    else
+        fixed = "c'"
+    end
+%>
+
+\fixed <%= fixed %> {
+    \clef <%= @clef %>
+
+    \override Score.TimeSignature.stencil = ##f
+
+    < <%= @chord %> >
+}

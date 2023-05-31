@@ -1,0 +1,37 @@
+.card.simple-note {
+    padding: 5mm;
+
+    display: inline-flex;
+
+    font-family: "Source Sans Pro";
+
+    flex-direction: column;
+
+    .head {
+        font-size: 15pt;
+        font-weight: bold;
+
+        margin-top: 0;
+        margin-bottom: 8pt;
+
+        padding-bottom: 1pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+    }
+
+    .body {
+        display: flex;
+
+        font-size: 13pt;
+
+        flex-grow: 1;
+
+        text-align: center;
+
+        align-items: center;
+
+        justify-content: center;
+    }
+}

@@ -1,0 +1,33 @@
+@import "japanese-word";
+
+.card.japanese {
+    padding: 5mm;
+
+    display: inline-flex;
+
+    align-items: center;
+}
+
+.card.japanese.kanji {
+    font-size: 72pt;
+    font-weight: 700;
+    font-family: "Noto Serif JP";
+
+    justify-content: center;
+}
+
+.card.japanese.japanese-phrase {
+    font-size: 16pt;
+    font-weight: 400;
+    font-family: "Noto Serif JP";
+
+    line-height: 1.6em;
+
+    writing-mode: vertical-rl;
+
+    letter-spacing: 1pt;
+
+    strong {
+        font-weight: 700;
+    }
+}

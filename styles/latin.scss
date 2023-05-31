@@ -1,0 +1,23 @@
+.word, .phrase {
+    padding: 10mm;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.word {
+    font-size: 16pt;
+    font-weight: 700;
+    font-family: "Source Sans Pro";
+}
+
+.phrase {
+    text-align: center;
+
+    font-size: 13pt;
+    font-weight: 400;
+    font-family: "Source Serif Pro";
+}
