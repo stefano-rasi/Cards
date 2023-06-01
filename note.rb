@@ -19,14 +19,8 @@ class NoteCard < TextCard
     end
 end
 
-class SimpleNoteCard < SlimCard
+class SimpleNoteCard < TextCard
     tag 'simple-note'
-    slim 'simple-note'
+    css 'simple-note'
     size 'B8'
-
-    def initialize(node)
-        @text = node.text
-
-        @title = node.attribute('title')
-    end
 end

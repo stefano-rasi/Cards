@@ -7,11 +7,7 @@
 
     flex-direction: column;
 
-    .head {
-        font-size: 15pt;
-        font-weight: bold;
-
-        margin-top: 0;
+    h2, h3 {
         margin-bottom: 8pt;
 
         padding-bottom: 1pt;
@@ -21,17 +17,41 @@
         border-bottom-color: black;
     }
 
-    .body {
-        display: flex;
+    h2 {
+        font-size: 15pt;
 
-        flex-grow: 1;
+        margin-top: 0;
+    }
 
+    h3 {
+        font-size: 13pt;
+    }
+
+    p {
         font-size: 13pt;
 
         text-align: center;
+    }
 
-        align-items: center;
+    .sect1 {
+        height: 100%;
 
-        justify-content: center;
+        display: inline-flex;
+
+        flex-direction: column;
+
+        .sectionbody {
+            flex-grow: 1;
+
+            .paragraph {
+                height: 100%;
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+            }
+        }
     }
 }
