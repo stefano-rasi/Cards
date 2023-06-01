@@ -1,4 +1,5 @@
 cards/*
 public/*
 
+!cards/.gitkeep
 !public/.gitkeep
