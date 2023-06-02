@@ -3,13 +3,13 @@
 
 .card.japanese {
     padding: 5mm;
-
-    display: inline-flex;
-
-    align-items: center;
 }
 
 .card.japanese.kanji {
+    display: inline-flex;
+
+    align-items: center;
+
     font-size: 72pt;
     font-weight: 700;
     font-family: "Noto Serif JP";

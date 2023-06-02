@@ -66,7 +66,7 @@ class JapaneseParser < Parslet::Parser
     end
 
     rule(:group) do
-        (furigana.as(:furigana) | character.repeat(1).as(:text))
+        (furigana.as(:furigana) | character.as(:character)).repeat(1)
     end
 
     rule(:text) do

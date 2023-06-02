@@ -1,4 +1,8 @@
 .card.japanese.japanese-word {
+    display: inline-flex;
+
+    align-items: center;
+
     line-height: 1.2em;
 
     font-family: "Noto Sans JP";
@@ -8,6 +12,10 @@
     letter-spacing: 6pt;
 
     justify-content: center;
+
+    .character {
+        display: inline-block;
+    }
 
     .furigana {
         display: inline-flex;
