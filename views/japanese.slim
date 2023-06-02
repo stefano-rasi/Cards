@@ -1,0 +1,17 @@
+div.card.japanese class=@css data-size=size data-font=@font
+  - @sections.each do |section|
+    div.section class=('bold' if section.key? :bold_text)
+      ruby:
+        if section.key? :bold_text
+          text = section[:bold_text]
+        else
+          text = section[:text]
+        end
+
+      - text[:groups].each do |group|
+        - if group.key? :furigana
+          div.furigana
+            div.furigana-base = group[:furigana][:base]
+            div.furigana-text = group[:furigana][:text]
+        - else
+          = group[:text]
