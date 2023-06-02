@@ -21,6 +21,10 @@
         border-bottom-color: black;
     }
 
+    .text-justify {
+        text-align: justify;
+    }
+
     ul, ol, dl {
         p {
             margin-top: 0;
@@ -98,7 +102,7 @@
     }
 
     &[data-font="large"] {
-        &, h4, table, dl dt {
+        &, h4, dl dt, table {
             font-size: 11pt;
         }
 
@@ -112,7 +116,7 @@
     }
 
     &[data-font="medium"] {
-        &, h4, table, dl dt {
+        &, h4, dl dt, table {
             font-size: 10pt;
         }
 
@@ -126,7 +130,7 @@
     }
 
     &[data-font="small"] {
-        &, h4, table, dl dt {
+        &, h4, dl dt, table {
             font-size: 9pt;
         }
 
