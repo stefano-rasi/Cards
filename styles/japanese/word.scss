@@ -35,10 +35,10 @@
         .furigana-base, .furigana-text {
             writing-mode: vertical-rl;
         }
+    }
 
-        .character {
-            display: inline-block;
-        }
+    .character {
+        display: inline-block;
     }
 
     &[data-font="large"] {
