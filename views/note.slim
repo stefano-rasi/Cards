@@ -1,5 +1,9 @@
 ruby:
-  @font = 'large' if not defined? @font
+  if defined? @font
+    font = @font
+  else
+    font = 'large'
+  end
 
-div.card class=css data-size=size data-font=@font
+div.card class=css data-size=size data-font=font
   == @html
