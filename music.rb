@@ -77,6 +77,18 @@ class PianoChordCard < MusicCard
     size 'B8'
 
     def initialize(node)
+        if node.has_attribute? 'key'
+            @key = node.attribute('key')
+        else
+            @key = 'c \major'
+        end
+
+        if node.has_attribute? 'duration'
+            @duration = node.attribute('duration')
+        else
+            @duration = 4
+        end
+
         staves = node.children.map { |child|
             clef = child.name
             notes = child.text
