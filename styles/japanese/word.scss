@@ -13,8 +13,8 @@
 
     justify-content: center;
 
-    .character {
-        display: inline-block;
+    .character, .furigana {
+        font-weight: 600;
     }
 
     .furigana {
@@ -23,10 +23,6 @@
         align-items: center;
 
         writing-mode: initial;
-
-        .furigana-base {
-            font-weight: 600;
-        }
 
         .furigana-text {
             font-weight: 400;
@@ -38,6 +34,10 @@
 
         .furigana-base, .furigana-text {
             writing-mode: vertical-rl;
+        }
+
+        .character {
+            display: inline-block;
         }
     }
 
