@@ -8,6 +8,7 @@
     flex-direction: column;
 
     h2, h3 {
+        margin-top: 0;
         margin-bottom: 8pt;
 
         padding-bottom: 1pt;
@@ -19,8 +20,6 @@
 
     h2 {
         font-size: 15pt;
-
-        margin-top: 0;
     }
 
     h3 {
@@ -34,24 +33,38 @@
     }
 
     .sect1 {
-        height: 100%;
+        display: flex;
 
-        display: inline-flex;
+        flex-grow: 1;
 
         flex-direction: column;
 
         .sectionbody {
+            display: flex;
+
             flex-grow: 1;
 
-            .paragraph {
-                height: 100%;
+            flex-direction: column;
 
+            .sect2 {
                 display: flex;
 
-                align-items: center;
+                flex-grow: 1;
 
-                justify-content: center;
+                flex-direction: column;
             }
+        }
+
+        .paragraph {
+            padding: 5mm;
+
+            display: flex;
+
+            flex-grow: 1;
+
+            align-items: center;
+
+            justify-content: center;
         }
     }
 }

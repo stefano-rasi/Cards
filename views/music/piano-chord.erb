@@ -3,19 +3,21 @@
 #(set-global-staff-size 30)
 
 upper = \fixed c' {
+    \key <%= @key %>
     \clef <%= @staves[:upper][:clef] %>
 
     \override Score.TimeSignature.stencil = ##f
 
-    < <%= @staves[:upper][:notes] %> >
+    < <%= @staves[:upper][:notes] %> ><%= @duration %>
 }
 
 lower = \fixed c {
+    \key <%= @key %>
     \clef <%= @staves[:lower][:clef] %>
 
     \override Score.TimeSignature.stencil = ##f
 
-    < <%= @staves[:lower][:notes] %> >
+    < <%= @staves[:lower][:notes] %> ><%= @duration %>
 }
 
 \new PianoStaff
