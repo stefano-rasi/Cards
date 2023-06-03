@@ -17,8 +17,6 @@ class MusicCard < Card
 
         tempfile = Tempfile.new()
 
-        pp template.result(binding)
-
         tempfile.write(template.result(binding))
         tempfile.rewind()
         tempfile.close()
@@ -83,6 +81,12 @@ class PianoChordCard < MusicCard
             @key = node.attribute('key')
         else
             @key = 'c \major'
+        end
+
+        if node.has_attribute? 'scale'
+            @scale = node.attribute('scale')
+        else
+            @scale = 30
         end
 
         if node.has_attribute? 'duration'
