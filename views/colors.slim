@@ -9,8 +9,6 @@ ruby:
   width = card_width - margin*2
   height = card_height - margin*2
 
-  color_height = height.fdiv(@colors.length)
-
 div.card.colors data-size=size
   svg width="#{card_width}mm" height="#{card_height}mm"
     rect.border[
@@ -38,9 +36,12 @@ div.card.colors data-size=size
     ruby:
       y = 0
 
-    - @colors.each.with_index do |color, i|
+    - @colors.each.with_index do |row, i|
+      ruby:
+        color_height = height * row[:percentage] / 100.0
+
       rect.color[
-        fill="#{color}"
+        fill=row[:color]
 
         mask="url(#mask)"
 
