@@ -1,7 +1,6 @@
 require 'yaml'
 
 require 'parslet'
-require 'parslet/convenience'
 
 require_relative 'slim'
 require_relative 'text'
