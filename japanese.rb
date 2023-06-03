@@ -12,7 +12,7 @@ class KanjiCard < TextCard
 end
 
 class JapanesePhraseCard < SlimCard
-    tag 'japanese-phrase'
+    tags %w(japanese-phrase j-phrase)
     slim 'japanese'
     size 'B8'
 
@@ -32,7 +32,7 @@ class JapanesePhraseCard < SlimCard
 end
 
 class JapaneseWordCard < SlimCard
-    tag 'japanese-word'
+    tags %w(japanese-word j-word)
     slim 'japanese'
     size 'B8'
 
