@@ -3,6 +3,38 @@ require 'base64'
 
 require_relative 'card'
 
+class MusicCard < Card
+    def self.erb(erb = nil)
+        if erb.nil?
+            @erb
+        else
+            @erb = erb
+        end
+    end
+
+    def to_s
+        template = ERB.new(File.read("views/music/#{self.class.erb}.erb"))
+
+        tempfile = Tempfile.new()
+
+        pp template.result(binding)
+
+        tempfile.write(template.result(binding))
+        tempfile.rewind()
+        tempfile.close()
+
+        output = File.dirname(tempfile.path)
+
+        system "lilypond --png -dpreview -dresolution=500 -o #{output} #{tempfile.path}"
+
+        @image = File.open("#{tempfile.path}.preview.png", 'rb', &:read)
+
+        template = Slim::Template.new('views/music.slim')
+
+        template.render(self)
+    end
+end
+
 class RhythmCard < MusicCard
     tag 'rhythm'
     erb 'rhythm'
@@ -96,35 +128,5 @@ class PianoCard < MusicCard
         }
 
         @staves = { upper: staves[0], lower: staves[1] }
-    end
-end
-
-class MusicCard < Card
-    def self.erb(erb = nil)
-        if erb.nil?
-            @erb
-        else
-            @erb = erb
-        end
-    end
-
-    def to_s
-        template = ERB.new(File.read("views/music/#{self.class.erb}.erb"))
-
-        tempfile = Tempfile.new()
-
-        tempfile.write(template.result(binding))
-        tempfile.rewind()
-        tempfile.close()
-
-        output = File.dirname(tempfile.path)
-
-        system "lilypond --png -dpreview -dresolution=500 -o #{output} #{tempfile.path}"
-
-        @image = File.open("#{tempfile.path}.preview.png", 'rb', &:read)
-
-        template = Slim::Template.new('views/music.slim')
-
-        template.render(self)
     end
 end
