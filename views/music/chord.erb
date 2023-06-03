@@ -11,9 +11,10 @@
 %>
 
 \fixed <%= fixed %> {
+    \key <%= key %>
     \clef <%= @clef %>
 
     \override Score.TimeSignature.stencil = ##f
 
-    < <%= @chord %> >
+    < <%= @chord %> ><%= duration %>
 }

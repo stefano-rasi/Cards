@@ -63,10 +63,28 @@ class ChordCard < MusicCard
     def initialize(node)
         @notes = node.text
 
+        if node.has_attribute? 'key'
+            @key = node.attribute('key')
+        else
+            @key = 'c \major'
+        end
+
         if node.has_attribute? 'clef'
             @clef = node.attribute('clef')
         else
             @clef = 'treble'
+        end
+
+        if node.has_attribute? 'scale'
+            @scale = node.attribute('scale')
+        else
+            @scale = 30
+        end
+
+        if node.has_attribute? 'duration'
+            @duration = node.attribute('duration')
+        else
+            @duration = 4
         end
     end
 end
