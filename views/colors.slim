@@ -1,0 +1,59 @@
+ruby:
+  margin = 10
+
+  if size == 'B8'
+    card_width = 62
+    card_height = 88
+  end
+
+  width = card_width - margin*2
+  height = card_height - margin*2
+
+div.card.colors data-size=size
+  svg width="#{card_width}mm" height="#{card_height}mm"
+    rect.border[
+      x="#{margin}mm"
+      y="#{margin}mm"
+      width="#{width}mm"
+      height="#{height}mm"
+    ]
+
+    mask id="mask"
+      rect[
+        fill="white"
+        stroke="black"
+
+        x="#{margin}mm"
+        y="#{margin}mm"
+        width="#{width}mm"
+        height="#{height}mm"
+      ]
+
+    ruby:
+      y = 0
+
+    - @colors.each.with_index do |row, i|
+      ruby:
+        color_height = height * row[:percentage] / 100.0
+
+      rect.color[
+        fill=row[:color]
+
+        mask="url(#mask)"
+
+        x="#{margin}mm"
+        y="#{margin + y}mm"
+        width="#{width}mm"
+        height="#{color_height}mm"
+      ]
+
+      - if i != 0
+        line[
+          x1="#{margin}mm"
+          x2="#{margin + width}mm"
+          y1="#{margin + y}mm"
+          y2="#{margin + y}mm"
+        ]
+
+      ruby:
+        y = y + color_height

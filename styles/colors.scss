@@ -1,0 +1,18 @@
+.card.colors {
+    display: inline-block;
+
+    .border {
+        fill: transparent;
+
+        stroke: black;
+    }
+
+    .border, mask rect {
+        stroke-width: 2pt;
+    }
+
+    line {
+        stroke: black;
+        stroke-width: 2pt;
+    }
+}

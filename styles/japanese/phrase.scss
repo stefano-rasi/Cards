@@ -1,13 +1,14 @@
 .card.japanese.japanese-phrase {
+    padding: 5mm;
+
     display: inline-flex;
+
+    line-height: 1.6em;
 
     align-items: center;
 
-    font-size: 16pt;
     font-weight: 400;
-    font-family: "Noto Serif JP";
-
-    line-height: 1.6em;
+    font-family: "Noto Sans JP";
 
     writing-mode: vertical-rl;
 
@@ -30,12 +31,9 @@
             writing-mode: initial;
 
             .furigana-text {
-                font-size: 6pt;
-                font-weight: 400;
-
                 line-height: 0;
 
-                margin-left: -1pt;
+                font-weight: 400;
             }
 
             .furigana-base, .furigana-text {
@@ -46,5 +44,35 @@
 
     .section.bold {
         font-weight: 700;
+    }
+
+    &[data-font="large"] {
+        font-size: 24pt;
+
+        .furigana-text {
+            font-size: 6pt;
+
+            margin-left: -3pt;
+        }
+    }
+
+    &[data-font="medium"] {
+        font-size: 20pt;
+
+        .furigana-text {
+            font-size: 6pt;
+
+            margin-left: -1pt;
+        }
+    }
+
+    &[data-font="small"] {
+        font-size: 16pt;
+
+        .furigana-text {
+            font-size: 6pt;
+
+            margin-left: -1pt;
+        }
     }
 }
