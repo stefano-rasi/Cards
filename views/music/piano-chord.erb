@@ -15,6 +15,7 @@ lower = \fixed c {
     \key <%= @key %>
     \clef <%= @staves[:lower][:clef] %>
 
+    \override Score.BarLine.stencil = ##f
     \override Score.TimeSignature.stencil = ##f
 
     < <%= @staves[:lower][:notes] %> ><%= @duration %>

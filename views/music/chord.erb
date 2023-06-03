@@ -14,6 +14,7 @@
     \key <%= @key %>
     \clef <%= @clef %>
 
+    \override Score.BarLine.stencil = ##f
     \override Score.TimeSignature.stencil = ##f
 
     < <%= @notes %> ><%= @duration %>
