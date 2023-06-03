@@ -20,6 +20,12 @@ class JapanesePhraseCard < SlimCard
     def initialize(node)
         @css = 'japanese-phrase'
 
+        if node.has_attribute? 'font'
+            @font = node.attribute('font')
+        else
+            @font = 'small'
+        end
+
         text = node.text.strip
 
         @sections = JapaneseParser.new.parse(text)
@@ -35,7 +41,7 @@ class JapaneseWordCard < SlimCard
         @css = 'japanese-word'
 
         if node.has_attribute? 'font'
-            @font = node.attribute['font']
+            @font = node.attribute('font')
         else
             @font = 'large'
         end
