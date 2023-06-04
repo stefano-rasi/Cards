@@ -11,13 +11,6 @@ ruby:
 
 div.card.colors data-size=size
   svg width="#{card_width}mm" height="#{card_height}mm"
-    rect.border[
-      x="#{margin}mm"
-      y="#{margin}mm"
-      width="#{width}mm"
-      height="#{height}mm"
-    ]
-
     ruby:
       y = 0
 
@@ -27,8 +20,6 @@ div.card.colors data-size=size
 
       rect.color[
         fill=row[:color]
-
-        mask="url(#mask)"
 
         x="#{margin}mm"
         y="#{margin + y}mm"
@@ -46,3 +37,10 @@ div.card.colors data-size=size
 
       ruby:
         y = y + color_height
+
+    rect.border[
+      x="#{margin}mm"
+      y="#{margin}mm"
+      width="#{width}mm"
+      height="#{height}mm"
+    ]
