@@ -43,6 +43,14 @@
         display: inline-block;
     }
 
+    &[data-font="extra-large"] {
+        font-size: 60pt;
+
+        .furigana-text {
+            font-size: 12pt;
+        }
+    }
+
     &[data-font="large"] {
         font-size: 48pt;
 
@@ -56,6 +64,14 @@
 
         .furigana-text {
             font-size: 8pt;
+        }
+    }
+
+    &[data-font="small"] {
+        font-size: 24pt;
+
+        .furigana-text {
+            font-size: 6pt;
         }
     }
 }
