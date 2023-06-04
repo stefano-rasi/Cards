@@ -36,7 +36,7 @@ end
 class RhythmCard < MusicCard
     tag 'rhythm'
     erb 'rhythm'
-    size 'credit card'
+    size 'credit-card'
 
     def initialize(node)
         staves = YAML.load(node.text)
@@ -127,7 +127,7 @@ end
 class PianoCard < MusicCard
     tag 'piano'
     erb 'piano'
-    size 'credit card'
+    size 'credit-card'
 
     def initialize(node)
         if node.has_attribute? 'key'
