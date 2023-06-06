@@ -7,7 +7,13 @@ require_relative 'text'
 
 class KanjiCard < TextCard
     tag 'kanji'
-    css 'japanese kanji'
+    css 'kanji'
+    size 'B8'
+end
+
+class JapaneseGrammarCard < TextCard
+    css 'japanese-grammar'
+    tags %w(japanese-grammar j-grammar)
     size 'B8'
 end
 

@@ -1,0 +1,68 @@
+.card.japanese-grammar {
+    padding: 5mm;
+
+    display: inline-block;
+
+    font-family: "Noto Sans JP", "Noto Sans";
+
+    *:first-child {
+        margin-top: 0;
+    }
+
+    p, ul, h4, h3, h2, table {
+        margin-bottom: 8pt;
+    }
+
+    h2, h3, h4 {
+        padding-bottom: 1pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+    }
+
+    h2 {
+        font-size: 18pt;
+    }
+
+    h3 {
+        font-size: 16pt;
+    }
+
+    &, h4, dl dt, table {
+        font-size: 10pt;
+    }
+
+    ul, ol, dl {
+        p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    ul, ol {
+        padding-left: 2em;
+
+        ul, ol {
+            padding-left: 1em;
+
+            margin-bottom: 0;
+        }
+    }
+
+    dl {
+        dt {
+            font-weight: bold;
+        }
+
+        dd {
+            margin-left: 2em;
+        }
+
+        ul, ol {
+            padding-left: 1em;
+
+            margin-bottom: 0;
+        }
+    }
+}
