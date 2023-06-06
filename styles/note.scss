@@ -9,7 +9,7 @@
         margin-top: 0;
     }
 
-    p, ul, h4, h3, h2, table {
+    h2, h3, h4, p, ul, table {
         margin-bottom: 8pt;
     }
 
@@ -102,10 +102,6 @@
     }
 
     &[data-font="large"] {
-        &, h4, dl dt, table {
-            font-size: 11pt;
-        }
-
         h2 {
             font-size: 15pt;
         }
@@ -113,13 +109,13 @@
         h3 {
             font-size: 13pt;
         }
+
+        h4, &, dl dt, table {
+            font-size: 11pt;
+        }
     }
 
     &[data-font="medium"] {
-        &, h4, dl dt, table {
-            font-size: 10pt;
-        }
-
         h2 {
             font-size: 14pt;
         }
@@ -127,19 +123,23 @@
         h3 {
             font-size: 12pt;
         }
+
+        h4, &, dl dt, table {
+            font-size: 10pt;
+        }
     }
 
     &[data-font="small"] {
-        &, h4, dl dt, table {
-            font-size: 9pt;
-        }
-
         h2 {
             font-size: 13pt;
         }
 
         h3 {
             font-size: 11pt;
+        }
+
+        h4, &, dl dt, table {
+            font-size: 9pt;
         }
     }
 }

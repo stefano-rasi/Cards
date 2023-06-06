@@ -3,11 +3,14 @@
 
     display: inline-flex;
 
+    font-size: 12pt;
     font-family: "Noto Sans JP", "Noto Sans";
 
     flex-direction: column;
 
-    h2, h3 {
+    h2 {
+        font-size: 16pt;
+
         margin-top: 0;
         margin-bottom: 0;
 
@@ -18,17 +21,7 @@
         border-bottom-color: black;
     }
 
-    h2 {
-        font-size: 16pt;
-    }
-
-    h3 {
-        font-size: 14pt;
-    }
-
     p {
-        font-size: 12pt;
-
         text-align: center;
     }
 
@@ -46,25 +39,17 @@
 
             flex-direction: column;
 
-            .sect2 {
+            .paragraph {
+                padding: 5mm;
+
                 display: flex;
 
                 flex-grow: 1;
 
-                margin-top: 8pt;
+                align-items: center;
 
-                flex-direction: column;
+                justify-content: center;
             }
-        }
-
-        .paragraph {
-            display: flex;
-
-            flex-grow: 1;
-
-            align-items: center;
-
-            justify-content: center;
         }
     }
 }

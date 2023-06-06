@@ -3,17 +3,20 @@
 
     display: inline-block;
 
+    font-size: 10pt;
     font-family: "Noto Sans JP", "Noto Sans";
 
     *:first-child {
         margin-top: 0;
     }
 
-    p, ul, h4, h3, h2, table {
+    h2, p, ul {
         margin-bottom: 8pt;
     }
 
-    h2, h3, h4 {
+    h2 {
+        font-size: 16pt;
+
         padding-bottom: 1pt;
 
         border-bottom-width: 1pt;
@@ -21,47 +24,11 @@
         border-bottom-color: black;
     }
 
-    h2 {
-        font-size: 16pt;
-    }
-
-    h3 {
-        font-size: 14pt;
-    }
-
-    &, h4, dl dt, table {
-        font-size: 10pt;
-    }
-
-    ul, ol, dl {
-        p {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-    }
-
-    ul, ol {
+    ul {
         padding-left: 2em;
 
-        ul, ol {
-            padding-left: 1em;
-
-            margin-bottom: 0;
-        }
-    }
-
-    dl {
-        dt {
-            font-weight: bold;
-        }
-
-        dd {
-            margin-left: 2em;
-        }
-
-        ul, ol {
-            padding-left: 1em;
-
+        p {
+            margin-top: 0;
             margin-bottom: 0;
         }
     }
