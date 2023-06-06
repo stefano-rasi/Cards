@@ -17,6 +17,12 @@ class JapaneseGrammarCard < TextCard
     size 'B8'
 end
 
+class SimpleJapaneseGrammarCard < TextCard
+    css 'simple-japanese-grammar'
+    tags %w(simple-japanese-grammar simple-j-grammar)
+    size 'B8'
+end
+
 class JapanesePhraseCard < SlimCard
     tags %w(japanese-phrase j-phrase)
     slim 'japanese'
