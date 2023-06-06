@@ -1,13 +1,13 @@
 require 'sinatra'
 require 'nokogiri'
 
-require_relative 'card'
+require_relative 'lib/card'
 
-require_relative 'note'
-require_relative 'latin'
-require_relative 'music'
-require_relative 'colors'
-require_relative 'japanese'
+require_relative 'lib/note'
+require_relative 'lib/latin'
+require_relative 'lib/music'
+require_relative 'lib/colors'
+require_relative 'lib/japanese'
 
 get '/cards/*' do
     path = "cards/#{params[:splat][0]}"
