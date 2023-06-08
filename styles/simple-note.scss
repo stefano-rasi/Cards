@@ -43,16 +43,14 @@
             display: flex;
 
             flex-grow: 1;
-
             flex-direction: column;
 
             .sect2 {
                 display: flex;
 
-                flex-grow: 1;
-
                 margin-top: 8pt;
 
+                flex-grow: 1;
                 flex-direction: column;
             }
         }
