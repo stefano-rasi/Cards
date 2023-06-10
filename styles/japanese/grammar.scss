@@ -49,7 +49,7 @@
             flex-grow: 1;
             flex-direction: column;
 
-            .valign-center {
+            .valign-center, .align-center {
                 margin: auto;
 
                 p {
@@ -57,7 +57,7 @@
                 }
             }
 
-            .halign-center {
+            .halign-center, .align-center {
                 align-self: center;
             }
         }
@@ -66,6 +66,18 @@
             h2 {
                 margin-bottom: 0;
             }
+        }
+
+        &:has(.sectionbody > .align-center) {
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .halign-center, .align-center {
+        ul, ol {
+            padding-left: 14pt;
         }
     }
 
