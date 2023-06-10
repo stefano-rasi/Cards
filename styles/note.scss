@@ -1,7 +1,7 @@
 .card.note {
     padding: 5mm;
 
-    display: inline-block;
+    display: inline-flex;
 
     font-family: "Source Sans Pro";
 
@@ -39,6 +39,10 @@
             padding-left: 1em;
 
             margin-bottom: 0;
+        }
+
+        li > * {
+            margin-left: -0.1em;
         }
     }
 
@@ -101,26 +105,72 @@
         }
     }
 
-    &[data-font="large"] {
-        h2 {
-            font-size: 15pt;
+    .sect1 {
+        display: flex;
+
+        flex-grow: 1;
+        flex-direction: column;
+
+        .sectionbody {
+            display: flex;
+
+            flex-grow: 1;
+            flex-direction: column;
+
+            .sect2 {
+                display: flex;
+
+                flex-grow: 1;
+                flex-direction: column;
+
+                &:has(> .valign-center) {
+                    h3 {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            .valign-center {
+                margin: auto;
+
+                p, ul {
+                    margin-bottom: 0;
+                }
+            }
+
+            .halign-center {
+                align-self: center;
+            }
         }
 
-        h3 {
+        &:has(.sectionbody > .valign-center) {
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+
+    &[data-font="small"] {
+        h2, .extra-large {
             font-size: 13pt;
         }
 
-        h4, &, dl dt, table {
+        h3, .large {
             font-size: 11pt;
+        }
+
+        h4, &, dl dt, table {
+            font-size: 9pt;
         }
     }
 
     &[data-font="medium"] {
-        h2 {
+        h2, .extra-large {
             font-size: 14pt;
         }
 
-        h3 {
+        h3, .large {
             font-size: 12pt;
         }
 
@@ -129,17 +179,29 @@
         }
     }
 
-    &[data-font="small"] {
-        h2 {
+    &[data-font="large"] {
+        h2, .extra-large {
+            font-size: 15pt;
+        }
+
+        h3, .large {
             font-size: 13pt;
         }
 
-        h3 {
+        h4, &, dl dt, table {
             font-size: 11pt;
         }
 
-        h4, &, dl dt, table {
-            font-size: 9pt;
+        .small {
+            &, dl dt, table {
+                font-size: 10pt;
+            }
+        }
+
+        .extra-small {
+            &, dl dt, table {
+                font-size: 9pt;
+            }
         }
     }
 }

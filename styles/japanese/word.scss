@@ -39,14 +39,28 @@
         display: inline-block;
     }
 
-    &[data-font="extra-large"] {
-        font-size: 60pt;
+    &[data-font="small"] {
+        font-size: 24pt;
 
         .furigana-text {
-            font-size: 12pt;
+            font-size: 6pt;
+
+            letter-spacing: 1pt;
+        }
+
+        letter-spacing: 5pt;
+    }
+    
+    &[data-font="medium"] {
+        font-size: 36pt;
+
+        .furigana-text {
+            font-size: 8pt;
 
             letter-spacing: 4pt;
         }
+
+        letter-spacing: 6pt;
     }
 
     &[data-font="large"] {
@@ -61,27 +75,13 @@
         letter-spacing: 6pt;
     }
 
-    &[data-font="medium"] {
-        font-size: 36pt;
+    &[data-font="extra-large"] {
+        font-size: 60pt;
 
         .furigana-text {
-            font-size: 8pt;
+            font-size: 12pt;
 
             letter-spacing: 4pt;
         }
-
-        letter-spacing: 6pt;
-    }
-
-    &[data-font="small"] {
-        font-size: 24pt;
-
-        .furigana-text {
-            font-size: 6pt;
-
-            letter-spacing: 1pt;
-        }
-
-        letter-spacing: 5pt;
     }
 }

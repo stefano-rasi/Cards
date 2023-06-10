@@ -46,13 +46,13 @@
         font-weight: 700;
     }
 
-    &[data-font="large"] {
-        font-size: 24pt;
+    &[data-font="small"] {
+        font-size: 16pt;
 
         .furigana-text {
-            font-size: 8pt;
+            font-size: 6pt;
 
-            margin-left: -2pt;
+            margin-left: -1pt;
         }
     }
 
@@ -66,13 +66,13 @@
         }
     }
 
-    &[data-font="small"] {
-        font-size: 16pt;
+    &[data-font="large"] {
+        font-size: 24pt;
 
         .furigana-text {
-            font-size: 6pt;
+            font-size: 8pt;
 
-            margin-left: -1pt;
+            margin-left: -2pt;
         }
     }
 }

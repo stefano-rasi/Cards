@@ -1,5 +1,4 @@
 require 'yaml'
-
 require 'parslet'
 
 require_relative 'slim'
@@ -14,12 +13,6 @@ end
 class JapaneseGrammarCard < TextCard
     css 'japanese-grammar'
     tags %w(japanese-grammar j-grammar)
-    size 'B8'
-end
-
-class SimpleJapaneseGrammarCard < TextCard
-    css 'simple-japanese-grammar'
-    tags %w(simple-japanese-grammar simple-j-grammar)
     size 'B8'
 end
 

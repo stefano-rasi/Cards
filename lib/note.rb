@@ -18,9 +18,3 @@ class NoteCard < TextCard
         end
     end
 end
-
-class SimpleNoteCard < TextCard
-    tag 'simple-note'
-    css 'simple-note'
-    size 'B8'
-end
