@@ -1,4 +1,4 @@
-.card.japanese-grammar {
+.card.japanese-note {
     padding: 5mm;
 
     display: inline-flex;
@@ -76,6 +76,8 @@
     }
 
     .halign-center, .align-center {
+        text-align: center;
+
         ul, ol {
             padding-left: 14pt;
         }

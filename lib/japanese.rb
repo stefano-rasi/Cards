@@ -10,9 +10,9 @@ class KanjiCard < TextCard
     size 'B8'
 end
 
-class JapaneseGrammarCard < TextCard
-    css 'japanese-grammar'
-    tags %w(japanese-grammar j-grammar)
+class JapaneseNoteCard < TextCard
+    css 'japanese-note'
+    tags %w(japanese-note j-note)
     size 'B8'
 end
 
