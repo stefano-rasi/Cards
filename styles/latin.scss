@@ -22,14 +22,7 @@
 .phrase {
     text-align: center;
 
+    font-size: 13pt;
     font-weight: 400;
     font-family: "Source Serif Pro";
-
-    &[data-font="large"] {
-        font-size: 15pt;
-    }
-
-    &[data-font="medium"] {
-        font-size: 13pt;
-    }
 }
