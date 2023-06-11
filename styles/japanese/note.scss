@@ -48,35 +48,25 @@
 
             flex-grow: 1;
             flex-direction: column;
-
-            .valign-center, .align-center {
-                margin: auto;
-
-                p {
-                    margin-bottom: 0;
-                }
-            }
-
-            .halign-center, .align-center {
-                align-self: center;
-            }
         }
 
-        &:has(.sectionbody > .valign-center) {
-            h2 {
-                margin-bottom: 0;
-            }
-        }
-
-        &:has(.sectionbody > .align-center) {
+        &:has(.sectionbody > .center) {
             h2 {
                 margin-bottom: 0;
             }
         }
     }
 
-    .halign-center, .align-center {
+    .center {
+        margin: auto;
+
         text-align: center;
+
+        align-self: center;
+
+        p {
+            margin-bottom: 0;
+        }
 
         ul, ol {
             padding-left: 14pt;
