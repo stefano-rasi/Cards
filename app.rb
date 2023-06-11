@@ -6,6 +6,7 @@ require_relative 'lib/card'
 require_relative 'lib/note'
 require_relative 'lib/latin'
 require_relative 'lib/music'
+require_relative 'lib/graph'
 require_relative 'lib/colors'
 require_relative 'lib/japanese'
 

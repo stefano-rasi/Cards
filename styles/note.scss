@@ -23,10 +23,6 @@
         border-bottom-color: black;
     }
 
-    .justify {
-        text-align: justify;
-    }
-
     ul, ol, dl {
         p {
             margin-top: 0;
@@ -123,48 +119,34 @@
     }
 
     .sect1 {
-        &:has(.sectionbody > .valign-center) {
-            h2 {
-                margin-bottom: 0;
-            }
-        }
-
-        &:has(.sectionbody > .align-center) {
+        &:has(.sectionbody > .center) {
             h2 {
                 margin-bottom: 0;
             }
         }
     }
 
-    .sect2 {
-        &:has(> .valign-center, > .align-center) {
-            h3 {
+    .sect2, .sect3 {
+        &:has(> .center) {
+            h3, h4 {
                 margin-bottom: 0;
             }
         }
     }
 
-    .sect3 {
-        &:has(> .valign-center, > .align-center) {
-            h4 {
-                margin-bottom: 0;
-            }
-        }
+    .justify {
+        text-align: justify;
     }
 
-    .halign-center, .align-center {
-        align-self: center;
-    }
-
-    .valign-center, .align-center {
+    .center {
         margin: auto;
+
+        align-self: center;
 
         p, ul {
             margin-bottom: 0;
         }
-    }
 
-    .halign-center, .align-center {
         ul, ol {
             padding-left: 14pt;
         }
