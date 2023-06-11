@@ -15,6 +15,8 @@ class NoteCard < TextCard
 
         if node.has_attribute? 'font'
             @font = node.attribute('font')
+        else
+            @font = 'large'
         end
     end
 end
