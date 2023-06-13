@@ -58,8 +58,8 @@ end
 
 class JapaneseParser < Parslet::Parser
     rule(:character) do
-        str('\*') |
-        str('*').absent? >> any
+        str('\ ').as(:space) |
+        (str('\*') | str('*').absent? >> any)
     end
 
     rule(:furigana_base) do

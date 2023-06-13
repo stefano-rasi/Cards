@@ -18,4 +18,8 @@ div.card.japanese class=@css data-size=size data-font=@font
                 = group[:furigana][:text]
           - else
             div.character
-              = group[:character]
+              - if group[:character].respond_to? :key
+                - if group[:character].key? :space
+                  | &#8194;
+              - else
+                = group[:character]
