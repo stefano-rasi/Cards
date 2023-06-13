@@ -20,15 +20,15 @@ class CardsParser < Parslet::Parser
     end
 
     rule(:value) do
-        (space.absent? >> any).repeat(1)
+        (space.absent? >> str(':').absent? >> any).repeat(1)
     end
 
     rule(:attribute) do
-        key >> str('=') >> value
+        key.as(:key) >> str('=') >> value.as(:value)
     end
 
     rule(:tag) do
-        space.absent? >> name.as(:name) >> (space.ignore >> attribute).repeat(0).as(:attributes) >> str(':')
+        space.absent? >> name.as(:name) >> (space >> attribute).repeat(0).as(:attributes) >> str(':')
     end
 
     rule(:line) do

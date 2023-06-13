@@ -80,6 +80,6 @@ class Card
     end
 
     def method_missing(m, *args, &block)
-        attribute(m)
+        attribute(m.to_s)
     end
 end
