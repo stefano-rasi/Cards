@@ -3,12 +3,12 @@ require 'yaml'
 require_relative 'slim'
 
 class ColorsCard < SlimCard
-    tag 'colors'
+    name 'colors'
     slim 'colors'
     size 'B8'
 
-    def initialize(node)
-        colors = YAML.load(node.text)
+    def initialize(text, attributes)
+        colors = YAML.load(text)
 
         @colors = colors.map do |row|
             if row.respond_to? :key

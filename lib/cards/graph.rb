@@ -1,17 +1,17 @@
-require_relative 'card'
+require_relative '../card'
 
 class GraphCard < Card
-    tag 'graph'
+    name 'graph'
     size 'B8'
 
-    def initialize(node)
-        @dot = node.text
+    def initialize(text, attributes)
+        @text = text
     end
 
     def to_s
         tempfile = Tempfile.new()
 
-        tempfile.write(@dot)
+        tempfile.write(@text)
         tempfile.rewind()
         tempfile.close()
 

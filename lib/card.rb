@@ -1,14 +1,14 @@
 class Card
-    def self.tag(tag)
-        @tags = [ tag ]
+    def self.name(names)
+        if names.respond_to? :each
+            @names = names
+        else
+            @names = [ names ]
+        end
     end
 
-    def self.tags(tags=nil)
-        if tags.nil?
-            @tags
-        else
-            @tags = tags
-        end
+    def self.names
+        @names
     end
 
     def self.size(size=nil)
@@ -19,24 +19,44 @@ class Card
         end
     end
 
-    def self.descendants
+    def self.attribute(key, value=nil)
+        if value.nil?
+            @attributes[key]
+        else
+            if not defined? @attributes
+                @attributes = {}
+            end
+
+            @attributes[key] = value
+        end
+    end
+
+    def self.attributes
+        @attributes
+    end
+
+    def self.card_classes
         ObjectSpace.each_object(Class).select { |klass|
             klass < self
         }
     end
 
-    def self.find_class_with_tag(tag)
-        if not defined? @descendants_tags
-            @descendants_tags = descendants.map { |klass|
-                if not klass.tags.nil?
-                    klass.tags.map { |tag|
-                        [ tag.to_s, klass ]
+    def self.find_class(name)
+        if not defined? @classes_names
+            @card_classes_names = card_classes.map { |klass|
+                if not klass.names.nil?
+                    klass.names.map { |name|
+                        [ name.to_s, klass ]
                     }
                 end
             }.compact.flatten(1).to_h
         end
 
-        @descendants_tags[tag]
+        @card_classes_names[name]
+    end
+
+    def initialize(text, attributes)
+        @attributes = attributes
     end
 
     def size
@@ -45,5 +65,21 @@ class Card
         else
             self.class.size
         end
+    end
+
+    def names
+        self.class.names
+    end
+
+    def attribute(key)
+        if @attributes.key? key
+            @attributes[key]
+        else
+            self.class.attributes[key]
+        end
+    end
+
+    def method_missing(m, *args, &block)
+        attribute(m)
     end
 end
