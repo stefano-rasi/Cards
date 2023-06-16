@@ -4,8 +4,10 @@ class CardsParser < Parslet::Parser
     INDENTATION = 2
 
     rule(:space) { str(' ').repeat(1) }
+
     rule(:new_line) { str("\n") }
     rule(:new_line?) { new_line.maybe }
+    rule(:new_lines?) { new_line.repeat(0) }
 
     rule(:indentation) do
         str(' ').repeat(INDENTATION, INDENTATION)
@@ -32,7 +34,7 @@ class CardsParser < Parslet::Parser
     end
 
     rule(:line) do
-        indentation.ignore >> (new_line.absent? >> any).repeat(1) >> new_line?.ignore
+        indentation.ignore >> (new_line.absent? >> any).repeat(1) >> new_line?
     end
 
     rule(:inline) do
@@ -40,7 +42,7 @@ class CardsParser < Parslet::Parser
     end
 
     rule(:text) do
-        line.repeat(1)
+        (line | new_line).repeat(1)
     end
 
     rule(:card) do
@@ -49,7 +51,7 @@ class CardsParser < Parslet::Parser
     end
 
     rule(:cards) do
-        card.repeat(1)
+        (card >> new_lines?).repeat(1)
     end
 
     root(:cards)
