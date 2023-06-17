@@ -1,0 +1,24 @@
+css:
+  td.text {
+    width: #{100.fdiv(@columns)}%
+  }
+
+div.card.random-table data-size=size
+  h2 = title
+
+  table
+    thead
+      tr
+        - @columns.times do
+          th.die = die
+          th.text = entry
+    tbody
+      - @entries.each_slice(@columns) do |slice|
+        tr
+          - @columns.times do |i|
+            - if slice[i]
+              td.die = slice[i][:die]
+              td.text = slice[i][:text]
+            - else
+              td.die
+              td.text

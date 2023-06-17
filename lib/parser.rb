@@ -22,6 +22,7 @@ class CardsParser < Parslet::Parser
     end
 
     rule(:value) do
+        str('"').ignore >> (str('"').absent? >> any).repeat(1) >> str('"').ignore |
         (space.absent? >> str(':').absent? >> any).repeat(1)
     end
 

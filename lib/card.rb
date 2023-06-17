@@ -64,7 +64,9 @@ class Card
     end
 
     def size
-        if defined? @size
+        if @attributes.key? 'size'
+            @attributes['size']
+        elsif defined? @size
             @size
         else
             self.class.size

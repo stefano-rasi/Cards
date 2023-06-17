@@ -1,0 +1,52 @@
+.card.random-table {
+    padding: 5mm;
+
+    font-family: "Source Sans Pro";
+
+    h2 {
+        font-size: 13pt;
+
+        margin-top: 0;
+        margin-bottom: 8pt;
+
+        padding-bottom: 1pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-style: black;
+    }
+
+    table {
+        width: 100%;
+
+        font-size: 11pt;
+
+        text-align: center;
+
+        border-collapse: collapse;
+
+        th, td {
+            padding-top: 2pt;
+            padding-bottom: 2pt;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .die {
+            min-width: 2em;
+
+            white-space: nowrap;
+
+            padding-left: 4pt;
+            padding-right: 4pt;
+        }
+    }
+
+    table, th, td {
+        border-width: 1pt;
+        border-style: solid;
+        border-color: black;
+    }
+}
