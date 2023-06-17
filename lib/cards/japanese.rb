@@ -1,9 +1,5 @@
-require 'yaml'
-
 require_relative 'slim'
 require_relative 'text'
-
-require_relative 'japanese/parser'
 
 class KanjiCard < TextCard
     name 'kanji'
