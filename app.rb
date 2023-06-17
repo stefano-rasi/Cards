@@ -2,6 +2,7 @@ require 'sinatra'
 
 require_relative 'lib/parser'
 
+require_relative 'lib/cards/note'
 require_relative 'lib/cards/latin'
 require_relative 'lib/cards/japanese'
 require_relative 'lib/cards/random_table'
