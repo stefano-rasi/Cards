@@ -59,16 +59,16 @@ class Card
         @attributes = attributes
     end
 
+    def names
+        self.class.names
+    end
+
     def size
         if defined? @size
             @size
         else
             self.class.size
         end
-    end
-
-    def names
-        self.class.names
     end
 
     def attribute(key)
