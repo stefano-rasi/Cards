@@ -7,29 +7,30 @@
 
     flex-direction: column;
 
-    .center {
-        margin: auto !important;
+    *:first-child {
+        margin-top: 0;
+    }
 
-        align-self: center;
+    .sect1, .sect2, .sect3, .sectionbody {
+        display: flex;
 
-        text-align: center;
+        flex-grow: 1;
+        flex-direction: column;
+    }
 
-        p, ul {
-            margin-bottom: 0;
-        }
-
-        ul, ol {
-            padding-left: 14pt;
+    .sect1 {
+        &:has(.sectionbody > .center) {
+            h2 {
+                margin-bottom: 0;
+            }
         }
     }
 
-    .justify {
-        text-align: justify;
-    }
-
-    .not-indented {
-        ul, ol {
-            padding-left: 14pt;
+    .sect2, .sect3 {
+        &:has(> .center) {
+            h3, h4 {
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -127,6 +128,32 @@
         }
     }
 
+    .center {
+        margin: auto !important;
+
+        align-self: center;
+
+        text-align: center;
+
+        p, ul {
+            margin-bottom: 0;
+        }
+
+        ul, ol {
+            padding-left: 14pt;
+        }
+    }
+
+    .justify {
+        text-align: justify;
+    }
+
+    .not-indented {
+        ul, ol {
+            padding-left: 14pt;
+        }
+    }
+
     &[data-font="large"] {
         h2, .extra-large {
             font-size: 15pt;
@@ -178,33 +205,6 @@
 
         h4, &, dl dt, table {
             font-size: 9pt;
-        }
-    }
-
-    *:first-child {
-        margin-top: 0;
-    }
-
-    .sect1, .sect2, .sect3, .sectionbody {
-        display: flex;
-
-        flex-grow: 1;
-        flex-direction: column;
-    }
-
-    .sect1 {
-        &:has(.sectionbody > .center) {
-            h2 {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    .sect2, .sect3 {
-        &:has(> .center) {
-            h3, h4 {
-                margin-bottom: 0;
-            }
         }
     }
 }
