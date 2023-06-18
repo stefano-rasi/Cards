@@ -1,0 +1,36 @@
+\version "2.24.1"
+
+\language "english"
+
+#(set-global-staff-size <%= scale %>)
+
+upper = \fixed c' {
+    \key <%= key %>
+    \clef <%= @staves[:upper][:clef] %>
+
+    \override Score.TimeSignature.stencil = ##f
+
+    < <%= @staves[:upper][:notes] %> ><%= duration %>
+}
+
+<% if @staves.key? :lower %>
+    lower = \fixed c {
+        \key <%= key %>
+        \clef <%= @staves[:lower][:clef] %>
+
+        \override Score.BarLine.stencil = ##f
+        \override Score.TimeSignature.stencil = ##f
+
+        < <%= @staves[:lower][:notes] %> ><%= duration %>
+    }
+<% end %>
+
+<% if @staves.key? :lower %>
+    \new PianoStaff
+    <<
+        \new Staff = "upper" \upper
+        \new Staff = "lower" \lower
+    >>
+<% else %>
+    \upper
+<% end %>

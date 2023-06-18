@@ -4,8 +4,9 @@ require_relative 'lib/parser'
 
 require_relative 'lib/cards/note'
 require_relative 'lib/cards/latin'
+require_relative 'lib/cards/music'
+require_relative 'lib/cards/table'
 require_relative 'lib/cards/japanese'
-require_relative 'lib/cards/random_table'
 
 get '/cards/*' do
     path = "cards/#{params[:splat][0]}"
