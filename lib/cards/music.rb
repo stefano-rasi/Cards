@@ -40,7 +40,7 @@ class ChordCard < MusicCard
 
     attribute('key', 'c \major')
     attribute('clef', 'treble')
-    attribute('scale', '30')
+    attribute('scale', '25')
     attribute('duration', '4')
 
     def initialize(text, attributes)
@@ -48,7 +48,13 @@ class ChordCard < MusicCard
 
         music = MusicParser.new.parse(text)
 
-        if music.respond_to? :each
+        if music.key? :text
+            clef = attribute('clef')
+
+            notes = music[:text]
+
+            @staves = { upper: { clef: clef, notes: notes } }
+        else
             staves = music.map { |staff|
                 clef = staff[:staff][:name]
                 notes = staff[:staff][:text]
@@ -57,12 +63,6 @@ class ChordCard < MusicCard
             }
 
             @staves = { upper: staves[0], lower: staves[1] }
-        else
-            clef = attribute('clef')
-
-            notes = music[:text]
-
-            @staves = { upper: { clef: clef, notes: notes } }
         end
     end
 end
@@ -82,7 +82,13 @@ class MusicPhraseCard < MusicCard
 
         music = MusicParser.new.parse(text)
 
-        if music.respond_to? :each
+        if music.key? :text
+            clef = attribute('clef')
+
+            notes = music[:text]
+
+            @staves = { upper: { clef: clef, notes: notes } }
+        else
             staves = music.map { |staff|
                 clef = staff[:staff][:name]
                 notes = staff[:staff][:text]
@@ -91,12 +97,6 @@ class MusicPhraseCard < MusicCard
             }
 
             @staves = { upper: staves[0], lower: staves[1] }
-        else
-            clef = attribute('clef')
-
-            notes = music[:text]
-
-            @staves = { upper: { clef: clef, notes: notes } }
         end
     end
 end
@@ -134,6 +134,14 @@ class MusicParser < Parslet::Parser
         (line | new_line).repeat(1)
     end
 
+    rule(:unindented_line) do
+        (new_line.absent? >> any).repeat(1) >> new_line?
+    end
+
+    rule(:unindented_text) do
+        (unindented_line | new_line).repeat(1)
+    end
+
     rule(:staff) do
         tag >> inline.as(:text) |
         tag >> new_line >> text.as(:text)
@@ -141,7 +149,7 @@ class MusicParser < Parslet::Parser
 
     rule(:music) do
         (staff.as(:staff) >> new_lines?).repeat(1) |
-        text.as(:text)
+        unindented_text.as(:text)
     end
 
     root(:music)

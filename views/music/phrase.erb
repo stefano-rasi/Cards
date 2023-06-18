@@ -4,7 +4,15 @@
 
 #(set-global-staff-size <%= scale %>)
 
-upper = \fixed c' {
+<%
+    if @staves[:upper][:clef] == 'bass'
+        fixed = "c"
+    else
+        fixed = "c'"
+    end
+%>
+
+upper = \fixed <%= fixed %> {
     \key <%= key %>
     \time <%= time %>
     \clef <%= @staves[:upper][:clef] %>
@@ -17,18 +25,28 @@ upper = \fixed c' {
     <%= @staves[:upper][:notes] %>
 }
 
-lower = \fixed c {
-    \key <%= key %>
-    \time <%= time %>
-    \clef <%= @staves[:lower][:clef] %>
+<% if @staves.key? :lower %>
+    <%
+        if @staves[:lower][:clef] == 'bass'
+            fixed = "c"
+        else
+            fixed = "c'"
+        end
+    %>
 
-    \override Score.TimeSignature.stencil = ##f
+    lower = \fixed c {
+        \key <%= key %>
+        \time <%= time %>
+        \clef <%= @staves[:lower][:clef] %>
 
-    \override Score.BarLine.stencil = ##f
-    \override Score.BarLine.break-visibility = ##(#f #f #f)
+        \override Score.TimeSignature.stencil = ##f
 
-    <%= @staves[:lower][:notes] %>
-}
+        \override Score.BarLine.stencil = ##f
+        \override Score.BarLine.break-visibility = ##(#f #f #f)
+
+        <%= @staves[:lower][:notes] %>
+    }
+<% end %>
 
 <% if @staves.key? :lower %>
     \new PianoStaff
@@ -37,5 +55,5 @@ lower = \fixed c {
         \new Staff = "lower" \lower
     >>
 <% else %>
-    \upper
+    \new Staff = "upper" \upper
 <% end %>

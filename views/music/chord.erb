@@ -4,7 +4,15 @@
 
 #(set-global-staff-size <%= scale %>)
 
-upper = \fixed c' {
+<%
+    if @staves[:upper][:clef] == 'bass'
+        fixed = "c"
+    else
+        fixed = "c'"
+    end
+%>
+
+upper = \fixed <%= fixed %> {
     \key <%= key %>
     \clef <%= @staves[:upper][:clef] %>
 
@@ -14,7 +22,15 @@ upper = \fixed c' {
 }
 
 <% if @staves.key? :lower %>
-    lower = \fixed c {
+    <%
+        if @staves[:lower][:clef] == 'bass'
+            fixed = "c"
+        else
+            fixed = "c'"
+        end
+    %>
+
+    lower = \fixed <%= fixed %> {
         \key <%= key %>
         \clef <%= @staves[:lower][:clef] %>
 
@@ -32,5 +48,5 @@ upper = \fixed c' {
         \new Staff = "lower" \lower
     >>
 <% else %>
-    \upper
+    \new Staff = "upper" \upper
 <% end %>
