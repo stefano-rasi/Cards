@@ -1,6 +1,6 @@
 require 'slim'
 
-require_relative 'card'
+require_relative '../card'
 
 class SlimCard < Card
     def self.slim(slim=nil)

@@ -1,4 +1,4 @@
-.word, .phrase {
+.card.word, .card.phrase {
     padding: 10mm;
 
     display: inline-flex;
@@ -13,13 +13,13 @@
     }
 }
 
-.word {
+.card.word {
     font-size: 15pt;
     font-weight: 600;
     font-family: "Source Sans Pro";
 }
 
-.phrase {
+.card.phrase {
     text-align: center;
 
     font-size: 13pt;

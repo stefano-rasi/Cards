@@ -1,56 +1,39 @@
-require 'yaml'
-require 'parslet'
-
 require_relative 'slim'
 require_relative 'text'
 
 class KanjiCard < TextCard
-    tag 'kanji'
-    css 'kanji'
+    name 'kanji'
     size 'B8'
 end
 
 class JapaneseNoteCard < TextCard
-    css 'japanese-note'
-    tags %w(japanese-note j-note)
+    name %w(japanese-note j-note)
     size 'B8'
 end
 
 class JapanesePhraseCard < SlimCard
-    tags %w(japanese-phrase j-phrase)
+    name %w(japanese-phrase j-phrase)
     slim 'japanese'
     size 'B8'
 
-    def initialize(node)
-        @css = 'japanese-phrase'
+    attribute('font', 'small')
 
-        if node.has_attribute? 'font'
-            @font = node.attribute('font')
-        else
-            @font = 'small'
-        end
-
-        text = node.text.strip
+    def initialize(text, attributes)
+        super(text, attributes)
 
         @sections = JapaneseParser.new.parse(text)
     end
 end
 
 class JapaneseWordCard < SlimCard
-    tags %w(japanese-word j-word)
+    name %w(japanese-word j-word)
     slim 'japanese'
     size 'B8'
 
-    def initialize(node)
-        @css = 'japanese-word'
+    attribute('font', 'large')
 
-        if node.has_attribute? 'font'
-            @font = node.attribute('font')
-        else
-            @font = 'large'
-        end
-
-        text = node.text.strip
+    def initialize(text, attributes)
+        super(text, attributes)
 
         @sections = JapaneseParser.new.parse(text)
     end

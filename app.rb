@@ -1,29 +1,37 @@
 require 'sinatra'
-require 'nokogiri'
 
-require_relative 'lib/card'
+require_relative 'lib/parser'
 
-require_relative 'lib/note'
-require_relative 'lib/latin'
-require_relative 'lib/music'
-require_relative 'lib/graph'
-require_relative 'lib/colors'
-require_relative 'lib/japanese'
+require_relative 'lib/cards/note'
+require_relative 'lib/cards/latin'
+require_relative 'lib/cards/music'
+require_relative 'lib/cards/table'
+require_relative 'lib/cards/japanese'
 
 get '/cards/*' do
     path = "cards/#{params[:splat][0]}"
 
-    doc = Nokogiri::XML(File.read(path))
+    cards = CardsParser.new.parse(File.read(path))
 
-    @cards = doc.root.children.map { |child|
-        tag = child.name
+    @cards = cards.map { |card|
+        tag = card[:tag]
 
-        klass = Card.find_class_with_tag(tag)
+        attributes = tag[:attributes].map { |attribute|
+            key = String(attribute[:key])
+            value = String(attribute[:value])
 
-        if klass.nil?
+            [ key, value ]
+        }.to_h
+
+        name = String(tag[:name])
+        text = String(card[:text])
+
+        card_class = Card.find_class(name)
+
+        if card_class.nil?
             nil
         else
-            klass.new(child)
+            card_class.new(text, attributes)
         end
     }.compact
 

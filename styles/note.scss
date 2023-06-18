@@ -11,6 +11,29 @@
         margin-top: 0;
     }
 
+    .sect1, .sect2, .sect3, .sectionbody {
+        display: flex;
+
+        flex-grow: 1;
+        flex-direction: column;
+    }
+
+    .sect1 {
+        &:has(.sectionbody > .center) {
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .sect2, .sect3 {
+        &:has(> .center) {
+            h3, h4 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
     h2, h3, h4, p, ul, table {
         margin-bottom: 8pt;
     }
@@ -68,12 +91,6 @@
         }
     }
 
-    .not-indented {
-        ul, ol {
-            padding-left: 14pt;
-        }
-    }
-
     table {
         width: 100%;
 
@@ -111,26 +128,19 @@
         }
     }
 
-    .sect1, .sect2, .sect3, .sectionbody {
-        display: flex;
+    .center {
+        margin: auto !important;
 
-        flex-grow: 1;
-        flex-direction: column;
-    }
+        align-self: center;
 
-    .sect1 {
-        &:has(.sectionbody > .center) {
-            h2 {
-                margin-bottom: 0;
-            }
+        text-align: center;
+
+        p, ul {
+            margin-bottom: 0;
         }
-    }
 
-    .sect2, .sect3 {
-        &:has(> .center) {
-            h3, h4 {
-                margin-bottom: 0;
-            }
+        ul, ol {
+            padding-left: 14pt;
         }
     }
 
@@ -138,15 +148,7 @@
         text-align: justify;
     }
 
-    .center {
-        margin: auto;
-
-        align-self: center;
-
-        p, ul {
-            margin-bottom: 0;
-        }
-
+    .not-indented {
         ul, ol {
             padding-left: 14pt;
         }

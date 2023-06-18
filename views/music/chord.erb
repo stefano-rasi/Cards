@@ -1,21 +1,36 @@
 \version "2.24.1"
 
-#(set-global-staff-size <%= @scale %>)
+\language "english"
 
-<%
-    if @clef == 'bass'
-        fixed = 'c'
-    else
-        fixed = "c'"
-    end
-%>
+#(set-global-staff-size <%= scale %>)
 
-\fixed <%= fixed %> {
-    \key <%= @key %>
-    \clef <%= @clef %>
+upper = \fixed c' {
+    \key <%= key %>
+    \clef <%= @staves[:upper][:clef] %>
 
-    \override Score.BarLine.stencil = ##f
     \override Score.TimeSignature.stencil = ##f
 
-    < <%= @notes %> ><%= @duration %>
+    < <%= @staves[:upper][:notes] %> ><%= duration %>
 }
+
+<% if @staves.key? :lower %>
+    lower = \fixed c {
+        \key <%= key %>
+        \clef <%= @staves[:lower][:clef] %>
+
+        \override Score.BarLine.stencil = ##f
+        \override Score.TimeSignature.stencil = ##f
+
+        < <%= @staves[:lower][:notes] %> ><%= duration %>
+    }
+<% end %>
+
+<% if @staves.key? :lower %>
+    \new PianoStaff
+    <<
+        \new Staff = "upper" \upper
+        \new Staff = "lower" \lower
+    >>
+<% else %>
+    \upper
+<% end %>
