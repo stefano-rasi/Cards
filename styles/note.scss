@@ -10,28 +10,6 @@
     *:first-child {
         margin-top: 0;
     }
-
-    .sect1, .sect2, .sect3, .sectionbody {
-        display: flex;
-
-        flex-grow: 1;
-        flex-direction: column;
-    }
-
-    .sect1 {
-        &:has(.sectionbody > .center) {
-            h2 {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    .sect2, .sect3 {
-        &:has(> .center) {
-            h3, h4 {
-                margin-bottom: 0;
-            }
-        }
     }
 
     h2, h3, h4, p, ul, table {
@@ -127,6 +105,28 @@
             margin-bottom: 0 !important;
         }
     }
+
+    .sect1, .sect2, .sect3, .sectionbody {
+        display: flex;
+
+        flex-grow: 1;
+        flex-direction: column;
+    }
+
+    .sect1 {
+        &:has(.sectionbody > .center) {
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .sect2, .sect3 {
+        &:has(> .center) {
+            h3, h4 {
+                margin-bottom: 0;
+            }
+        }
 
     .center {
         margin: auto !important;
