@@ -40,7 +40,7 @@ class ChordCard < MusicCard
 
     attribute('key', 'c \major')
     attribute('clef', 'treble')
-    attribute('scale', '25')
+    attribute('scale', '30')
     attribute('duration', '4')
 
     def initialize(text, attributes)

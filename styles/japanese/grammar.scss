@@ -3,7 +3,7 @@
 
     display: inline-flex;
 
-    font-size: 10pt;
+    font-size: 11pt;
     font-family: "Noto Sans JP", "Noto Sans";
 
     *:first-child {
@@ -15,7 +15,7 @@
     }
 
     h2 {
-        font-size: 17pt;
+        font-size: 17.5pt;
 
         line-height: 1em;
 
@@ -77,6 +77,10 @@
         }
     }
 
+    .extra-extra-large {
+        font-size: 14pt
+    }
+
     .extra-large {
         font-size: 13pt
     }
@@ -85,7 +89,7 @@
         font-size: 12pt
     }
 
-    .medium {
-        font-size: 11pt;
+    .small {
+        font-size: 10pt;
     }
 }
