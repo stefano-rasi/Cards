@@ -6,8 +6,8 @@ class KanjiCard < TextCard
     size 'B8'
 end
 
-class JapaneseNoteCard < TextCard
-    name %w(japanese-note j-note)
+class JapaneseGrammarCard < TextCard
+    name %w(japanese-grammar j-grammar grammar)
     size 'B8'
 end
 
