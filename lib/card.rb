@@ -81,6 +81,10 @@ class Card
         end
     end
 
+    def attribute?(key)
+        (@attributes.key?(key) || self.class.attributes.key?(key))
+    end
+
     def method_missing(m, *args, &block)
         attribute(m.to_s)
     end
