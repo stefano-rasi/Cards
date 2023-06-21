@@ -7,66 +7,45 @@ class RandomTableCard < SlimCard
     slim 'table'
     size 'B8'
 
-    attribute('die', 'd6')
     attribute('columns', '1')
+
+    def d6_notation(number)
+        quotient, modulus = number.divmod(6)
+
+        if quotient >= 6
+            quotient = d6_notation(quotient)
+        end
+
+        "#{quotient}#{modulus + 1}"[-@die_count..-1]
+    end
+
+    alias d6 d6_notation
 
     def initialize(text, attributes)
         super(text, attributes)
 
         @columns = columns.to_i
 
-        die = attribute('die')
-
-        die_matches = die.match(/(\d*)d(\d+)/)
-
-        if die_matches[1].empty?
-            dice = 1
-        else
-            dice = die_matches[1].to_i
-        end
-
-        @faces = die_matches[2].to_i
-
         entries = YAML.load(text)
 
-        possibilities = dice * @faces
+        @die_count = (entries.length.fdiv(6)).ceil
 
-        step, remainder = possibilities.divmod(entries.length)
+        face_count = 6 * @die_count
 
-        @entries = entries.map.with_index do |entry, i|
-            start = die_notation(1 + i * step, faces, dices)
-            finish = die_notation((i+1) * step, faces, dices)
+        step, remainder = face_count.divmod(entries.length)
 
-            if start == finish
-                die = start
-            else
-                die = "#{start}-#{finish}"
-            end
+        @entries = entries.map.with_index { |entry, i|
+            range_begin = i * step
+            range_end = (i + 1) * step - 1
 
-            { text: entry, die: die }
-        end
+            { text: entry, begin: range_begin, end: range_end }
+        }
 
         if remainder != 0
-            start = die_notation(possibilities - remainder + 1, faces, dices)
-            finish = die_notation(possibilities, faces, dices)
+            range_begin = face_count - remainder
+            range_end = face_count - 1
 
-            if start == finish
-                die = start
-            else
-                die = "#{start}-#{finish}"
-            end
-
-            @entries << { text: 'Re-roll', die: die }
-        end
-    end
-
-    def die_notation(number, faces, dice)
-        if faces == 6
-            quotient, modulus = number.divmod(faces)
-
-            "#{quotient}#{modulus}"
-        else
-            number
+            @entries << { text: 'Re-roll', begin: range_begin, end: range_end }
         end
     end
 end
