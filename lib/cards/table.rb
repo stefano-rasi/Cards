@@ -3,7 +3,7 @@ require 'yaml'
 require_relative 'slim'
 
 class RandomTableCard < SlimCard
-    name %w(random-table r-table table)
+    name %w(random-table rtable table)
     slim 'table'
     size 'B8'
 
