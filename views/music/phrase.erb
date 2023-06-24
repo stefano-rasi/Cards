@@ -1,18 +1,9 @@
 \version "2.24.1"
-
 \language "english"
 
 #(set-global-staff-size <%= scale %>)
 
-<%
-    if @staves[:upper][:clef] == 'bass'
-        fixed = "c"
-    else
-        fixed = "c'"
-    end
-%>
-
-upper = \fixed <%= fixed %> {
+upper = \fixed <%= @staves[:upper][:fixed] %> {
     \key <%= key %>
     \time <%= time %>
     \clef <%= @staves[:upper][:clef] %>
@@ -26,15 +17,7 @@ upper = \fixed <%= fixed %> {
 }
 
 <% if @staves.key? :lower %>
-    <%
-        if @staves[:lower][:clef] == 'bass'
-            fixed = "c"
-        else
-            fixed = "c'"
-        end
-    %>
-
-    lower = \fixed c {
+    lower = \fixed <%= @staves[:lower][:fixed] %> {
         \key <%= key %>
         \time <%= time %>
         \clef <%= @staves[:lower][:clef] %>

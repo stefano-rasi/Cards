@@ -12,6 +12,47 @@ class MusicCard < Card
         end
     end
 
+    def fixed_pitch(clef)
+        if clef == 'bass'
+            "c"
+        else
+            "c'"
+        end
+    end
+
+    def initialize(text, attributes)
+        super(text, attributes)
+
+        music = MusicParser.new.parse(text)
+
+        if music.respond_to? :each
+            staves = music.map { |staff|
+                clef = staff[:staff][:name]
+                notes = staff[:staff][:text]
+
+                fixed = fixed_pitch(clef)
+
+                { clef: clef, fixed: fixed, notes: notes }
+            }
+
+            @staves = { upper: staves[0], lower: staves[1] }
+        else
+            clef = attribute('clef')
+
+            notes = music[:text]
+
+            fixed = fixed_pitch(clef)
+
+            @staves = {
+                upper: {
+                    clef: clef,
+                    fixed: fixed,
+                    notes: notes
+                }
+            }
+        end
+    end
+
     def to_s
         template = ERB.new(File.read("views/music/#{self.class.erb}.erb"))
 
@@ -35,70 +76,24 @@ end
 
 class ChordCard < MusicCard
     erb 'chord'
-    name %w(chord music-note m-note)
+    name %w(chord mnote)
     size 'B8'
 
     attribute('key', 'c \major')
     attribute('clef', 'treble')
-    attribute('scale', '30')
+    attribute('scale', '25')
     attribute('duration', '4')
-
-    def initialize(text, attributes)
-        super(text, attributes)
-
-        music = MusicParser.new.parse(text)
-
-        if music.key? :text
-            clef = attribute('clef')
-
-            notes = music[:text]
-
-            @staves = { upper: { clef: clef, notes: notes } }
-        else
-            staves = music.map { |staff|
-                clef = staff[:staff][:name]
-                notes = staff[:staff][:text]
-
-                { clef: clef, notes: notes }
-            }
-
-            @staves = { upper: staves[0], lower: staves[1] }
-        end
-    end
 end
 
 class MusicPhraseCard < MusicCard
     erb 'phrase'
-    name %w(music-phrase m-phrase)
+    name %w(music-phrase mphrase)
     size 'credit-card'
 
     attribute('key', 'c \major')
     attribute('time', '4/4')
     attribute('clef', 'treble')
     attribute('scale', '20')
-
-    def initialize(text, attributes)
-        super(text, attributes)
-
-        music = MusicParser.new.parse(text)
-
-        if music.key? :text
-            clef = attribute('clef')
-
-            notes = music[:text]
-
-            @staves = { upper: { clef: clef, notes: notes } }
-        else
-            staves = music.map { |staff|
-                clef = staff[:staff][:name]
-                notes = staff[:staff][:text]
-
-                { clef: clef, notes: notes }
-            }
-
-            @staves = { upper: staves[0], lower: staves[1] }
-        end
-    end
 end
 
 class MusicParser < Parslet::Parser
