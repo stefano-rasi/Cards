@@ -7,12 +7,12 @@ class KanjiCard < TextCard
 end
 
 class JapaneseGrammarCard < TextCard
-    name %w(japanese-grammar j-grammar grammar)
+    name %w(japanese-grammar grammar)
     size 'B8'
 end
 
 class JapanesePhraseCard < SlimCard
-    name %w(japanese-phrase j-phrase)
+    name %w(japanese-phrase jphrase)
     slim 'japanese'
     size 'B8'
 
@@ -26,7 +26,7 @@ class JapanesePhraseCard < SlimCard
 end
 
 class JapaneseWordCard < SlimCard
-    name %w(japanese-word j-word)
+    name %w(japanese-word jword)
     slim 'japanese'
     size 'B8'
 
