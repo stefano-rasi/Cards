@@ -26,12 +26,12 @@ get '/cards/*' do
         name = String(tag[:name])
         text = String(card[:text])
 
-        card_class = Card.find_class(name)
+        klass = Card.descendant(name)
 
-        if card_class.nil?
+        if klass.nil?
             nil
         else
-            card_class.new(text, attributes)
+            klass.new(text, attributes)
         end
     }.compact
 
