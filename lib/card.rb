@@ -35,15 +35,15 @@ class Card
         @attributes
     end
 
-    def self.card_classes
+    def self.descendants
         ObjectSpace.each_object(Class).select { |klass|
             klass < self
         }
     end
 
-    def self.find_class(name)
-        if not defined? @classes_names
-            @card_classes_names = card_classes.map { |klass|
+    def self.descendant(name)
+        if not defined? @descendants
+            @descendants = descendants.map { |klass|
                 if not klass.names.nil?
                     klass.names.map { |name|
                         [ name.to_s, klass ]
@@ -52,7 +52,7 @@ class Card
             }.compact.flatten(1).to_h
         end
 
-        @card_classes_names[name]
+        @descendants[name]
     end
 
     def initialize(text, attributes)
