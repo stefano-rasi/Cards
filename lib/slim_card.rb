@@ -1,6 +1,6 @@
 require 'slim'
 
-require_relative '../card'
+require_relative 'card'
 
 class SlimCard < Card
     def self.slim(slim=nil)
@@ -19,7 +19,7 @@ class SlimCard < Card
         end
     end
 
-    def to_s
+    def html
         path = "views/#{slim}.slim"
 
         template = Slim::Template.new(path)

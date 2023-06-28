@@ -1,9 +1,9 @@
-require_relative 'text'
+require_relative '../text_card'
 
 class NoteCard < TextCard
     name 'note'
-    slim 'note'
     size 'B8'
+    slim 'cards/note'
 
     attribute('font', 'large')
 

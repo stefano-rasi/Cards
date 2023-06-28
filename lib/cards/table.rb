@@ -1,11 +1,11 @@
 require 'yaml'
 
-require_relative 'slim'
+require_relative '../slim_card'
 
 class RandomTableCard < SlimCard
-    name %w(random-table rtable table)
-    slim 'table'
+    names %w(random-table rtable table)
     size 'B8'
+    slim 'cards/table'
 
     attribute('columns', '1')
 

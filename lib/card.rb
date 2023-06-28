@@ -1,14 +1,14 @@
 class Card
-    def self.name(names)
-        if names.respond_to? :each
-            @names = names
-        else
-            @names = [ names ]
-        end
+    def self.name(name)
+        @names = [ name ]
     end
 
-    def self.names
-        @names
+    def self.names(names=nil)
+        if names.nil?
+            @names
+        else
+            @names = names
+        end
     end
 
     def self.size(size=nil)

@@ -3,6 +3,26 @@ require 'parslet'
 class CardsParser < Parslet::Parser
     INDENTATION = 2
 
+    def parse(text)
+        cards = super(text)
+
+        cards.map do |card|
+            tag = card[:tag]
+
+            attributes = tag[:attributes].map { |attribute|
+                key = String(attribute[:key])
+                value = String(attribute[:value])
+    
+                [ key, value ]
+            }.to_h
+    
+            name = String(tag[:name])
+            text = String(card[:text])
+
+            { name:, attributes:, text: }
+        end
+    end
+
     rule(:space) { str(' ').repeat(1) }
 
     rule(:new_line) { str("\n") }

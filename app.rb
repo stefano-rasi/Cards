@@ -14,24 +14,12 @@ get '/cards/*' do
     cards = CardsParser.new.parse(File.read(path))
 
     @cards = cards.map { |card|
-        tag = card[:tag]
-
-        attributes = tag[:attributes].map { |attribute|
-            key = String(attribute[:key])
-            value = String(attribute[:value])
-
-            [ key, value ]
-        }.to_h
-
-        name = String(tag[:name])
-        text = String(card[:text])
-
-        klass = Card.descendant(name)
+        klass = Card.descendant(card[:name])
 
         if klass.nil?
             nil
         else
-            klass.new(text, attributes)
+            klass.new(card[:text], card[:attributes])
         end
     }.compact
 

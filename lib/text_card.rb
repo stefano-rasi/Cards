@@ -1,13 +1,13 @@
 require 'asciidoctor'
 
-require_relative 'slim'
+require_relative 'slim_card'
 
 class TextCard < SlimCard
     def initialize(text, attributes)
         super(text, attributes)
 
         if self.class.slim.nil?
-            @slim = 'text'
+            @slim = 'text_card'
         else
             @slim = self.class.slim
         end

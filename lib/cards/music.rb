@@ -53,7 +53,7 @@ class MusicCard < Card
         end
     end
 
-    def to_s
+    def html
         template = ERB.new(File.read("views/music/#{self.class.erb}.erb"))
 
         tempfile = Tempfile.new()
@@ -75,9 +75,9 @@ class MusicCard < Card
 end
 
 class ChordCard < MusicCard
-    erb 'chord'
-    name %w(chord mnote)
+    names %w(chord mnote)
     size 'B8'
+    erb 'chord'
 
     attribute('key', 'c \major')
     attribute('clef', 'treble')
@@ -86,9 +86,9 @@ class ChordCard < MusicCard
 end
 
 class MusicPhraseCard < MusicCard
-    erb 'phrase'
-    name %w(music-phrase mphrase)
+    names %w(music-phrase mphrase)
     size 'credit-card'
+    erb 'phrase'
 
     attribute('key', 'c \major')
     attribute('time', '4/4')

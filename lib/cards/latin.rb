@@ -1,9 +1,9 @@
-require_relative 'text'
+require_relative '../text_card'
 
 class WordCard < TextCard
     name 'word'
-    slim 'latin'
     size 'credit-card'
+    slim 'cards/latin'
 
     attribute('font', 'large')
 
@@ -14,8 +14,8 @@ end
 
 class PhraseCard < TextCard
     name 'phrase'
-    slim 'latin'
     size 'credit-card'
+    slim 'cards/latin'
 
     attribute('font', 'medium')
 

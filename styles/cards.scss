@@ -1,8 +1,8 @@
-@import "note";
-@import "latin";
-@import "music";
-@import "table";
-@import "japanese";
+@import "cards/note";
+@import "cards/latin";
+@import "cards/music";
+@import "cards/table";
+@import "cards/japanese";
 
 @page {
     size: A4;

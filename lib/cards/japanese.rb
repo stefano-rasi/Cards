@@ -1,5 +1,5 @@
-require_relative 'slim'
-require_relative 'text'
+require_relative '../slim_card'
+require_relative '../text_card'
 
 class KanjiCard < TextCard
     name 'kanji'
@@ -7,14 +7,14 @@ class KanjiCard < TextCard
 end
 
 class JapaneseGrammarCard < TextCard
-    name %w(japanese-grammar grammar)
+    names %w(japanese-grammar grammar)
     size 'B8'
 end
 
 class JapanesePhraseCard < SlimCard
-    name %w(japanese-phrase jphrase)
-    slim 'japanese'
+    names %w(japanese-phrase jphrase)
     size 'B8'
+    slim 'cards/japanese'
 
     attribute('font', 'small')
 
@@ -26,9 +26,9 @@ class JapanesePhraseCard < SlimCard
 end
 
 class JapaneseWordCard < SlimCard
-    name %w(japanese-word jword)
-    slim 'japanese'
+    names %w(japanese-word jword)
     size 'B8'
+    slim 'cards/japanese'
 
     attribute('font', 'large')
 
