@@ -68,7 +68,7 @@ class MusicCard < Card
 
         @image = File.open("#{tempfile.path}.preview.png", 'rb', &:read)
 
-        template = Slim::Template.new('views/music.slim')
+        template = Slim::Template.new('views/cards/music.slim')
 
         template.render(self)
     end
