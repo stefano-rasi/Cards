@@ -25,18 +25,7 @@ class MusicCard < Card
 
         music = MusicParser.new.parse(text)
 
-        if music.respond_to? :each
-            staves = music.map { |staff|
-                clef = staff[:staff][:name]
-                notes = staff[:staff][:text]
-
-                fixed = fixed_pitch(clef)
-
-                { clef: clef, fixed: fixed, notes: notes }
-            }
-
-            @staves = { upper: staves[0], lower: staves[1] }
-        else
+        if music.key? :text
             clef = attribute('clef')
 
             notes = music[:text]
@@ -50,6 +39,17 @@ class MusicCard < Card
                     notes: notes
                 }
             }
+        else
+            staves = music.map { |staff|
+                clef = staff[:staff][:name]
+                notes = staff[:staff][:text]
+
+                fixed = fixed_pitch(clef)
+
+                { clef: clef, fixed: fixed, notes: notes }
+            }
+
+            @staves = { upper: staves[0], lower: staves[1] }
         end
     end
 
