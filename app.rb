@@ -16,10 +16,10 @@ get '/cards/*' do
     @cards = cards.map { |card|
         klass = Card.descendant(card[:name])
 
-        if klass.nil?
-            nil
-        else
+        if klass
             klass.new(card[:text], card[:attributes])
+        else
+            nil
         end
     }.compact
 

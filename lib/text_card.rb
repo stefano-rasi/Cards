@@ -6,10 +6,10 @@ class TextCard < SlimCard
     def initialize(text, attributes)
         super(text, attributes)
 
-        if self.class.slim.nil?
-            @slim = 'text_card'
-        else
+        if self.class.slim
             @slim = self.class.slim
+        else
+            @slim = 'text_card'
         end
 
         @html = Asciidoctor.convert(text)

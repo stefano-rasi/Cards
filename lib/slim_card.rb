@@ -4,10 +4,10 @@ require_relative 'card'
 
 class SlimCard < Card
     def self.slim(slim=nil)
-        if slim.nil?
-            @slim
-        else
+        if slim
             @slim = slim
+        else
+            @slim
         end
     end
 

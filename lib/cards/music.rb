@@ -5,10 +5,10 @@ require_relative '../card'
 
 class MusicCard < Card
     def self.erb(erb = nil)
-        if erb.nil?
-            @erb
-        else
+        if erb
             @erb = erb
+        else
+            @erb
         end
     end
 

@@ -4,30 +4,30 @@ class Card
     end
 
     def self.names(names=nil)
-        if names.nil?
-            @names
-        else
+        if names
             @names = names
+        else
+            @names
         end
     end
 
     def self.size(size=nil)
-        if size.nil?
-            @size
-        else
+        if size
             @size = size
+        else
+            @size
         end
     end
 
     def self.attribute(key, value=nil)
-        if value.nil?
-            @attributes[key]
-        else
+        if value
             if not defined? @attributes
                 @attributes = {}
             end
 
             @attributes[key] = value
+        else
+            @attributes[key]
         end
     end
 
@@ -44,7 +44,7 @@ class Card
     def self.descendant(name)
         if not defined? @descendants
             @descendants = descendants.map { |klass|
-                if not klass.names.nil?
+                if klass.names
                     klass.names.map { |name|
                         [ name.to_s, klass ]
                     }
