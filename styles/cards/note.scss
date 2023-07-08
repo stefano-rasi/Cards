@@ -60,12 +60,6 @@
 
             margin-bottom: 0;
         }
-
-        .not-indented {
-            ul, ol {
-                padding-left: 0;
-            }
-        }
     }
 
     table {
@@ -139,9 +133,11 @@
             margin-bottom: 0;
         }
 
-        ul, ol {
+        ul, ol, dl{
             text-align: initial;
+        }
 
+        ul, ol {
             padding-left: 14pt;
         }
     }
@@ -150,9 +146,9 @@
         text-align: justify;
     }
 
-    .unindented {
+    .unindent {
         ul, ol {
-            padding-left: 14pt;
+            padding-left: 2pt;
         }
     }
 
@@ -162,6 +158,10 @@
         }
 
         h3, .large {
+            dl dt {
+                font-size: 13pt;
+            }
+
             font-size: 13pt;
         }
 
