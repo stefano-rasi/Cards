@@ -1,16 +1,16 @@
 div.card class=names data-size=size data-font=font
   div
     - @sections.each do |section|
-      div.section class=('bold' if section.key? :bold_text)
+      div.section class=('bold' if section[:bold])
         ruby:
-          if section.key? :bold_text
-            text = section[:bold_text]
+          if section[:bold]
+            text = section[:bold]
           else
             text = section[:text]
           end
 
         - text[:groups].each do |group|
-          - if group.key? :furigana
+          - if group[:furigana]
             div.furigana
               div.furigana-base
                 = group[:furigana][:base]
@@ -19,7 +19,7 @@ div.card class=names data-size=size data-font=font
           - else
             div.character
               - if group[:character].respond_to? :key
-                - if group[:character].key? :space
+                - if group[:character][:space]
                   | &#8194;
               - else
                 = group[:character]

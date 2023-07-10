@@ -12,7 +12,7 @@ upper = \fixed <%= @staves[:upper][:fixed] %> {
     < <%= @staves[:upper][:notes] %> ><%= duration %>
 }
 
-<% if @staves.key? :lower %>
+<% if @staves[:lower] %>
     lower = \fixed <%= @staves[:lower][:fixed] %> {
         \key <%= key %>
         \clef <%= @staves[:lower][:clef] %>
@@ -24,7 +24,7 @@ upper = \fixed <%= @staves[:upper][:fixed] %> {
     }
 <% end %>
 
-<% if @staves.key? :lower %>
+<% if @staves[:lower] %>
     \new PianoStaff
     <<
         \new Staff = "upper" \upper

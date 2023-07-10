@@ -61,12 +61,12 @@ class JapaneseParser < Parslet::Parser
         group.repeat(1).as(:groups)
     end
 
-    rule(:bold_text) do
+    rule(:bold) do
         str('*') >> text >> str('*')
     end
 
     rule(:sections) do
-        (text.as(:text) | bold_text.as(:bold_text)).repeat(1)
+        (text.as(:text) | bold.as(:bold)).repeat(1)
     end
 
     root(:sections)

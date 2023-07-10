@@ -25,7 +25,7 @@ class MusicCard < Card
 
         music = MusicParser.new.parse(text)
 
-        if music.key? :text
+        if music[:text]
             clef = attribute('clef')
 
             notes = music[:text]
@@ -58,7 +58,7 @@ class MusicCard < Card
 
         tempfile = Tempfile.new()
 
-        tempfile.write(template.result(binding))
+        tempfile.write(template.result(self.binding))
         tempfile.rewind()
         tempfile.close()
 

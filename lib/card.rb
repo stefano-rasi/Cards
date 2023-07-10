@@ -1,58 +1,60 @@
 class Card
-    def self.name(name)
-        @names = [ name ]
-    end
-
-    def self.names(names=nil)
-        if names
-            @names = names
-        else
-            @names
+    class << self
+        def name(name)
+            @names = [ name ]
         end
-    end
-
-    def self.size(size=nil)
-        if size
-            @size = size
-        else
-            @size
-        end
-    end
-
-    def self.attribute(key, value=nil)
-        if value
-            if not defined? @attributes
-                @attributes = {}
+    
+        def names(names=nil)
+            if names
+                @names = names
+            else
+                @names
             end
-
-            @attributes[key] = value
-        else
-            @attributes[key]
         end
-    end
-
-    def self.attributes
-        @attributes
-    end
-
-    def self.descendants
-        ObjectSpace.each_object(Class).select { |klass|
-            klass < self
-        }
-    end
-
-    def self.descendant(name)
-        if not defined? @descendants
-            @descendants = descendants.map { |klass|
-                if klass.names
-                    klass.names.map { |name|
-                        [ name.to_s, klass ]
-                    }
+    
+        def size(size=nil)
+            if size
+                @size = size
+            else
+                @size
+            end
+        end
+    
+        def attribute(key, value=nil)
+            if value
+                if not defined? @attributes
+                    @attributes = {}
                 end
-            }.compact.flatten(1).to_h
+    
+                @attributes[key] = value
+            else
+                @attributes[key]
+            end
         end
-
-        @descendants[name]
+    
+        def attributes
+            @attributes
+        end
+    
+        def descendants
+            ObjectSpace.each_object(Class).select { |klass|
+                klass < self
+            }
+        end
+    
+        def descendant(name)
+            if not defined? @descendants
+                @descendants = descendants.map { |klass|
+                    if klass.names
+                        klass.names.map { |name|
+                            [ name.to_s, klass ]
+                        }
+                    end
+                }.compact.flatten(1).to_h
+            end
+    
+            @descendants[name]
+        end
     end
 
     def initialize(text, attributes)
@@ -64,7 +66,7 @@ class Card
     end
 
     def size
-        if @attributes.key? 'size'
+        if @attributes['size']
             @attributes['size']
         elsif defined? @size
             @size
@@ -74,7 +76,7 @@ class Card
     end
 
     def attribute(key)
-        if @attributes.key? key
+        if @attributes[key]
             @attributes[key]
         else
             self.class.attributes[key]
@@ -82,7 +84,7 @@ class Card
     end
 
     def attribute?(key)
-        (@attributes.key?(key) || self.class.attributes.key?(key))
+        @attributes[key] || self.class.attributes[key]
     end
 
     def method_missing(m, *args, &block)
