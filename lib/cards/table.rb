@@ -1,11 +1,33 @@
 require 'yaml'
+require 'parslet'
 
 require_relative '../slim_card'
+require_relative '../text_card'
 
-class RandomTableCard < SlimCard
-    names %w(random-table rtable table)
+class CharacterTableCard < TextCard
+    name 'character'
     size 'B8'
     slim 'cards/table'
+
+    attribute('font', 'large')
+
+    def initialize(text, attributes)
+        super(nil, attributes)
+
+        @table = YAML.load(text)
+
+        template = ERB.new(File.read('views/text/character.erb'))
+
+        asciidoc = template.result(self.binding)
+
+        super(asciidoc, attributes)
+    end
+end
+
+class RandomTableCard < SlimCard
+    names %w(random-table rtable)
+    size 'B8'
+    slim 'cards/random_table'
 
     attribute('columns', '1')
 

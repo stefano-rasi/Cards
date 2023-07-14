@@ -1,11 +1,14 @@
-.card.random-table {
+.card.table {
     padding: 5mm;
 
     display: inline-block;
 
+    font-size: 11pt;
     font-family: "Source Sans Pro";
 
-    h2, h3 {
+    h2 {
+        font-size: 14pt;
+
         margin-top: 0;
         margin-bottom: 8pt;
 
@@ -16,58 +19,65 @@
         border-bottom-color: black;
     }
 
-    h2 {
-        font-size: 13pt;
-    }
-
-    h3 {
-        font-size: 12pt;
-    }
-
     table {
         width: 100%;
 
         font-size: 11pt;
 
-        text-align: center;
-
         border-collapse: collapse;
 
         th, td {
+            text-align: left;
+
+            border-width: 1pt;
+            border-style: solid;
+            border-color: black;
+
             padding-top: 2pt;
-            padding-bottom: 2pt;
-        }
-
-        th {
-            font-weight: bold;
-        }
-
-        th.range {
-            min-width: 2.2em;
-
-            box-sizing: border-box;
-
-            white-space: nowrap;
-
             padding-left: 4pt;
             padding-right: 4pt;
+            padding-bottom: 2pt;
+
+            &.halign-right {
+                text-align: right;
+            }
+
+            &.halign-center {
+                text-align: center;
+            }
+
+            ul {
+                padding-left: 14pt;
+
+                margin-bottom: 0;
+
+                p {
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
         }
 
-        td.range {
-            min-width: 2.2em;
-
-            box-sizing: border-box;
-
-            white-space: nowrap;
-
-            padding-left: 8pt;
-            padding-right: 8pt;
+        p {
+            margin-bottom: 0 !important;
         }
     }
 
-    table, th, td {
-        border-width: 1pt;
-        border-style: solid;
-        border-color: black;
+    &[data-font="large"] {
+        &, table {
+            font-size: 11pt;
+        }
+    }
+
+    &[data-font="medium"] {
+        &, table {
+            font-size: 10pt;
+        }
+    }
+
+    &[data-font="small"] {
+        &, table {
+            font-size: 9pt;
+        }
     }
 }
