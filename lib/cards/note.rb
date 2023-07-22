@@ -1,4 +1,4 @@
-require_relative '../text_card'
+require_relative 'text'
 
 class NoteCard < TextCard
     name 'note'

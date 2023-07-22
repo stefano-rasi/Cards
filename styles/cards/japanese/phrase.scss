@@ -48,6 +48,7 @@
         font-weight: 700;
     }
 
+    &[data-font="l"],
     &[data-font="large"] {
         font-size: 24pt;
 
@@ -58,6 +59,7 @@
         }
     }
 
+    &[data-font="m"],
     &[data-font="medium"] {
         font-size: 20pt;
 
@@ -68,6 +70,7 @@
         }
     }
 
+    &[data-font="s"],
     &[data-font="small"] {
         font-size: 16pt;
 

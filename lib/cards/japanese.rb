@@ -1,5 +1,5 @@
-require_relative '../slim_card'
-require_relative '../text_card'
+require_relative 'slim'
+require_relative 'text'
 
 class KanjiCard < TextCard
     name 'kanji'

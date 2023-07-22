@@ -1,6 +1,6 @@
 require 'asciidoctor'
 
-require_relative 'slim_card'
+require_relative 'slim'
 
 class TextCard < SlimCard
     def initialize(text, attributes)
@@ -9,7 +9,7 @@ class TextCard < SlimCard
         if self.class.slim
             @slim = self.class.slim
         else
-            @slim = 'text_card'
+            @slim = 'cards/text'
         end
 
         @html = Asciidoctor.convert(text)
