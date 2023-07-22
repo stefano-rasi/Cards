@@ -1,0 +1,41 @@
+ruby:
+  text_style = "width: #{100.fdiv(@columns)}%"
+
+div.card.random-table data-size=size
+  - if attribute('title')
+    h2 = attribute('title')
+  - if attribute('sub-title')
+    h3 = attribute('sub-title')
+
+  table
+    thead
+      tr
+        - @columns.times do
+          th
+            - if @die_count == 1
+              | d6
+            - else
+              = "#{@die_count}d6"
+          th.text style=text_style
+            = entry
+    tbody
+      - @entries.each_slice(@columns) do |slice|
+        tr
+          - @columns.times do |i|
+            - if slice[i]
+              ruby:
+                range_begin = slice[i][:begin]
+                range_end = slice[i][:end]
+
+              td.range
+                - if range_begin == range_end
+                  = d6(range_begin)
+                - else
+                  = "#{d6(range_begin)}-#{d6(range_end)}"
+
+              td.text style=text_style
+                = slice[i][:text]
+
+            - else
+              td.range
+              td.text style=text_style

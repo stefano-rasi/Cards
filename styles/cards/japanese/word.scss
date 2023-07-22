@@ -45,6 +45,7 @@
         display: inline-block;
     }
 
+    &[data-font="xl"],
     &[data-font="extra-large"] {
         font-size: 60pt;
 
@@ -53,6 +54,7 @@
         }
     }
 
+    &[data-font="l"],
     &[data-font="large"] {
         font-size: 48pt;
 
@@ -61,6 +63,7 @@
         }
     }
 
+    &[data-font="m"],
     &[data-font="medium"] {
         font-size: 36pt;
 
@@ -69,6 +72,7 @@
         }
     }
 
+    &[data-font="s"],
     &[data-font="small"] {
         font-size: 24pt;
 

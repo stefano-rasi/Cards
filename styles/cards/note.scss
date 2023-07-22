@@ -7,6 +7,20 @@
 
     flex-direction: column;
 
+    .serif {
+        font-family: "Source Serif Pro";
+    }
+
+    .justify {
+        text-align: justify;
+    }
+
+    .unindent {
+        ul, ol {
+            padding-left: 2pt;
+        }
+    }
+
     *:first-child {
         margin-top: 0;
     }
@@ -139,16 +153,6 @@
 
         ul, ol {
             padding-left: 14pt;
-        }
-    }
-
-    .justify {
-        text-align: justify;
-    }
-
-    .unindent {
-        ul, ol {
-            padding-left: 2pt;
         }
     }
 
