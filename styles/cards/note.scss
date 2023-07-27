@@ -113,11 +113,21 @@
         }
     }
 
-    .sect1, .sect2, .sect3, .sectionbody {
-        display: flex;
+    pre, code {
+        font-family: "Source Code Pro";
+    }
 
-        flex-grow: 1;
-        flex-direction: column;
+    pre {
+        text-align: left;
+    }
+
+    .sect1, .sect2, .sect3, .sectionbody {
+        &:last-of-type {
+            display: flex;
+
+            flex-grow: 1;
+            flex-direction: column;
+        }
     }
 
     .sect1 {
