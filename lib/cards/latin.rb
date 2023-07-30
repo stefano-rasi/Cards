@@ -2,7 +2,7 @@ require_relative 'text'
 
 class WordCard < TextCard
     name 'word'
-    size 'credit-card'
+    size 'B8'
     slim 'cards/latin'
 
     attribute('font', 'large')
@@ -14,7 +14,7 @@ end
 
 class PhraseCard < TextCard
     name 'phrase'
-    size 'credit-card'
+    size 'B8'
     slim 'cards/latin'
 
     attribute('font', 'medium')
