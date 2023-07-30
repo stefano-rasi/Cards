@@ -3,9 +3,13 @@
 
     align-items: center;
 
-    font-size: 48pt;
+    font-size: 64pt;
     font-weight: 600;
     font-family: "Noto Sans JP";
 
     justify-content: center;
+}
+
+.card.kanji[data-size="3x3"] {
+    font-size: 48pt;
 }

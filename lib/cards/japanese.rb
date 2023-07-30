@@ -3,7 +3,7 @@ require_relative 'text'
 
 class KanjiCard < TextCard
     name 'kanji'
-    size '3x3'
+    size 'B8'
 end
 
 class JapanesePhraseCard < SlimCard
