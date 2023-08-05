@@ -19,8 +19,6 @@ div.card class=names data-size=size data-font=font
           - else
             div.character
               - if group[:character].respond_to? :key
-                - if group[:character][:space]
-                  | &nbsp;
                 - if group[:character][:en_space]
                   | &#8194;
                 - elsif group[:character][:em_space]

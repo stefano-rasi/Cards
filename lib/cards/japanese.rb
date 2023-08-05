@@ -36,7 +36,6 @@ end
 
 class JapaneseParser < Parslet::Parser
     rule(:character) do
-        str('\s').as(:space) |
         str('\n').as(:en_space) |
         str('\m').as(:em_space) |
         (str('\*') | str('*').absent? >> any)
