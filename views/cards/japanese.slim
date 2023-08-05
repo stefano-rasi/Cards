@@ -20,6 +20,10 @@ div.card class=names data-size=size data-font=font
             div.character
               - if group[:character].respond_to? :key
                 - if group[:character][:space]
+                  | &nsp;
+                - if group[:character][:en_space]
                   | &#8194;
+                - elsif group[:character][:em_space]
+                  | &#8195;
               - else
                 = group[:character]
