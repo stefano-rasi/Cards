@@ -5,7 +5,7 @@ require_relative 'slim'
 class RandomTableCard < SlimCard
     names %w(random-table rtable)
     size 'B8'
-    slim 'cards/random_table'
+    slim 'cards/table'
 
     attribute('columns', '1')
 
