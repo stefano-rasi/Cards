@@ -1,25 +1,6 @@
 require_relative 'slim'
 require_relative 'text'
 
-class KanjiCard < TextCard
-    name 'kanji'
-    size 'B8'
-end
-
-class JapanesePhraseCard < SlimCard
-    names %w(japanese-phrase jphrase)
-    size 'B8'
-    slim 'cards/japanese'
-
-    attribute('font', 'small')
-
-    def initialize(text, attributes)
-        super(text, attributes)
-
-        @sections = JapaneseParser.new.parse(text)
-    end
-end
-
 class JapaneseWordCard < SlimCard
     names %w(japanese-word jword)
     size 'B8'
@@ -30,7 +11,11 @@ class JapaneseWordCard < SlimCard
     def initialize(text, attributes)
         super(text, attributes)
 
-        @sections = JapaneseParser.new.parse(text)
+        parts = text.split(/\s*:\s*/)
+
+        @english = parts[1]
+
+        @japanese = JapaneseParser.new.parse(parts[0])
     end
 end
 

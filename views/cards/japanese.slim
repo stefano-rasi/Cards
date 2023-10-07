@@ -1,6 +1,6 @@
 div.card class=names data-size=size data-font=font
-  div
-    - @sections.each do |section|
+  div.japanese
+    - @japanese.each do |section|
       div.section class=('bold' if section[:bold])
         ruby:
           if section[:bold]
@@ -25,3 +25,5 @@ div.card class=names data-size=size data-font=font
                   | &#8195;
               - else
                 = group[:character]
+  div.english
+    = @english
