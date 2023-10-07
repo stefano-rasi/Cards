@@ -38,24 +38,4 @@
         width: 105mm;
         height: 148mm;
     }
-
-    &[data-size="3x3"] {
-        width: 30mm;
-        height: 30mm;
-    }
-
-    &[data-size="credit-card"] {
-        width: 86mm;
-        height: 54mm;
-    }
-
-    &[data-size="B8 landscape"] {
-        width: 88mm;
-        height: 62mm;
-    }
-
-    &[data-size="A7 landscape"] {
-        width: 74mm;
-        height: 105mm;
-    }
 }
