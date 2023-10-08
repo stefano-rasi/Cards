@@ -6,8 +6,4 @@ class NoteCard < TextCard
     slim 'cards/note'
 
     attribute('font', 'large')
-
-    def initialize(text, attributes)
-        super(text, attributes)
-    end
 end

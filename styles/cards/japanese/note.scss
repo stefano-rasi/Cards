@@ -1,0 +1,42 @@
+.card.japanese-note {
+    padding: 5mm;
+
+    display: inline-flex;
+
+    font-size: 12pt;
+    font-family: "Noto Sans JP", "Noto Sans";
+
+    flex-direction: column;
+
+    h2 {
+        margin: 0;
+
+        font-size: 17pt;
+
+        line-height: 1;
+
+        padding-bottom: 4pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+    }
+
+    .sect1 {
+        display: flex;
+
+        flex-grow: 1;
+        flex-direction: column;
+
+        .sectionbody {
+            display: flex;
+
+            align-items: center;
+
+            flex-grow: 1;
+            flex-direction: column;
+
+            justify-content: center;
+        }
+    }
+}

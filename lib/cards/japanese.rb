@@ -4,7 +4,7 @@ require_relative 'text'
 class JapaneseWordCard < SlimCard
     names %w(japanese-word jword)
     size 'B8'
-    slim 'cards/japanese'
+    slim 'cards/japanese/word'
 
     attribute('font', 'large')
 
@@ -17,6 +17,14 @@ class JapaneseWordCard < SlimCard
 
         @japanese = JapaneseParser.new.parse(parts[0])
     end
+end
+
+class JapaneseNoteCard < TextCard
+    names %w(japanese-note jnote)
+    size 'B8'
+    slim 'cards/japanese/note'
+
+    attribute('font', 'large')
 end
 
 class JapaneseParser < Parslet::Parser

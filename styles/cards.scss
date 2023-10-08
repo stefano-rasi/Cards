@@ -1,6 +1,7 @@
 @import "cards/note";
-@import "cards/latin";
-@import "cards/japanese";
+
+@import "cards/japanese/note";
+@import "cards/japanese/word";
 
 @page {
     size: A4;
