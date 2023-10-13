@@ -2,7 +2,7 @@ require_relative 'slim'
 require_relative 'text'
 
 class JapaneseWordCard < SlimCard
-    names %w(japanese-word jword)
+    name 'jword'
     size 'B8'
     slim 'cards/japanese/word'
 
@@ -20,7 +20,7 @@ class JapaneseWordCard < SlimCard
 end
 
 class JapaneseNoteCard < TextCard
-    names %w(japanese-note jnote)
+    name 'jnote'
     size 'B8'
     slim 'cards/japanese/note'
 

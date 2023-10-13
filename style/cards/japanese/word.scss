@@ -1,5 +1,5 @@
 .card.japanese-word {
-    padding: 6mm;
+    padding: 5mm;
 
     display: inline-flex;
 
@@ -56,12 +56,11 @@
     .english {
         text-align: center;
 
-        font-size: 10pt;
+        font-size: 11pt;
         font-family: "Noto Sans";
     }
 
-    &[data-font="xl"],
-    &[data-font="extra-large"] {
+    &[data-font="xl"] {
         .japanese {
             font-size: 60pt;
 
@@ -71,8 +70,7 @@
         }
     }
 
-    &[data-font="l"],
-    &[data-font="large"] {
+    &[data-font="l"] {
         .japanese {
             font-size: 48pt;
 
@@ -82,8 +80,7 @@
         }
     }
 
-    &[data-font="m"],
-    &[data-font="medium"] {
+    &[data-font="m"] {
         .japanese {
             font-size: 36pt;
 
@@ -93,8 +90,7 @@
         }
     }
 
-    &[data-font="s"],
-    &[data-font="small"] {
+    &[data-font="s"] {
         .japanese {
             font-size: 24pt;
 

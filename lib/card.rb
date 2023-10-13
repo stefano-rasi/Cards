@@ -1,17 +1,13 @@
 class Card
     class << self
-        def name(name)
-            @names = [ name ]
-        end
-    
-        def names(names=nil)
-            if names
-                @names = names
+        def name(name = nil)
+            if name
+                @name = name
             else
-                @names
+                @name
             end
         end
-    
+
         def size(size=nil)
             if size
                 @size = size
@@ -19,7 +15,7 @@ class Card
                 @size
             end
         end
-    
+
         def attribute(key, value=nil)
             if value
                 if not defined? @attributes
@@ -31,28 +27,24 @@ class Card
                 @attributes[key]
             end
         end
-    
+
         def attributes
             @attributes
         end
-    
+
         def descendants
             ObjectSpace.each_object(Class).select { |klass|
                 klass < self
             }
         end
-    
+
         def descendant(name)
             if not defined? @descendants
                 @descendants = descendants.map { |klass|
-                    if klass.names
-                        klass.names.map { |name|
-                            [ name.to_s, klass ]
-                        }
-                    end
-                }.compact.flatten(1).to_h
+                    [ klass.name, klass ]
+                }.compact.to_h
             end
-    
+
             @descendants[name]
         end
     end
@@ -61,8 +53,8 @@ class Card
         @attributes = attributes
     end
 
-    def names
-        self.class.names
+    def name
+        self.class.name
     end
 
     def size
