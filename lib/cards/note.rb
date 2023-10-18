@@ -1,9 +1,23 @@
-require_relative 'text'
+require 'slim'
+require 'asciidoctor'
 
-class NoteCard < TextCard
-    name 'note'
+require_relative '../card'
+
+class NoteCard < Card
     size 'B8'
-    slim 'cards/note'
+    name 'note'
 
-    attribute('font', 'large')
+    attribute('font', 'medium')
+
+    def initialize(text, attributes)
+        super(text, attributes)
+
+        @html = Asciidoctor.convert(text)
+    end
+
+    def html
+        template = Slim::Template.new('views/cards/note.slim')
+
+        template.render(self)
+    end
 end

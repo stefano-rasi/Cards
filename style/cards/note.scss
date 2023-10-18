@@ -7,220 +7,59 @@
 
     flex-direction: column;
 
-    pre, code {
-        font-family: "Source Code Pro";
-    }
-
-    .serif {
-        font-family: "Source Serif Pro";
-    }
-
-    .justify {
-        text-align: justify;
-    }
-
-    .unindent {
-        ul, ol {
-            padding-left: 2pt;
-        }
-    }
-
     *:first-child {
         margin-top: 0;
     }
 
-    h2, h3, h4, p, ul, table {
-        margin-bottom: 8pt;
-    }
-
     h2, h3, h4 {
-        padding-bottom: 1pt;
+        margin-bottom: 0;
 
         border-bottom-width: 1pt;
         border-bottom-style: solid;
         border-bottom-color: black;
     }
 
-    ul, ol, dl {
-        p {
+    ol, ul {
+        padding-left: 1em;
+
+        margin-bottom: 0;
+
+        li p {
+            padding-left: 2pt;
+
             margin-top: 0;
             margin-bottom: 0;
         }
     }
 
-    ul, ol {
-        padding-left: 2em;
-
-        ul, ol {
-            padding-left: 1em;
-
-            margin-bottom: 0;
-        }
-    }
-
-    ul {
-        li > * {
-            margin-left: -2pt;
-        }
-    }
-
-    dl {
-        dt {
-            font-weight: bold;
-        }
-
-        dd {
-            margin-left: 2em;
-        }
-
-        ul, ol {
-            padding-left: 1em;
-
-            margin-bottom: 0;
-        }
-    }
-
-    table {
-        width: 100%;
-
-        border-collapse: collapse;
-
-        th, td {
-            text-align: left;
-
-            border-width: 1pt;
-            border-style: solid;
-            border-color: black;
-
-            padding-top: 2pt;
-            padding-left: 4pt;
-            padding-right: 4pt;
-            padding-bottom: 2pt;
-
-            &.halign-right {
-                text-align: right;
-            }
-
-            &.halign-center {
-                text-align: center;
-            }
-
-            ul {
-                padding-left: 14pt;
-
-                margin-bottom: 0;
-            }
-        }
-
-        p {
-            margin-bottom: 0 !important;
-        }
-    }
-
-    pre {
-        text-align: left;
-    }
-
     .sect1, .sect2, .sect3, .sectionbody {
-        &:last-of-type {
-            display: flex;
+        display: flex;
 
-            flex-grow: 1;
-            flex-direction: column;
-        }
-    }
-
-    .sect1 {
-        &:has(.sectionbody > .center) {
-            h2 {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    .sect2, .sect3 {
-        &:has(> .center) {
-            h3, h4 {
-                margin-bottom: 0;
-            }
-        }
+        flex-grow: 1;
+        flex-direction: column;
     }
 
     .center {
-        margin: auto !important;
+        margin: auto;
 
         align-self: center;
 
         text-align: center;
 
-        p, ul {
-            margin-bottom: 0;
-        }
-
-        ul, ol, dl{
+        ul, ol {
             text-align: initial;
         }
-
-        ul, ol {
-            padding-left: 14pt;
-        }
     }
 
-    &[data-font="large"] {
-        h2, .extra-large {
-            font-size: 15pt;
-        }
-
-        h3, .large {
-            dl dt {
-                font-size: 13pt;
-            }
-
-            font-size: 13pt;
-        }
-
-        h4, &, dl dt, table {
-            font-size: 11pt;
-        }
-
-        .small {
-            &, dl dt, table {
-                font-size: 10pt;
-            }
-        }
-
-        .extra-small {
-            &, dl dt, table {
-                font-size: 9pt;
-            }
-        }
+    h2, &[data-font="large"] {
+        font-size: 15pt;
     }
 
-    &[data-font="medium"] {
-        h2, .extra-large {
-            font-size: 14pt;
-        }
-
-        h3, .large {
-            font-size: 12pt;
-        }
-
-        h4, &, dl dt, table {
-            font-size: 10pt;
-        }
+    h3, &[data-font="medium"] {
+        font-size: 13pt;
     }
 
-    &[data-font="small"] {
-        h2, .extra-large {
-            font-size: 13pt;
-        }
-
-        h3, .large {
-            font-size: 11pt;
-        }
-
-        h4, &, dl dt, table {
-            font-size: 9pt;
-        }
+    h4, &[data-font="small"] {
+        font-size: 11pt;
     }
 }

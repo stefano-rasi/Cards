@@ -60,7 +60,7 @@
         font-family: "Noto Sans";
     }
 
-    &[data-font="xl"] {
+    &[data-font="extra-large"] {
         .japanese {
             font-size: 60pt;
 
@@ -70,7 +70,7 @@
         }
     }
 
-    &[data-font="l"] {
+    &[data-font="large"] {
         .japanese {
             font-size: 48pt;
 
@@ -80,7 +80,7 @@
         }
     }
 
-    &[data-font="m"] {
+    &[data-font="medium"] {
         .japanese {
             font-size: 36pt;
 
@@ -90,7 +90,7 @@
         }
     }
 
-    &[data-font="s"] {
+    &[data-font="small"] {
         .japanese {
             font-size: 24pt;
 

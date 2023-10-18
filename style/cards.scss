@@ -1,7 +1,5 @@
 @import "cards/note";
-
-@import "cards/japanese/note";
-@import "cards/japanese/word";
+@import "cards/japanese";
 
 @page {
     size: A4;
@@ -33,10 +31,5 @@
     &[data-size="B8"] {
         width: 62mm;
         height: 88mm;
-    }
-
-    &[data-size="A6"] {
-        width: 105mm;
-        height: 148mm;
     }
 }

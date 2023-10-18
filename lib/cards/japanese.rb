@@ -1,10 +1,10 @@
-require_relative 'slim'
-require_relative 'text'
+require 'slim'
 
-class JapaneseWordCard < SlimCard
-    name 'jword'
+require_relative '../card'
+
+class JapaneseWordCard < Card
     size 'B8'
-    slim 'cards/japanese/word'
+    name 'jword'
 
     attribute('font', 'large')
 
@@ -17,14 +17,12 @@ class JapaneseWordCard < SlimCard
 
         @japanese = JapaneseParser.new.parse(parts[0])
     end
-end
 
-class JapaneseNoteCard < TextCard
-    name 'jnote'
-    size 'B8'
-    slim 'cards/japanese/note'
+    def html
+        template = Slim::Template.new('views/cards/japanese/word.slim')
 
-    attribute('font', 'large')
+        template.render(self)
+    end
 end
 
 class JapaneseParser < Parslet::Parser
