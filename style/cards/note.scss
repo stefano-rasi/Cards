@@ -12,7 +12,7 @@
     }
 
     h2, h3, h4 {
-        margin-bottom: 0;
+        margin-bottom: 8pt;
 
         border-bottom-width: 1pt;
         border-bottom-style: solid;
@@ -39,6 +39,22 @@
         flex-direction: column;
     }
 
+    .sect1 {
+        &:has(.sectionbody > .center) {
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .sect2, .sect3 {
+        &:has(> .center) {
+            h3, h4 {
+                margin-bottom: 0;
+            }
+        }
+    }
+
     .center {
         margin: auto;
 
@@ -51,15 +67,27 @@
         }
     }
 
-    h2, &[data-font="large"] {
+    .serif {
+        font-family: "Source Serif Pro";
+    }
+
+    .justify {
+        text-align: justify;
+    }
+
+    h2, .large {
         font-size: 15pt;
     }
 
-    h3, &[data-font="medium"] {
+    h3, .medium {
         font-size: 13pt;
     }
 
-    h4, &[data-font="small"] {
+    h4, .small {
         font-size: 11pt;
+    }
+
+    h5, .extra-small {
+        font-size: 9pt;
     }
 }

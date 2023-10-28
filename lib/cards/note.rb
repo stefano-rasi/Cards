@@ -7,8 +7,6 @@ class NoteCard < Card
     size 'B8'
     name 'note'
 
-    attribute('font', 'medium')
-
     def initialize(text, attributes)
         super(text, attributes)
 

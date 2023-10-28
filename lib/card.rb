@@ -50,7 +50,12 @@ class Card
     end
 
     def initialize(text, attributes)
+        @text = text
         @attributes = attributes
+    end
+
+    def text
+        @text
     end
 
     def name
