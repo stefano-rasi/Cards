@@ -19,14 +19,12 @@
         border-bottom-color: black;
     }
 
-    ol, ul {
+    ul, ol {
         padding-left: 1em;
 
         margin-bottom: 0;
 
         li p {
-            padding-left: 2pt;
-
             margin-top: 0;
             margin-bottom: 0;
         }
@@ -73,6 +71,10 @@
 
     .justify {
         text-align: justify;
+    }
+
+    .extra-large {
+        font-size: 17pt;
     }
 
     h2, .large {
