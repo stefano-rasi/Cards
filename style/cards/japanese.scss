@@ -17,37 +17,37 @@
         align-items: center;
 
         font-family: "Noto Sans JP";
-    
+
         writing-mode: vertical-rl;
-    
+
         justify-content: center;
-    
+
         .character, .furigana {
             font-weight: 600;
         }
-    
+
         .furigana {
             display: inline-flex;
-    
+
             align-items: center;
-    
+
             writing-mode: initial;
-    
+
             .furigana-text {
                 font-weight: 400;
-    
+
                 line-height: 0.6em;
-    
+
                 user-select: none;
-    
+
                 letter-spacing: 0.3em;
             }
-    
+
             .furigana-base, .furigana-text {
                 writing-mode: vertical-rl;
             }
         }
-    
+
         .character {
             display: inline-block;
         }
