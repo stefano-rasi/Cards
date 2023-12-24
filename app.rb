@@ -3,8 +3,6 @@ require 'sinatra'
 require_relative 'lib/parser'
 
 require_relative 'lib/cards/note'
-require_relative 'lib/cards/japanese'
-require_relative 'lib/cards/definition'
 
 get '/cards/*' do
     path = "cards/#{params[:splat][0]}"
