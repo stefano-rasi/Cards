@@ -1,6 +1,6 @@
 class Card
     class << self
-        def name(name = nil)
+        def name(name=nil)
             if name
                 @name = name
             else

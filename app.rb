@@ -2,7 +2,9 @@ require 'sinatra'
 
 require_relative 'lib/parser'
 
-require_relative 'lib/cards/note'
+Dir['lib/cards/*'].each do |card|
+    require card
+end
 
 get '/cards/*' do
     path = "cards/#{params[:splat][0]}"

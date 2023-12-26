@@ -11,6 +11,10 @@
         font-family: "Source Serif Pro";
     }
 
+    .justify {
+        text-align: justify;
+    }
+
     *:first-child {
         margin-top: 0;
     }
@@ -32,10 +36,6 @@
             margin-top: 0;
             margin-bottom: 0;
         }
-    }
-
-    .justify {
-        text-align: justify;
     }
 
     .extra-large {
