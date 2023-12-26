@@ -1,4 +1,5 @@
 @import "cards/note";
+@import "cards/character";
 
 @page {
     size: A4;
@@ -16,7 +17,15 @@
     }
 }
 
+@media screen {
+    .cards {
+        zoom: 110%;
+    }
+}
+
 .card {
+    display: inline-block;
+
     box-sizing: border-box;
 
     border-width: 1pt;

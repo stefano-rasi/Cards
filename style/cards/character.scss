@@ -1,0 +1,15 @@
+.card.character {
+    padding: 10mm;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    font-size: 14pt;
+    font-weight: 500;
+    font-family: "Source Sans Pro";
+
+    flex-direction: column;
+
+    justify-content: center;
+}
