@@ -2,8 +2,8 @@ require 'sinatra'
 
 require_relative 'lib/parser'
 
-Dir['lib/cards/*'].each do |card|
-    require card
+Dir['lib/cards/*'].each do |file|
+    require_relative file
 end
 
 get '/cards/*' do
