@@ -1,4 +1,5 @@
 require 'slim'
+require 'yaml'
 
 require_relative '../card'
 
@@ -9,7 +10,8 @@ class CharacterCard < Card
     def initialize(text, attributes)
         super(text, attributes)
 
-        @name = text
+        @name = attribute('name')
+        @attributes = YAML.load(text)
     end
 
     def html

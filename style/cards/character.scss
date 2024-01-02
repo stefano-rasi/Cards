@@ -1,15 +1,48 @@
 .card.character {
-    padding: 10mm;
+    padding: 5mm;
 
-    display: inline-flex;
-
-    align-items: center;
-
-    font-size: 14pt;
-    font-weight: 500;
     font-family: "Source Sans Pro";
 
-    flex-direction: column;
+    h1 {
+        font-size: 14pt;
+        font-weight: 700;
 
-    justify-content: center;
+        line-height: 1em;
+
+        margin-top: 0;
+        margin-bottom: 8pt;
+
+        padding-bottom: 1pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+    }
+
+    table {
+        width: 100%;
+
+        font-size: 11pt;
+
+        border-collapse: collapse;
+
+        tr, td {
+            border-width: 1pt;
+            border-style: solid;
+            border-color: black;
+        }
+
+        td {
+            padding-top: 2pt;
+            padding-left: 4pt;
+            padding-right: 4pt;
+            padding-bottom: 2pt;
+        }
+
+        td.key {
+            width: 1%;
+
+            font-weight: 600;
+        }
+    }
 }

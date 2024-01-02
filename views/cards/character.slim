@@ -1,2 +1,8 @@
 div.card.character data-size=size
-  == @name
+  h1
+    = @name
+  table
+    - @attributes.each do |key, value|
+      tr
+        td.key = key
+        td.value = value
