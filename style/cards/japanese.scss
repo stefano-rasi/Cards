@@ -1,0 +1,102 @@
+.card.japanese-word {
+    padding: 5mm;
+
+    display: inline-flex;
+
+    flex-direction: column;
+
+    .japanese {
+        display: flex;
+
+        flex-grow: 1;
+
+        line-height: 1.2em;
+
+        letter-spacing: 0.2em;
+
+        align-items: center;
+
+        font-family: "Noto Sans JP";
+
+        writing-mode: vertical-rl;
+
+        justify-content: center;
+
+        .character, .furigana {
+            font-weight: 600;
+        }
+
+        .furigana {
+            display: inline-flex;
+
+            align-items: center;
+
+            writing-mode: initial;
+
+            .furigana-text {
+                font-weight: 400;
+
+                line-height: 0.6em;
+
+                user-select: none;
+
+                letter-spacing: 0.3em;
+            }
+
+            .furigana-base, .furigana-text {
+                writing-mode: vertical-rl;
+            }
+        }
+
+        .character {
+            display: inline-block;
+        }
+    }
+
+    .english {
+        text-align: center;
+
+        font-size: 11pt;
+        font-family: "Noto Serif";
+    }
+
+    &[data-font="extra-large"] {
+        .japanese {
+            font-size: 60pt;
+
+            .furigana-text {
+                font-size: 12pt;
+            }
+        }
+    }
+
+    &[data-font="large"] {
+        .japanese {
+            font-size: 48pt;
+
+            .furigana-text {
+                font-size: 10pt;
+            }
+        }
+    }
+
+    &[data-font="medium"] {
+        .japanese {
+            font-size: 36pt;
+
+            .furigana-text {
+                font-size: 8pt;
+            }
+        }
+    }
+
+    &[data-font="small"] {
+        .japanese {
+            font-size: 24pt;
+
+            .furigana-text {
+                font-size: 6pt;
+            }
+        }
+    }
+}

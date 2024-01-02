@@ -1,0 +1,29 @@
+div.card.japanese-word data-size=size data-font=font
+  div.japanese
+    - @japanese.each do |section|
+      div.section class=('bold' if section[:bold])
+        ruby:
+          if section[:bold]
+            text = section[:bold]
+          else
+            text = section[:text]
+          end
+
+        - text[:groups].each do |group|
+          - if group[:furigana]
+            div.furigana
+              div.furigana-base
+                = group[:furigana][:base]
+              div.furigana-text
+                = group[:furigana][:text]
+          - else
+            div.character
+              - if group[:character].respond_to? :key
+                - if group[:character][:en_space]
+                  | &#8194;
+                - elsif group[:character][:em_space]
+                  | &#8195;
+              - else
+                = group[:character]
+  div.english
+    = @english
