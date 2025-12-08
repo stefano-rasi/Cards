@@ -16,7 +16,7 @@ class JapaneseWordsCard < Card
 
             english = parts[1]
 
-            japanese = parts[0].sub(/\s{([^\}]+)\}$/, '')
+            japanese = parts[0].sub(/\{([^\}]+)\}$/, '')
 
             {
                 color: color,
