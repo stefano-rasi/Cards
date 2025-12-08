@@ -1,3 +1,6 @@
+require 'json'
+
+require 'sqlite3'
 require 'sinatra'
 
 require_relative 'lib/card'
@@ -8,46 +11,69 @@ require_relative 'lib/cards/recipe'
 require_relative 'lib/cards/italian'
 require_relative 'lib/cards/japanese'
 
-get '/cards/*' do
-    path = "cards/#{params[:splat][0]}"
+DB = SQLite3::Database.new('cards.db')
 
-    @cards = CardsParser.new.parse(File.read(path)).map { |card|
-        if card_class = Card.classes[card[:name]]
-            card_class.new(card[:text], card[:attributes])
-        end
-    }.compact
+DB.execute(%q{
+    CREATE TABLE IF NOT EXISTS cards (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT,
+        text TEXT
+    )
+})
 
-    slim :cards
+DB.results_as_hash = true
+
+get '/cards' do
+    content_type :json
+
+    cards = DB.execute('SELECT * FROM cards')
+
+    cards.to_json
 end
 
-class CardsParser
-    INDENT = 2
+get '/cards/:id/html' do |id|
+    card = DB.get_first_row('SELECT * FROM cards WHERE id = ?', id)
 
-    def parse(text)
-        cards = []
+    type = card['type']
+    text = card['text']
 
-        text.split("\n").each do |line|
-            indent = line[/^\s*/].size
+    Card.classes[type].new(text).to_html
+end
 
-            if indent == 0 && !line.empty?
-                name = line[/^[^\s:]+/]
+put '/cards/:id' do |id|
+    type = json_params['type']
+    text = json_params['text']
 
-                attributes = line.sub(/^[^\s:]+\s*/, '').sub(/\s*:$/, '').split(/\s+/).map do |attribute|
-                    name, value = attribute.split('=')
+    DB.execute('UPDATE cards SET type = ?, text = ? WHERE id = ?', id, type, text)
+end
 
-                    { name:, value: }
-                end
+post '/cards' do
+    content_type :json
 
-                cards << {
-                    text: '',
-                    name: name,
-                    attributes: attributes,
-                }
-            elsif not cards.empty?
-                cards[-1][:text] += line.sub(/^ {#{INDENT}}/, '') + "\n"
-            end
-        end
+    type = json_params['type']
+    text = json_params['text']
 
-        cards
-    end
+    DB.execute('INSERT INTO cards (type, text) VALUES (?, ?)', type, text)
+
+    id = DB.last_insert_row_id
+
+    { id: id }.to_json
+end
+
+delete 'cards/:id' do
+    DB.execute('DELETE FROM cards WHERE id = ?', id)
+end
+
+get '/opal/*' do
+    content_type :javascript
+
+    builder = Opal::Builder.new()
+
+    builder.build('test', debug: true)
+
+    javascript = builder.to_s
+
+    source_map = builder.source_map
+
+    "#{javascript}\n//# sourceMappingURL=data:application/json;base64,#{Base64.strict_encode64(JSON.dump(source_map.as_json))}"
 end
