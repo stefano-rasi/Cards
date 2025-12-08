@@ -1,0 +1,9 @@
+div.card.italian.phrases
+  - @phrases.each do |phrase|
+    div.phrase
+      - phrase.each do |section|
+        - if section[:color]
+          div class=("color color-#{section[:color][:name]}")
+            = section[:color][:text]
+        - else
+          = section[:text]

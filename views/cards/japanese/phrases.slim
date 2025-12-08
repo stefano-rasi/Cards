@@ -1,0 +1,26 @@
+div.card.japanese.phrases
+  - @phrases.each do |phrase|
+    div.phrase
+      div.japanese
+        - phrase[:japanese].each do |section|
+          div.section class=('bold' if section[:bold]) class=("color color-#{section[:color][:name]}" if section[:color])
+            ruby:
+              if section[:bold]
+                text = section[:bold][:text]
+              elsif section[:color]
+                text = section[:color][:text]
+              else
+                text = section[:text]
+              end
+            - text[:groups].each do |group|
+              - if group[:furigana]
+                div.furigana
+                  div.text
+                    = group[:furigana][:text]
+                  div.base
+                    = group[:furigana][:base]
+              - else
+                div.character
+                  = group[:character]
+      div.english
+        == phrase[:english]

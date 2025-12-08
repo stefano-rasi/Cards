@@ -1,0 +1,15 @@
+link rel="stylesheet" href="/styles/cards.css"
+
+link rel="stylesheet" href="/styles/cards/note.css"
+link rel="stylesheet" href="/styles/cards/study.css"
+link rel="stylesheet" href="/styles/cards/recipe.css"
+
+link rel="stylesheet" href="/styles/cards/italian/words.css"
+link rel="stylesheet" href="/styles/cards/italian/phrases.css"
+
+link rel="stylesheet" href="/styles/cards/japanese/words.css"
+link rel="stylesheet" href="/styles/cards/japanese/phrases.css"
+
+div.cards
+  - @cards.each do |card|
+    == card.to_html

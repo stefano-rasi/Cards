@@ -1,0 +1,26 @@
+div.card.japanese.words
+  - @words.each do |word|
+    div.word class=("color color-#{word[:color]}" if word[:color])
+      div.japanese
+        - word[:japanese].each do |section|
+          div.section class=('bold' if section[:bold]) class=("color color-#{section[:color][:name]}" if section[:color])
+            ruby:
+              if section[:bold]
+                text = section[:bold][:text]
+              elsif section[:color]
+                text = section[:color][:text]
+              else
+                text = section[:text]
+              end
+            - text[:groups].each do |group|
+              - if group[:furigana]
+                div.furigana
+                  div.text
+                    = group[:furigana][:text]
+                  div.base
+                    = group[:furigana][:base]
+              - else
+                div.character
+                  = group[:character]
+      div.english
+        == word[:english].gsub('+', '<br>')

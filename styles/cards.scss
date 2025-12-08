@@ -1,0 +1,41 @@
+@page {
+    size: A4;
+
+    margin-top: 10mm;
+    margin-left: 10mm;
+    margin-right: 10mm;
+    margin-bottom: 10mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .card {
+        border-color: hsl(0, 0%, 95%);
+    }
+}
+
+@media screen {
+    .card {
+        margin-right: 8px;
+        margin-bottom: 8px;
+
+        border-color: hsl(0, 0%, 90%);
+        border-radius: 5mm;
+    }
+}
+
+.card {
+    width: 62mm;
+    height: 88mm;
+
+    box-sizing: border-box;
+
+    border-width: 1pt;
+    border-style: solid;
+
+    vertical-align: top;
+}

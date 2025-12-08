@@ -1,0 +1,40 @@
+.card.study {
+    padding: 5mm;
+
+    display: inline-block;
+
+    * {
+        margin: 0;
+
+        font-size: 5pt;
+        font-family: "Source Serif 4";
+    }
+
+    h2, h3 {
+        margin-bottom: 2pt;
+    }
+
+    h2, h3 {
+        line-height: 1;
+
+        font-family: "Source Sans 3";
+
+        padding-bottom: 1pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+    }
+
+    h2 {
+        font-size: 9pt;
+    }
+
+    h3 {
+        font-size: 7pt;
+    }
+
+    p {
+        text-align: justify;
+    }
+}
