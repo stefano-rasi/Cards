@@ -10,11 +10,11 @@
         font-family: "Source Serif 4";
     }
 
-    h2, h3 {
+    h2, h3, h4, p, ul {
         margin-bottom: 2pt;
     }
 
-    h2, h3 {
+    h2, h3, h4 {
         line-height: 1;
 
         font-family: "Source Sans 3";
@@ -34,7 +34,22 @@
         font-size: 7pt;
     }
 
+    h4 {
+        font-size: 5pt;
+    }
+
     p {
         text-align: justify;
+    }
+
+    ul {
+        padding-left: 3mm;
+
+        li {
+            p {
+                margin: 0;
+                margin-left: -4pt;
+            }
+        }
     }
 }

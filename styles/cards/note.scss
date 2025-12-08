@@ -10,7 +10,7 @@
         font-family: "Source Serif 4";
     }
 
-    h2, h3, ul {
+    h2, h3, p, ul {
         margin-bottom: 4pt;
     }
 
@@ -38,6 +38,7 @@
         padding-left: 5mm;
 
         li p {
+            margin: 0;
             margin-left: -4pt;
         }
     }
