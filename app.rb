@@ -1,75 +1,24 @@
 require 'json'
+require 'base64'
 
-require 'sqlite3'
+require 'opal'
 require 'sinatra'
 
-require_relative 'lib/card'
+require_relative 'cards'
 
-require_relative 'lib/cards/note'
-require_relative 'lib/cards/study'
-require_relative 'lib/cards/recipe'
-require_relative 'lib/cards/italian'
-require_relative 'lib/cards/japanese'
-
-DB = SQLite3::Database.new('cards.db')
-
-DB.execute(%q{
-    CREATE TABLE IF NOT EXISTS cards (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT,
-        text TEXT
-    )
-})
-
-DB.results_as_hash = true
-
-get '/cards' do
-    content_type :json
-
-    cards = DB.execute('SELECT * FROM cards')
-
-    cards.to_json
+get '/' do
+    slim :cards
 end
 
-get '/cards/:id/html' do |id|
-    card = DB.get_first_row('SELECT * FROM cards WHERE id = ?', id)
-
-    type = card['type']
-    text = card['text']
-
-    Card.classes[type].new(text).to_html
-end
-
-put '/cards/:id' do |id|
-    type = json_params['type']
-    text = json_params['text']
-
-    DB.execute('UPDATE cards SET type = ?, text = ? WHERE id = ?', id, type, text)
-end
-
-post '/cards' do
-    content_type :json
-
-    type = json_params['type']
-    text = json_params['text']
-
-    DB.execute('INSERT INTO cards (type, text) VALUES (?, ?)', type, text)
-
-    id = DB.last_insert_row_id
-
-    { id: id }.to_json
-end
-
-delete 'cards/:id' do
-    DB.execute('DELETE FROM cards WHERE id = ?', id)
-end
-
-get '/opal/*' do
-    content_type :javascript
+get '/views/cards' do
+    content_type 'application/javascript'
 
     builder = Opal::Builder.new()
 
-    builder.build('test', debug: true)
+    builder.append_paths('.')
+    builder.append_paths('lib')
+
+    builder.build('views/cards.rb', debug: true)
 
     javascript = builder.to_s
 
