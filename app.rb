@@ -16,7 +16,6 @@ get '/views/cards' do
     builder = Opal::Builder.new()
 
     builder.append_paths('.')
-    builder.append_paths('lib')
 
     builder.build('views/cards.rb', debug: true)
 

@@ -1,11 +1,11 @@
 require 'opal'
 require 'json'
 
-require 'View/html'
-require 'View/http'
-require 'View/view'
+require 'lib/View/html'
+require 'lib/View/http'
+require 'lib/View/view'
 
-require 'View/document'
+require 'lib/View/document'
 
 HTTP.get('/cards') do |body|
     cards = JSON.parse(body)
