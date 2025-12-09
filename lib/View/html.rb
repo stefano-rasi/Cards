@@ -4,8 +4,6 @@ require 'native'
 require_relative 'view'
 require_relative 'document'
 
-require_relative 'console'
-
 module HTML
     def HTML.method_missing(name, *args, &block)
         element = Document.createElement(name)
