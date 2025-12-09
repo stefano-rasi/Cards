@@ -6,7 +6,7 @@ body {
 .cards {
     padding: 8px;
 
-    .card_container {
+    > .card {
         display: inline-block;
 
         border-width: 1px;
