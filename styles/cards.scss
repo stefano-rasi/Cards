@@ -1,41 +1,30 @@
-@page {
-    size: A4;
-
-    margin-top: 10mm;
-    margin-left: 10mm;
-    margin-right: 10mm;
-    margin-bottom: 10mm;
+body {
+    margin: 0;
+    padding: 0;
 }
 
-@media print {
-    body {
-        margin: 0;
-        padding: 0;
-    }
+.cards {
+    padding: 8px;
 
-    .card {
-        border-color: hsl(0, 0%, 95%);
-    }
-}
+    .card_container {
+        display: inline-block;
 
-@media screen {
-    .card {
-        margin-right: 8px;
-        margin-bottom: 8px;
-
+        border-width: 1px;
+        border-style: solid;
         border-color: hsl(0, 0%, 90%);
         border-radius: 5mm;
+
+        &:hover {
+            cursor: pointer;
+
+            border-color: hsl(0, 0%, 80%);
+        }
+
+        .card {
+            width: 62mm;
+            /* height: 88mm; */
+
+            box-sizing: border-box;
+        }
     }
-}
-
-.card {
-    width: 62mm;
-    height: 88mm;
-
-    box-sizing: border-box;
-
-    border-width: 1pt;
-    border-style: solid;
-
-    vertical-align: top;
 }
