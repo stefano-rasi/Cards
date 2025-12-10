@@ -6,7 +6,7 @@ require 'sinatra'
 require_relative 'cards'
 
 get '/' do
-    slim :root
+    slim :cards
 end
 
 get '/views/*' do
