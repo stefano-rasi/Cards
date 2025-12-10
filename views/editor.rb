@@ -1,4 +1,5 @@
 require 'opal'
+
 require 'json'
 
 require 'lib/View/html'
@@ -6,8 +7,8 @@ require 'lib/View/view'
 
 class EditorView < View
     def initialize(type, text)
-        @text = text
         @type = type
+        @text = text
     end
 
     def text
@@ -20,7 +21,7 @@ class EditorView < View
 
     render do
         HTML.div :editor do
-            TypeSelectorView(type) do |type_selector|
+            TypeSelectorView.new(type) do |type_selector|
                 @type_selector = type_selector
             end
 
