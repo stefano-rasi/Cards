@@ -1,5 +1,4 @@
 require 'opal'
-
 require 'json'
 
 require 'lib/View/http'

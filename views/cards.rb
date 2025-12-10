@@ -1,12 +1,8 @@
 require 'opal'
 
-require 'json'
-
 require 'lib/View/html'
 require 'lib/View/http'
 require 'lib/View/view'
-
-require 'lib/View/document'
 
 class CardsView < View
     def initialize(cards)
