@@ -1,7 +1,6 @@
 require 'opal'
 require 'native'
 
-require_relative 'view'
 require_relative 'document'
 
 module HTML
