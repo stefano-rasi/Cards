@@ -1,7 +1,6 @@
+require 'opal'
 require 'json'
 require 'base64'
-
-require 'opal'
 require 'sinatra'
 
 require_relative 'cards'
