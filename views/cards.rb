@@ -1,4 +1,5 @@
 require 'opal'
+
 require 'json'
 
 require 'lib/View/html'
@@ -6,14 +7,6 @@ require 'lib/View/http'
 require 'lib/View/view'
 
 require 'lib/View/document'
-
-HTTP.get('/cards') do |body|
-    cards = JSON.parse(body)
-
-    element = CardsView.new(cards).element
-
-    Document.body.appendChild(element)
-end
 
 class CardsView < View
     def initialize(cards)

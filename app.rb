@@ -7,17 +7,19 @@ require 'sinatra'
 require_relative 'cards'
 
 get '/' do
-    slim :cards
+    slim :root
 end
 
-get '/views/cards' do
+get '/views/*' do
     content_type 'application/javascript'
+
+    path = "views/#{params[:splat]}"
 
     builder = Opal::Builder.new()
 
     builder.append_paths('.')
 
-    builder.build('views/cards.rb', debug: true)
+    builder.build(path, debug: true)
 
     javascript = builder.to_s
 
