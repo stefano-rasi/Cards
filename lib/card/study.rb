@@ -3,15 +3,15 @@ require 'asciidoctor'
 
 require_relative '../card'
 
-class RecipeCard < Card
-    name 'recipe'
+class StudyCard < Card
+    name 'study'
 
     def initialize(text, attributes)
         @html = Asciidoctor.convert(text)
     end
     
     def to_html
-        template = Slim::Template.new('views/cards/recipe.slim')
+        template = Slim::Template.new('views/card/study.slim')
 
         template.render(self)
     end

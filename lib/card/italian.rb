@@ -21,7 +21,7 @@ class ItalianWordsCard < Card
     end
 
     def to_html
-        template = Slim::Template.new('views/cards/italian/words.slim')
+        template = Slim::Template.new('views/card/italian/words.slim')
 
         template.render(self)
     end
@@ -39,7 +39,7 @@ class ItalianPhrasesCard < Card
     end
 
     def to_html
-        template = Slim::Template.new('views/cards/italian/phrases.slim')
+        template = Slim::Template.new('views/card/italian/phrases.slim')
 
         template.render(self)
     end

@@ -27,7 +27,7 @@ class JapaneseWordsCard < Card
     end
 
     def to_html
-        template = Slim::Template.new('views/cards/japanese/words.slim')
+        template = Slim::Template.new('views/card/japanese/words.slim')
 
         template.render(self)
     end
@@ -58,7 +58,7 @@ class JapanesePhrasesCard < Card
     end
 
     def to_html
-        template = Slim::Template.new('views/cards/japanese/phrases.slim')
+        template = Slim::Template.new('views/card/japanese/phrases.slim')
 
         template.render(self)
     end

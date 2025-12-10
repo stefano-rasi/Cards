@@ -5,11 +5,11 @@ require 'sinatra'
 
 require_relative 'lib/card'
 
-require_relative 'lib/cards/note'
-require_relative 'lib/cards/study'
-require_relative 'lib/cards/recipe'
-require_relative 'lib/cards/italian'
-require_relative 'lib/cards/japanese'
+require_relative 'lib/card/note'
+require_relative 'lib/card/study'
+require_relative 'lib/card/recipe'
+require_relative 'lib/card/italian'
+require_relative 'lib/card/japanese'
 
 DB = SQLite3::Database.new('cards.db')
 
