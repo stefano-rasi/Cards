@@ -7,19 +7,15 @@ body {
     padding: 12px;
 
     .card-container {
+        width: 62mm;
+
         margin: 6px;
 
         display: inline-block;
 
-        overflow: visible;
+        overflow: auto;
 
         position: relative;
-
-        min-width: 62mm;
-        min-height: 10mm;
-
-        max-width: 62mm;
-        max-height: 88mm;
 
         vertical-align: top;
 
@@ -38,6 +34,8 @@ body {
         .card {
             width: 62mm;
             /* height: 88mm; */
+
+            min-height: 42px;
 
             box-sizing: border-box;
 
@@ -60,11 +58,10 @@ body {
 
             visibility: hidden;
 
-            font-size: 14px;
-            font-weight: 500;
-            font-family: sans-serif;
-
             align-items: center;
+
+            font-size: 14px;
+            font-family: sans-serif;
 
             border-width: 1px;
             border-style: solid;
