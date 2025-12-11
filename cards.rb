@@ -31,6 +31,12 @@ get '/cards' do
     cards.to_json
 end
 
+get '/types' do
+    content_type 'application/json'
+
+    Card.classes.keys.to_json
+end
+
 get '/cards/:id/html' do |id|
     card = DB.get_first_row('SELECT * FROM cards WHERE id = ?', id)
 
@@ -41,19 +47,27 @@ get '/cards/:id/html' do |id|
 end
 
 put '/cards/:id' do |id|
-    type = json_params['type']
-    text = json_params['text']
+    request.body.rewind
 
-    DB.execute('UPDATE cards SET type = ?, text = ? WHERE id = ?', id, type, text)
+    payload = JSON.parse(request.body.read)
+
+    type = payload['type']
+    text = payload['text']
+
+    DB.execute('UPDATE cards SET type = ?, text = ? WHERE id = ?', [ type, text, id ])
 end
 
 post '/cards' do
     content_type 'application/json'
 
-    type = json_params['type']
-    text = json_params['text']
+    request.body.rewind
 
-    DB.execute('INSERT INTO cards (type, text) VALUES (?, ?)', type, text)
+    payload = JSON.parse(request.body.read)
+
+    type = payload['type']
+    text = payload['text']
+
+    DB.execute('INSERT INTO cards (type, text) VALUES (?, ?)', [ type, text ])
 
     id = DB.last_insert_row_id
 
