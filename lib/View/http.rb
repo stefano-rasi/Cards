@@ -2,34 +2,13 @@ require 'opal'
 require 'native'
 
 module HTTP
-    def HTTP.get(resource, &block)
-        $$.fetch(resource).then { |response|
-            `response.text()`
-        }.then { |body|
-            block.call(body)
-        }
-    end
-
-    def HTTP.put(resource, body, &block)
+    def HTTP.method_missing(name, *args, &block)
         options = {
-            body: body,
-            method: 'PUT'
+            body: args[1],
+            method: name.upcase
         }
 
-        $$.fetch(resource, options).then { |response|
-            `response.text()`
-        }.then { |body|
-            block.call(body)
-        }
-    end
-
-    def HTTP.post(resource, body, &block)
-        options = {
-            body: body,
-            method: 'POST'
-        }
-
-        $$.fetch(resource, options).then { |response|
+        $$.fetch(args[0], options).then { |response|
             `response.text()`
         }.then { |body|
             block.call(body)
