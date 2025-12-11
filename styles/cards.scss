@@ -4,15 +4,27 @@ body {
 }
 
 .cards {
-    padding: 8px;
+    padding: 16px;
 
-    > .card {
+    .card-container {
         display: inline-block;
+
+        overflow: auto;
+
+        min-width: 62mm;
+
+        max-width: 62mm;
+        max-height: 88mm;
+
+        margin-right: 8px;
+        margin-bottom: 8px;
 
         border-width: 1px;
         border-style: solid;
         border-color: hsl(0, 0%, 90%);
         border-radius: 5mm;
+
+        vertical-align: top;
 
         &:hover {
             cursor: pointer;
@@ -24,7 +36,44 @@ body {
             width: 62mm;
             /* height: 88mm; */
 
+
             box-sizing: border-box;
         }
+    }
+}
+
+.editor-modal {
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+
+    display: flex;
+
+    position: fixed;
+
+    flex-direction: column;
+
+    background-color: hsla(0, 0%, 0%, 0.4);
+
+    .editor {
+        padding: 16px;
+
+        flex-grow: 1;
+
+        margin-top: 10%;
+        margin-left: 20%;
+        margin-right: 20%;
+        margin-bottom: 10%;
+
+        border-width: 1px;
+        border-style: solid;
+        border-color: hsl(0, 0%, 55%);
+        border-radius: 16px;
+
+        background-color: white;
     }
 }
