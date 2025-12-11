@@ -7,8 +7,7 @@ body {
     padding: 12px;
 
     .card-container {
-        margin: 2px;
-        padding: 4px;
+        margin: 6px;
 
         display: inline-block;
 
@@ -49,8 +48,8 @@ body {
         }
 
         .delete-button {
-            top: -6px;
-            right: -6px;
+            top: 6px;
+            right: 6px;
 
             width: 28px;
             height: 28px;
@@ -63,7 +62,7 @@ body {
 
             font-size: 14px;
             font-weight: 500;
-            font-family: Arial;
+            font-family: sans-serif;
 
             align-items: center;
 
@@ -114,7 +113,7 @@ body {
 
         border-width: 1px;
         border-style: solid;
-        border-color: hsl(0, 0%, 55%);
+        border-color: hsl(0, 0%, 50%);
         border-radius: 16px;
 
         background-color: white;
