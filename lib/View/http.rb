@@ -10,6 +10,19 @@ module HTTP
         }
     end
 
+    def HTTP.put(resource, body, &block)
+        options = {
+            body: body,
+            method: 'PUT'
+        }
+
+        $$.fetch(resource, options).then { |response|
+            `response.text()`
+        }.then { |body|
+            block.call(body)
+        }
+    end
+
     def HTTP.post(resource, body, &block)
         options = {
             body: body,
