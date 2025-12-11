@@ -74,6 +74,6 @@ post '/cards' do
     { id: id }.to_json
 end
 
-delete 'cards/:id' do
+delete '/cards/:id' do |id|
     DB.execute('DELETE FROM cards WHERE id = ?', id)
 end
