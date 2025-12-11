@@ -4,40 +4,83 @@ body {
 }
 
 .cards {
-    padding: 16px;
+    padding: 12px;
 
     .card-container {
+        margin: 2px;
+        padding: 4px;
+
         display: inline-block;
 
-        overflow: auto;
+        overflow: visible;
+
+        position: relative;
 
         min-width: 62mm;
+        min-height: 10mm;
 
         max-width: 62mm;
         max-height: 88mm;
-
-        margin-right: 8px;
-        margin-bottom: 8px;
-
-        border-width: 1px;
-        border-style: solid;
-        border-color: hsl(0, 0%, 90%);
-        border-radius: 5mm;
 
         vertical-align: top;
 
         &:hover {
             cursor: pointer;
 
-            border-color: hsl(0, 0%, 80%);
+            .card {
+                border-color: hsl(0, 0%, 80%);
+            }
+
+            .delete-button {
+                visibility: initial;
+            }
         }
 
         .card {
             width: 62mm;
             /* height: 88mm; */
 
-
             box-sizing: border-box;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 90%);
+            border-radius: 5mm;
+        }
+
+        .delete-button {
+            top: -6px;
+            right: -6px;
+
+            width: 28px;
+            height: 28px;
+
+            display: flex;
+
+            position: absolute;
+
+            visibility: hidden;
+
+            font-size: 14px;
+            font-weight: 500;
+            font-family: Arial;
+
+            align-items: center;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 90%);
+            border-radius: 28px;
+
+            justify-content: center;
+
+            background-color: white;
+
+            &:hover {
+                border-color: hsl(0, 0%, 80%);
+
+                background-color: hsl(0, 0%, 95%);
+            }
         }
     }
 }
@@ -67,7 +110,7 @@ body {
         margin-top: 10%;
         margin-left: 20%;
         margin-right: 20%;
-        margin-bottom: 10%;
+        margin-bottom: 20%;
 
         border-width: 1px;
         border-style: solid;
