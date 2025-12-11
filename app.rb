@@ -18,6 +18,8 @@ get '/views/*' do
 
     builder.append_paths('.')
 
+    builder.build('lib/View/console', debug: true)
+
     builder.build(path, debug: true)
 
     javascript = builder.to_s
