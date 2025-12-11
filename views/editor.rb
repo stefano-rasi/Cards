@@ -16,18 +16,22 @@ class EditorView < View
     end
 
     def type
-        @type_selector.id
+        @type_selector.type
+    end
+
+    def textarea
+        @textarea
     end
 
     render do
-        HTML.div :editor do
-            TypeSelectorView.new(type) do |type_selector|
+        HTML.div 'editor' do
+            TypeSelectorView(@type) do |type_selector|
                 @type_selector = type_selector
             end
 
-            HTML.div :text do
-                HTML.textarea :text do |textarea|
-                    text @text
+            HTML.div 'text' do
+                HTML.textarea do |textarea|
+                    value @text
 
                     @textarea = textarea
                 end
@@ -36,8 +40,8 @@ class EditorView < View
     end
 
     class TypeSelectorView < View
-        def initialize(id)
-            @id = id
+        def initialize(type)
+            @type = type
 
             HTTP.get('/types') do |body|
                 @types = JSON.load(body)
@@ -46,19 +50,16 @@ class EditorView < View
             end
         end
 
-        def id
+        def type
             @select.value
         end
 
         render do
-            HTML.div :type_selector do
-                HTML.select :type do |type_select|
-                    @types.each do |type|
-                        id = type['id']
-                        name = type['name']
-
-                        HTML.option text: name, value: id do
-                            selected if id == @id
+            HTML.div 'type' do
+                HTML.select do |type_select|
+                    @types.sort.each do |type|
+                        HTML.option text: type, value: type do
+                            selected if type == @type
                         end
                     end
 
