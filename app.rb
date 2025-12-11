@@ -12,7 +12,7 @@ end
 get '/views/*' do
     content_type 'application/javascript'
 
-    path = "views/#{params[:splat]}"
+    path = "views/#{params[:splat][0]}"
 
     builder = Opal::Builder.new()
 
