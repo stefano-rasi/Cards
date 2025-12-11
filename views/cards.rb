@@ -14,15 +14,17 @@ class CardsView < View
     def initialize(cards)
         @cards = cards
 
-        Document.addEventListener('keyup') do |event|
+        new_card_listener = Proc.new do |event|
             if Native(event).key == 'n'
+                Document.removeEventListener('keyup', new_card_listener)
+
                 editor_modal = EditorModalView.new()
 
                 editor_modal.on :close do
                     type = editor_modal.editor.type
                     text = editor_modal.editor.text
 
-                    if not text.empty?
+                    if !text.empty? && !type.empty?
                         HTTP.post('/cards', { type:, text: }.to_json) do
                             HTTP.get('/cards') do |body|
                                 cards = JSON.parse(body)
@@ -33,6 +35,8 @@ class CardsView < View
                             end
                         end
                     end
+
+                    Document.addEventListener('keyup', new_card_listener)
                 end
 
                 Document.body.appendChild(editor_modal.element)
@@ -40,31 +44,24 @@ class CardsView < View
                 editor_modal.editor.textarea.focus()
             end
         end
+
+        Document.addEventListener('keyup', new_card_listener)
     end
 
     render do
         HTML.div 'cards' do
             @cards.each do |card|
-                HTML.div 'card-container' do |card_div|
-                    id = card['id']
+                id = card['id']
 
-                    data :id, id
+                type = card['type']
+                text = card['text']
 
-                    HTTP.get("/cards/#{id}/html") do |body|
-                        card_div.innerHTML = body
-                    end
+                HTML.div 'card-container' do
+                    HTML.div 'delete-button' do
+                        text 'X'
 
-                    type = card['type']
-                    text = card['text']
-
-                    on :click do |event|
-                        editor_modal = EditorModalView.new(type, text)
-
-                        editor_modal.on :close do
-                            type = editor_modal.editor.type
-                            text = editor_modal.editor.text
-
-                            HTTP.put("/cards/#{id}", { id:, type:, text: }.to_json) do
+                        on :click do
+                            HTTP.delete("/cards/#{id}") do
                                 HTTP.get('/cards') do |body|
                                     cards = JSON.parse(body)
 
@@ -74,12 +71,38 @@ class CardsView < View
                                 end
                             end
                         end
-
-                        Document.body.appendChild(editor_modal.element)
-
-                        editor_modal.editor.textarea.focus()
                     end
 
+                    HTML.div 'card-content' do |card_div|
+                        data :id, id
+
+                        HTTP.get("/cards/#{id}/html") do |body|
+                            card_div.innerHTML = body
+                        end
+
+                        on :click do |event|
+                            editor_modal = EditorModalView.new(type, text)
+
+                            editor_modal.on :close do
+                                type = editor_modal.editor.type
+                                text = editor_modal.editor.text
+
+                                HTTP.put("/cards/#{id}", { id:, type:, text: }.to_json) do
+                                    HTTP.get('/cards') do |body|
+                                        cards = JSON.parse(body)
+
+                                        @cards = cards
+                                        
+                                        render
+                                    end
+                                end
+                            end
+
+                            Document.body.appendChild(editor_modal.element)
+
+                            editor_modal.editor.textarea.focus()
+                        end
+                    end
                 end
             end
         end

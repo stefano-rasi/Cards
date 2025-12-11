@@ -34,6 +34,8 @@ class EditorView < View
                     value @text
 
                     @textarea = textarea
+
+                    textarea.setAttribute('spellcheck', false)
                 end
             end
         end
@@ -57,6 +59,10 @@ class EditorView < View
         render do
             HTML.div 'type' do
                 HTML.select do |type_select|
+                    if not @type
+                        HTML.option
+                    end
+
                     @types.sort.each do |type|
                         HTML.option text: type, value: type do
                             selected if type == @type
