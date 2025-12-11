@@ -12,7 +12,7 @@ module HTML
             kwargs.each do |key, value|
                 case key
                 when 'text'
-                    element.text = value
+                    element.textContent = value
                 when 'value'
                     element.value = value
                 end
@@ -67,11 +67,11 @@ module Kernel
             else
                 case name
                 when 'on'
-                    type = args[0]
-
-                    HTML.element.addEventListener(type, &block)
+                    HTML.element.addEventListener(args[0], &block)
                 when 'data'
                     HTML.element.dataset[args[0]] = args[1]
+                when 'text'
+                    HTML.element.textContent = args[0]
                 when 'value'
                     HTML.element.value = args[0]
                 when 'selected'
