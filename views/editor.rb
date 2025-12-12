@@ -12,15 +12,19 @@ class EditorView < View
     end
 
     def text
-        @textarea.value
+        @text_textarea.value
     end
 
     def type
         @type_selector.type
     end
 
-    def textarea
-        @textarea
+    def type_select
+        @type_selector.select
+    end
+
+    def text_textarea
+        @text_textarea
     end
 
     render do
@@ -30,12 +34,12 @@ class EditorView < View
             end
 
             HTML.div 'text' do
-                HTML.textarea do |textarea|
+                HTML.textarea do |text_textarea|
                     value @text
 
-                    @textarea = textarea
+                    @text_textarea = text_textarea
 
-                    textarea.setAttribute('spellcheck', false)
+                    text_textarea.setAttribute('spellcheck', false)
                 end
             end
         end
@@ -46,9 +50,15 @@ class EditorView < View
             @type = type
 
             HTTP.get('/types') do |body|
-                @types = JSON.load(body)
+                types = JSON.load(body)
 
-                render
+                types.sort.each do |type|
+                    HTML.option text: type, value: type do |option|
+                        selected if type == @type
+
+                        @select.appendChild(option)
+                    end
+                end
             end
         end
 
@@ -56,17 +66,15 @@ class EditorView < View
             @select.value
         end
 
+        def select
+            @select
+        end
+
         render do
             HTML.div 'type' do
                 HTML.select do |type_select|
                     if not @type
                         HTML.option
-                    end
-
-                    @types.sort.each do |type|
-                        HTML.option text: type, value: type do
-                            selected if type == @type
-                        end
                     end
 
                     @select = type_select

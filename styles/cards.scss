@@ -4,12 +4,13 @@ body {
 }
 
 .cards {
-    padding: 12px;
+    padding: 16px;
 
     .card-container {
         width: 62mm;
 
-        margin: 6px;
+        margin-right: 8px;
+        margin-bottom: 8px;
 
         display: inline-block;
 
@@ -33,9 +34,9 @@ body {
 
         .card {
             width: 62mm;
-            /* height: 88mm; */
 
             min-height: 42px;
+            max-height: 88mm;
 
             box-sizing: border-box;
 
@@ -98,8 +99,10 @@ body {
 
     background-color: hsla(0, 0%, 0%, 0.4);
 
-    .editor {
-        padding: 16px;
+    .editor-container {
+        display: flex;
+
+        position: relative;
 
         flex-grow: 1;
 
@@ -108,11 +111,49 @@ body {
         margin-right: 20%;
         margin-bottom: 20%;
 
-        border-width: 1px;
-        border-style: solid;
-        border-color: hsl(0, 0%, 50%);
-        border-radius: 16px;
+        .editor {
+            flex-grow: 1;
 
-        background-color: white;
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 50%);
+            border-radius: 16px;
+
+            background-color: white;
+        }
+
+        .close-button {
+            top: 6px;
+            right: 6px;
+
+            width: 28px;
+            height: 28px;
+
+            display: flex;
+
+            position: absolute;
+
+            align-items: center;
+
+            font-size: 14px;
+            font-family: sans-serif;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 70%);
+            border-radius: 28px;
+
+            justify-content: center;
+
+            background-color: white;
+
+            &:hover {
+                cursor: pointer;
+
+                border-color: hsl(0, 0%, 50%);
+
+                background-color: hsl(0, 0%, 95%);
+            }
+        }
     }
 }

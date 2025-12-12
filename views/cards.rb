@@ -14,38 +14,44 @@ class CardsView < View
     def initialize(cards)
         @cards = cards
 
-        new_card_listener = Proc.new do |event|
+        @new_card_listener = Proc.new { |event|
             if Native(event).key == 'n'
-                Document.removeEventListener('keyup', new_card_listener)
-
                 editor_modal = EditorModalView.new()
 
                 editor_modal.on :close do
                     type = editor_modal.editor.type
                     text = editor_modal.editor.text
 
-                    if !text.empty? && !type.empty?
-                        HTTP.post('/cards', { type:, text: }.to_json) do
-                            HTTP.get('/cards') do |body|
-                                cards = JSON.parse(body)
+                    if !text.empty? && type.empty?
+                        Window.alert('Inserire il tipo di carta')
 
-                                @cards = cards
+                        false
+                    else
+                        if !text.empty?
+                            HTTP.post('/cards', { type:, text: }.to_json) do
+                                HTTP.get('/cards') do |body|
+                                    cards = JSON.parse(body)
 
-                                render
+                                    @cards = cards
+
+                                    render
+                                end
                             end
                         end
-                    end
 
-                    Document.addEventListener('keyup', new_card_listener)
+                        Document.addEventListener('keyup', @new_card_listener)
+                    end
                 end
+
+                Document.removeEventListener('keyup', @new_card_listener)
 
                 Document.body.appendChild(editor_modal.element)
 
-                editor_modal.editor.textarea.focus()
+                editor_modal.editor.type_select.focus()
             end
-        end
+        }
 
-        Document.addEventListener('keyup', new_card_listener)
+        Document.addEventListener('keyup', @new_card_listener)
     end
 
     render do
@@ -57,22 +63,6 @@ class CardsView < View
                 text = card['text']
 
                 HTML.div 'card-container' do
-                    HTML.div 'delete-button' do
-                        text 'X'
-
-                        on :click do
-                            HTTP.delete("/cards/#{id}") do
-                                HTTP.get('/cards') do |body|
-                                    cards = JSON.parse(body)
-
-                                    @cards = cards
-                                    
-                                    render
-                                end
-                            end
-                        end
-                    end
-
                     HTML.div 'card-content' do |card_div|
                         data :id, id
 
@@ -82,6 +72,8 @@ class CardsView < View
 
                         on :click do |event|
                             editor_modal = EditorModalView.new(type, text)
+
+                            Document.removeEventListener('keyup', @new_card_listener)
 
                             editor_modal.on :close do
                                 type = editor_modal.editor.type
@@ -96,11 +88,29 @@ class CardsView < View
                                         render
                                     end
                                 end
+
+                                Document.addEventListener('keyup', @new_card_listener)
                             end
 
                             Document.body.appendChild(editor_modal.element)
 
-                            editor_modal.editor.textarea.focus()
+                            editor_modal.editor.text_textarea.focus()
+                        end
+                    end
+
+                    HTML.div 'delete-button', text: 'X' do
+                        on :click do
+                            if Window.confirm('Sei sicuro di cancellare la carta?')
+                                HTTP.delete("/cards/#{id}") do
+                                    HTTP.get('/cards') do |body|
+                                        cards = JSON.parse(body)
+
+                                        @cards = cards
+                                    
+                                        render
+                                    end
+                                end
+                            end
                         end
                     end
                 end
@@ -114,34 +124,31 @@ class EditorModalView < View
         @type = type
         @text = text
 
-        key_listener = nil
-        click_listener = nil
-
-        key_listener = Proc.new do |event|
+        @key_listener = Proc.new { |event|
             if Native(event).key == 'Escape'
-                @close_block.call()
+                if @close_block.call() != false
+                    Document.body.removeChild(element)
 
-                Document.body.removeChild(element)
-
-                Document.removeEventListener('keyup', key_listener)
-                Document.removeEventListener('click', click_listener)
+                    Document.removeEventListener('keyup', @key_listener)
+                    Document.removeEventListener('click', @click_listener)
+                end
             end
-        end
+        }
 
-        click_listener = Proc.new do |event|
+        @click_listener = Proc.new { |event|
             if not editor.element.contains(Native(event).target)
-                @close_block.call()
+                if @close_block.call() != false
+                    Document.body.removeChild(element)
 
-                Document.body.removeChild(element)
-
-                Document.removeEventListener('keyup', key_listener)
-                Document.removeEventListener('click', click_listener)
+                    Document.removeEventListener('keyup', @key_listener)
+                    Document.removeEventListener('click', @click_listener)
+                end
             end
-        end
+        }
 
         Window.setTimeout do
-            Document.addEventListener('keyup', key_listener)
-            Document.addEventListener('click', click_listener)
+            Document.addEventListener('keyup', @key_listener)
+            Document.addEventListener('click', @click_listener)
         end
     end
 
@@ -157,8 +164,18 @@ class EditorModalView < View
 
     render do
         HTML.div 'editor-modal' do
-            EditorView(@type, @text) do |editor|
-                @editor = editor
+            HTML.div 'editor-container' do
+                EditorView(@type, @text) do |editor|
+                    @editor = editor
+                end
+
+                HTML.div 'close-button', text: 'X' do
+                    on :click do
+                        Document.body.removeChild(element)
+
+                        Document.removeEventListener('keyup', @key_listener)
+                    end
+                end
             end
         end
     end
