@@ -13,14 +13,6 @@ require_relative 'lib/card/japanese'
 
 DB = SQLite3::Database.new('cards.db')
 
-DB.execute(%q{
-    CREATE TABLE IF NOT EXISTS cards (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT,
-        text TEXT
-    )
-})
-
 DB.results_as_hash = true
 
 get '/cards' do
