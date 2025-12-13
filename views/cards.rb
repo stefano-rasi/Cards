@@ -14,7 +14,7 @@ class CardsView < View
     def initialize(cards)
         @cards = cards
 
-        @new_card_listener = Proc.new { |event|
+        @key_listener = Proc.new { |event|
             if Native(event).key == 'n'
                 editor_modal = EditorModalView.new()
 
@@ -30,20 +30,18 @@ class CardsView < View
                         if !text.empty?
                             HTTP.post('/cards', { type:, text: }.to_json) do
                                 HTTP.get('/cards') do |body|
-                                    cards = JSON.parse(body)
-
-                                    @cards = cards
+                                    @cards = JSON.parse(body)
 
                                     render
                                 end
                             end
                         end
 
-                        Document.addEventListener('keyup', @new_card_listener)
+                        Document.addEventListener('keyup', @key_listener)
                     end
                 end
 
-                Document.removeEventListener('keyup', @new_card_listener)
+                Document.removeEventListener('keyup', @key_listener)
 
                 Document.body.appendChild(editor_modal.element)
 
@@ -51,7 +49,7 @@ class CardsView < View
             end
         }
 
-        Document.addEventListener('keyup', @new_card_listener)
+        Document.addEventListener('keyup', @key_listener)
     end
 
     render do
@@ -73,7 +71,7 @@ class CardsView < View
                         on :click do |event|
                             editor_modal = EditorModalView.new(type, text)
 
-                            Document.removeEventListener('keyup', @new_card_listener)
+                            Document.removeEventListener('keyup', @key_listener)
 
                             editor_modal.on :close do
                                 type = editor_modal.editor.type
@@ -81,15 +79,13 @@ class CardsView < View
 
                                 HTTP.put("/cards/#{id}", { id:, type:, text: }.to_json) do
                                     HTTP.get('/cards') do |body|
-                                        cards = JSON.parse(body)
-
-                                        @cards = cards
+                                        @cards = JSON.parse(body)
                                         
                                         render
                                     end
                                 end
 
-                                Document.addEventListener('keyup', @new_card_listener)
+                                Document.addEventListener('keyup', @key_listener)
                             end
 
                             Document.body.appendChild(editor_modal.element)
@@ -103,9 +99,7 @@ class CardsView < View
                             if Window.confirm('Sei sicuro di cancellare la carta?')
                                 HTTP.delete("/cards/#{id}") do
                                     HTTP.get('/cards') do |body|
-                                        cards = JSON.parse(body)
-
-                                        @cards = cards
+                                        @cards = JSON.parse(body)
                                     
                                         render
                                     end
@@ -113,6 +107,38 @@ class CardsView < View
                             end
                         end
                     end
+                end
+            end
+
+            
+            HTML.div 'new-card-button', text: '+' do
+                on :click do
+                    editor_modal = EditorModalView.new()
+
+                    editor_modal.on :close do
+                        type = editor_modal.editor.type
+                        text = editor_modal.editor.text
+
+                        if !text.empty? && type.empty?
+                            Window.alert('Inserire il tipo di carta')
+
+                            false
+                        else
+                            if !text.empty?
+                                HTTP.post('/cards', { type:, text: }.to_json) do
+                                    HTTP.get('/cards') do |body|
+                                        @cards = JSON.parse(body)
+
+                                        render
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    Document.body.appendChild(editor_modal.element)
+
+                    editor_modal.editor.type_select.focus()
                 end
             end
         end
