@@ -15,6 +15,12 @@ module HTML
                     element.textContent = value
                 when 'value'
                     element.value = value
+                when 'disabled'
+                    element.disabled = value
+                when 'selected'
+                    element.selected = value
+                when 'placeholder'
+                    element.placeholder = value
                 end
             end
         end
@@ -67,15 +73,23 @@ module Kernel
             else
                 case name
                 when 'on'
-                    HTML.element.addEventListener(args[0], &block)
+                    if block_given?
+                        HTML.element.addEventListener(args[0], &block)
+                    else
+                        HTML.element.addEventListener(args[0], args[1])
+                    end
                 when 'data'
                     HTML.element.dataset[args[0]] = args[1]
                 when 'text'
                     HTML.element.textContent = args[0]
                 when 'value'
                     HTML.element.value = args[0]
+                when 'required'
+                    HTML.element.required = true
                 when 'selected'
                     HTML.element.selected = true
+                when 'placeholder'
+                    HTML.element.placeholder = args[0]
                 end
             end
         else
