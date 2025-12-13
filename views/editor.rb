@@ -6,12 +6,9 @@ require 'lib/View/html'
 require 'lib/View/view'
 
 class EditorView < View
-    def initialize(type, text, attributes, binder_id, section_id)
+    def initialize(type, text, attributes)
         @type = type
         @text = text
-
-        @binder_id = binder_id
-        @section_id = section_id
 
         @attributes = attributes
     end
@@ -24,14 +21,6 @@ class EditorView < View
         @type_selector.type
     end
 
-    def binder_id
-        @binder_selector.id
-    end
-
-    def section_id
-        @section_selector.id
-    end
-
     def type_select
         @type_selector.select
     end
@@ -42,16 +31,6 @@ class EditorView < View
 
     render do
         HTML.div 'editor' do
-            HTML.div 'row' do
-                BinderSelectorView(@binder_id) do |binder_selector|
-                    @binder_selector = binder_selector
-                end
-
-                SectionSelectorView(@section_id) do |section_selector|
-                    @section_selector = section_selector
-                end
-            end
-
             HTML.div 'row' do
                 TypeSelectorView(@type) do |type_selector|
                     @type_selector = type_selector
@@ -108,54 +87,6 @@ class EditorView < View
 
                     if not @type
                         HTML.option text: 'type', value: '', disabled: true, selected: true
-                    end
-
-                    @select = select
-                end
-            end
-        end
-    end
-
-    class BinderSelectorView < View
-        def initialize(id)
-            @id = id
-        end
-
-        def id
-            @id
-        end
-
-        render do
-            HTML.div 'binder' do
-                HTML.select do |select|
-                    required
-
-                    if not @id
-                        HTML.option text: 'binder', value: '', disabled: true, selected: true
-                    end
-
-                    @select = select
-                end
-            end
-        end
-    end
-
-    class SectionSelectorView < View
-        def initialize(id)
-            @id = id
-        end
-
-        def id
-            @id
-        end
-
-        render do
-            HTML.div 'binder' do
-                HTML.select do |select|
-                    required
-
-                    if not @id
-                        HTML.option text: 'section', value: '', disabled: true, selected: true
                     end
 
                     @select = select
