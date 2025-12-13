@@ -1,20 +1,26 @@
 body {
     margin: 0;
+
     padding: 0;
 }
 
 .cards {
+    gap: 8px;
+
     padding: 16px;
+
+    display: masonry;
+
+    position: relative;
+
+    justify-content: start;
+
+    grid-template-columns: repeat(auto-fill, auto);
 
     .card-container {
         width: 62mm;
 
-        margin-right: 8px;
-        margin-bottom: 8px;
-
         display: inline-block;
-
-        overflow: auto;
 
         position: relative;
 
@@ -35,6 +41,8 @@ body {
         .card {
             width: 62mm;
 
+            overflow: hidden;
+
             min-height: 42px;
             max-height: 88mm;
 
@@ -52,6 +60,8 @@ body {
 
             width: 28px;
             height: 28px;
+
+            z-index: 1;
 
             display: flex;
 
@@ -80,6 +90,42 @@ body {
             }
         }
     }
+
+    .new-card-button {
+        top: 10px;
+        right: 10px;
+
+        width: 36px;
+        height: 36px;
+
+        z-index: 1;
+
+        display: flex;
+
+        position: absolute;
+
+        align-items: center;
+
+        font-size: 26px;
+        font-family: sans-serif;
+
+        border-width: 1px;
+        border-style: solid;
+        border-color: hsl(0, 0%, 90%);
+        border-radius: 28px;
+
+        justify-content: center;
+
+        background-color: white;
+
+        &:hover {
+            cursor: pointer;
+
+            border-color: hsl(0, 0%, 80%);
+
+            background-color: hsl(0, 0%, 95%);
+        }
+    }
 }
 
 .editor-modal {
@@ -89,11 +135,17 @@ body {
     width: 100%;
     height: 100%;
 
+    padding: 10%;
+
     z-index: 1;
 
     display: flex;
 
     position: fixed;
+
+    box-sizing: border-box;
+
+    align-items: center;
 
     flex-direction: column;
 
@@ -102,16 +154,17 @@ body {
     .editor-container {
         display: flex;
 
+        min-width: min(550px, 100%);
+        min-height: min(600px, 100%);
+
+        max-width: 100%;
+        max-height: 100%;
+
         position: relative;
 
-        flex-grow: 1;
-
-        margin-top: 10%;
-        margin-left: 20%;
-        margin-right: 20%;
-        margin-bottom: 20%;
-
         .editor {
+            overflow: hidden;
+
             flex-grow: 1;
 
             border-width: 1px;
@@ -120,6 +173,14 @@ body {
             border-radius: 16px;
 
             background-color: white;
+
+            .text {
+                overflow: auto;
+
+                textarea {
+                    field-sizing: content;
+                }
+            }
         }
 
         .close-button {
