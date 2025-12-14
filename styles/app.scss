@@ -87,8 +87,12 @@ body {
                     font-size: 26px;
                 }
 
-                &.view-button {
+                &.full-height-button {
                     font-size: 18px;
+
+                    &.selected {
+                        background-color: hsl(0, 0%, 95%);
+                    }
                 }
             }
         }

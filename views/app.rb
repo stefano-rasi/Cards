@@ -31,10 +31,16 @@ class AppView < View
 
             HTML.div 'right-pane' do
                 HTML.div 'toolbar' do
-                    HTML.div 'button view-button' do
+                    HTML.div 'button full-height-button' do |button|
+                        @full_height_button = button
+
+                        if @full_height
+                            classList.add('selected')
+                        end
+
                         HTML.span text: 'V'
 
-                        on :click, &method(:on_view)
+                        on :click, &method(:on_full_height)
                     end
 
                     HTML.div 'button new-button' do
@@ -46,6 +52,12 @@ class AppView < View
 
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
+
+                    @cards_view.full_height = @full_height
+
+                    if @binder_id || @is_printed
+                        @cards_view.show_binders = false
+                    end
 
                     @cards_view.on_edit &method(:on_edit)
                     @cards_view.on_delete &method(:on_delete)
@@ -67,8 +79,12 @@ class AppView < View
 
         if !is_printed.empty?
             @is_printed = is_printed.to_i
+
+            @full_height = true
         else
             @is_printed = nil
+
+            @full_height = false
         end
 
         HTTP.get('/binders') do |binders_body|
@@ -78,14 +94,6 @@ class AppView < View
 
             get_cards() do |cards|
                 @cards_view.cards = cards
-
-                if @is_printed
-                    @cards_view.full_height = true
-                end
-
-                if @binder_id || @is_printed
-                    @cards_view.show_binders = false
-                end
 
                 @cards_view.render
             end
@@ -103,9 +111,15 @@ class AppView < View
     end
 
     def on_home()
+        @print = false
+
         @binder_id = nil
 
         @is_printed = nil
+
+        @cards_view.full_height = @full_height
+
+        @cards_view.show_binders = true
 
         @sidebar_view.home = true
         @sidebar_view.print = false
@@ -117,9 +131,13 @@ class AppView < View
         get_cards() do |cards|
             @cards_view.cards = cards
 
-            @cards_view.show_binders = true
-
             @cards_view.render
+        end
+    
+        if @full_height
+            @full_height_button.classList.add('selected')
+        else
+            @full_height_button.classList.remove('selected')
         end
 
         Window.history.pushState(nil, nil, '/')
@@ -140,18 +158,16 @@ class AppView < View
         end
     end
 
-    def on_view()
-        if @cards_view.full_height
-            @cards_view.full_height = false
-        else
-            @cards_view.full_height = true
-        end
-    end
-
     def on_print()
         @binder_id = nil
 
         @is_printed = 1
+
+        @full_height = true
+
+        @cards_view.full_height = @full_height
+
+        @cards_view.show_binders = false
 
         @sidebar_view.home = false
         @sidebar_view.print = true
@@ -163,12 +179,10 @@ class AppView < View
         get_cards() do |cards|
             @cards_view.cards = cards
 
-            @cards_view.full_height = true
-
-            @cards_view.show_binders = false
-
             @cards_view.render
         end
+
+        @full_height_button.classList.add('selected')
 
         Window.history.pushState(nil, nil, "/?is_printed=#{@is_printed}")
     end
@@ -178,10 +192,10 @@ class AppView < View
 
         @is_printed = nil
 
+        @cards_view.show_binders = false
+
         get_cards() do |cards|
             @cards_view.cards = cards
-
-            @cards_view.show_binders = false
 
             @cards_view.render
         end
@@ -201,12 +215,26 @@ class AppView < View
         end
     end
 
+    def on_full_height()
+        if @full_height
+            @full_height = false
+
+            @full_height_button.classList.remove('selected')
+        else
+            @full_height = true
+
+            @full_height_button.classList.add('selected')
+        end
+
+        @cards_view.full_height = @full_height
+    end
+
     def on_keyup(event)
         case Native(event).key
         when 'h'
             on_home()
         when 'v'
-            on_view()
+            on_full_height()
         when 'p'
             on_print()
         when 'n'
