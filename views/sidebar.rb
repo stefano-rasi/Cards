@@ -13,38 +13,24 @@ class SidebarView < View
                 HTML.div 'button expand-button' do
                     HTML.span text: '☰'
 
-                    on :click do
-                        if @expanded
-                            @expanded = false
-
-                            render
-                        else
-                            @expanded = true
-
-                            HTTP.get('/binders') do |body|
-                                @binders = JSON.parse(body)
-
-                                render
-                            end
-                        end
-                    end
+                    on :click, &method(:on_expand)
                 end
 
                 HTML.div 'buttons' do
-                    HTML.div 'button print-button' do
+                    HTML.div 'button print-button' do |button|
                         HTML.span text: 'P'
 
-                        on :click do
-                            @on_print_block.call()
-                        end
+                        on :click, &method(:on_print)
+
+                        button.classList.add('selected') if @print
                     end
 
-                    HTML.div 'button home-button' do
+                    HTML.div 'button home-button' do |button|
                         HTML.span text: 'H'
 
-                        on :click do
-                            @on_home_block.call()
-                        end
+                        on :click, &method(:on_home)
+
+                        button.classList.add('selected') if @home
                     end
                 end
             end
@@ -62,13 +48,7 @@ class SidebarView < View
                         HTML.span 'icon', text: '▶'
                         HTML.span 'name', text: binder_name
 
-                        on :click do
-                            @binder_id = binder_id
-
-                            @on_change_block.call(@binder_id, binder_name)
-
-                            render
-                        end
+                        on(:click) { on_change(binder_id, binder_name) }
                     end
                 end
             end
@@ -76,6 +56,9 @@ class SidebarView < View
     end
 
     def initialize(binder_id)
+        @home = false
+        @print = false
+
         @binders = []
 
         @expanded = true
@@ -93,19 +76,62 @@ class SidebarView < View
         @binder_id
     end
 
+    def home=(home)
+        @home = home
+    end
+
+    def print=(print)
+        @print = print
+    end
+
     def binder_id=(binder_id)
         @binder_id = binder_id
     end
 
     def on_home(&block)
-        @on_home_block = block
+        if block_given?
+            @on_home_block = block
+        else
+            @on_home_block.call()
+        end
     end
 
     def on_print(&block)
-        @on_print_block = block
+        if block_given?
+            @on_print_block = block
+        else
+            @on_print_block.call()
+        end
     end
 
-    def on_change(&block)
-        @on_change_block = block
+    def on_change(binder_id, binder_name, &block)
+        if block_given?
+            @on_change_block = block
+        else
+            @home = false
+            @print = false
+
+            @binder_id = binder_id
+
+            @on_change_block.call(binder_id, binder_name)
+
+            render
+        end
+    end
+
+    def on_expand()
+        if @expanded
+            @expanded = false
+
+            render
+        else
+            @expanded = true
+
+            HTTP.get('/binders') do |body|
+                @binders = JSON.parse(body)
+
+                render
+            end
+        end
     end
 end
