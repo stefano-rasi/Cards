@@ -56,7 +56,7 @@ module Kernel
 
     def method_missing(name, *args, &block)
         if HTML.element
-            if /[A-Z]/.match(name)
+            if /^[A-Z]/.match(name)
                 if self.class.const_defined?(name)
                     klass = self.class.const_get(name)
 
@@ -96,6 +96,8 @@ module Kernel
                     HTML.element.required = true
                 when 'selected'
                     HTML.element.selected = true
+                when 'classList'
+                    HTML.element.classList
                 when 'placeholder'
                     HTML.element.placeholder = args[0]
                 else
