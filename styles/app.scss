@@ -90,14 +90,14 @@ body {
 
                     background-color: hsl(0, 0%, 95%);
                 }
-            }
 
-            .new-button {
-                font-size: 26px;
-            }
+                &.new-button {
+                    font-size: 26px;
+                }
 
-            .view-button {
-                font-size: 18px;
+                &.view-button {
+                    font-size: 18px;
+                }
             }
         }
 

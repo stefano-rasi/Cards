@@ -16,6 +16,14 @@ class AppView < View
             View.SidebarView(@binder_id) do |sidebar_view|
                 @sidebar_view = sidebar_view
 
+                if !@binder_id && !@is_printed
+                    @sidebar_view.home = true
+                end
+
+                if @is_printed
+                    @sidebar_view.print = true
+                end
+
                 @sidebar_view.on_home &method(:on_home)
                 @sidebar_view.on_print &method(:on_print)
                 @sidebar_view.on_change &method(:on_change)
@@ -99,6 +107,9 @@ class AppView < View
 
         @is_printed = nil
 
+        @sidebar_view.home = true
+        @sidebar_view.print = false
+
         @sidebar_view.binder_id = nil
 
         @sidebar_view.render
@@ -141,6 +152,9 @@ class AppView < View
         @binder_id = nil
 
         @is_printed = 1
+
+        @sidebar_view.home = false
+        @sidebar_view.print = true
 
         @sidebar_view.binder_id = nil
 
@@ -210,7 +224,7 @@ class AppView < View
         end
     end
 
-    def open_modal(type, text, attributes)
+    def open_modal(id, type, text, attributes)
         modal = EditorModalView.new(type, text, attributes, @binder_id)
 
         modal.on_close do |type, text, attributes, binder_id|
