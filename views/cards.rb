@@ -4,213 +4,183 @@ require 'json'
 require 'lib/View/html'
 require 'lib/View/http'
 require 'lib/View/view'
-
 require 'lib/View/window'
 require 'lib/View/document'
 
-require_relative 'editor'
-
 class CardsView < View
-    def initialize(cards)
-        @cards = cards
-
-        @key_listener = Proc.new { |event|
-            if Native(event).key == 'n'
-                editor_modal = EditorModalView.new()
-
-                editor_modal.on :close do
-                    type = editor_modal.editor.type
-                    text = editor_modal.editor.text
-
-                    if !text.empty? && type.empty?
-                        Window.alert('Inserire il tipo di carta')
-
-                        false
-                    else
-                        if !text.empty?
-                            HTTP.post('/cards', { type:, text: }.to_json) do
-                                HTTP.get('/cards') do |body|
-                                    @cards = JSON.parse(body)
-
-                                    render
-                                end
-                            end
-                        end
-
-                        Document.addEventListener('keyup', @key_listener)
-                    end
-                end
-
-                Document.removeEventListener('keyup', @key_listener)
-
-                Document.body.appendChild(editor_modal.element)
-
-                editor_modal.editor.type_select.focus()
-            end
-        }
-
-        Document.addEventListener('keyup', @key_listener)
-    end
-
     render do
-        HTML.div 'cards' do
-            @cards.each do |card|
-                id = card['id']
+        HTML.div 'cards-view' do |div|
+            @div = div
 
-                type = card['type']
-                text = card['text']
+            if @full_height
+                @div.classList.add('full-height')
+            end
+
+            if @show_binders
+                @div.classList.add('show-binders')
+            end
+
+            @cards.each do |card|
+                card_id = card['id']
+
+                is_printed = card['is_printed']
+
+                card_binder_id = card['binder_id']
 
                 HTML.div 'card-container' do
-                    HTML.div 'card-content' do |card_div|
-                        data :id, id
+                    data :id, card_id
 
-                        HTTP.get("/cards/#{id}/html") do |body|
-                            card_div.innerHTML = body
-                        end
-
-                        on :click do |event|
-                            editor_modal = EditorModalView.new(type, text)
-
-                            Document.removeEventListener('keyup', @key_listener)
-
-                            editor_modal.on :close do
-                                type = editor_modal.editor.type
-                                text = editor_modal.editor.text
-
-                                HTTP.put("/cards/#{id}", { id:, type:, text: }.to_json) do
-                                    HTTP.get('/cards') do |body|
-                                        @cards = JSON.parse(body)
-                                        
-                                        render
-                                    end
-                                end
-
-                                Document.addEventListener('keyup', @key_listener)
-                            end
-
-                            Document.body.appendChild(editor_modal.element)
-
-                            editor_modal.editor.text_textarea.focus()
-                        end
-                    end
-
-                    HTML.div 'delete-button', text: 'X' do
+                    HTML.div 'card-content' do |container|
                         on :click do
-                            if Window.confirm('Sei sicuro di cancellare la carta?')
-                                HTTP.delete("/cards/#{id}") do
-                                    HTTP.get('/cards') do |body|
-                                        @cards = JSON.parse(body)
-                                    
-                                        render
+                            @on_edit_block.call(card_id)
+                        end
+
+                        HTTP.get("/cards/#{card_id}/html") do |body|
+                            container.innerHTML = body
+                        end
+                    end
+
+                    HTML.div 'binder' do |binder_div|
+                        HTML.select do |binder_select|
+                            HTML.option text: 'binder', value: ''
+
+                            on :change do
+                                binder_id = binder_select.value
+
+                                HTTP.patch("/cards/#{card_id}", { binder_id: }.to_json)
+
+                                if !binder_id.empty?
+                                    binder_div.classList.add('has_binder')
+                                else
+                                    binder_div.classList.remove('has_binder')
+                                end
+                            end
+
+                            if !@binders.empty?
+                                @binders.each do |binder|
+                                    binder_id = binder['id']
+                                    binder_name = binder['name']
+
+                                    HTML.option text: binder_name, value: binder_id do |option|
+                                        if binder_id == card_binder_id
+                                            selected
+
+                                            binder_div.classList.add('has_binder')
+                                        end
+
+                                        binder_select.appendChild(option)
                                     end
+                                end
+                            else
+                                HTTP.get('/binders') do |body|
+                                    @binders = JSON.load(body)
+
+                                    @binders.each do |binder|
+                                        binder_id = binder['id']
+                                        binder_name = binder['name']
+
+                                        HTML.option text: binder_name, value: binder_id do |option|
+                                            if binder_id == card_binder_id
+                                                selected
+
+                                                binder_div.classList.add('has_binder')
+                                            end
+
+                                            binder_select.appendChild(option)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    HTML.div 'button print-button' do |button|
+                        HTML.span text: 'P'
+
+                        case is_printed
+                        when 0
+                            button.classList.add('not-printed')
+                        when 1
+                            button.classList.add('not-printed')
+                            button.classList.add('print-ready')
+                        end
+
+                        on :click do
+                            case is_printed
+                            when 0
+                                is_printed = 1
+
+                                button.classList.add('print-ready')
+                            when 1
+                                is_printed = 2
+
+                                button.classList.remove('not-printed')
+                                button.classList.remove('print-ready')
+                            when 2
+                                is_printed = 0
+
+                                button.classList.add('not-printed')
+                            end
+
+                            HTTP.patch("/cards/#{card_id}", { is_printed: }.to_json)
+                        end
+                    end
+
+                    HTML.div 'button delete-button' do
+                        HTML.span text: 'X'
+
+                        on :click do
+                            if Window.confirm('Sei sicuro di voler cancellare la carta?')
+                                HTTP.delete("/cards/#{card_id}") do
+                                    @on_delete_block.call(card_id)
                                 end
                             end
                         end
                     end
                 end
             end
-
-            
-            HTML.div 'new-card-button', text: '+' do
-                on :click do
-                    editor_modal = EditorModalView.new()
-
-                    editor_modal.on :close do
-                        type = editor_modal.editor.type
-                        text = editor_modal.editor.text
-
-                        if !text.empty? && type.empty?
-                            Window.alert('Inserire il tipo di carta')
-
-                            false
-                        else
-                            if !text.empty?
-                                HTTP.post('/cards', { type:, text: }.to_json) do
-                                    HTTP.get('/cards') do |body|
-                                        @cards = JSON.parse(body)
-
-                                        render
-                                    end
-                                end
-                            end
-                        end
-                    end
-
-                    Document.body.appendChild(editor_modal.element)
-
-                    editor_modal.editor.type_select.focus()
-                end
-            end
-        end
-    end
-end
-
-class EditorModalView < View
-    def initialize(type, text)
-        @type = type
-        @text = text
-
-        @key_listener = Proc.new { |event|
-            if Native(event).key == 'Escape'
-                if @close_block.call() != false
-                    Document.body.removeChild(element)
-
-                    Document.removeEventListener('keyup', @key_listener)
-                    Document.removeEventListener('click', @click_listener)
-                end
-            end
-        }
-
-        @click_listener = Proc.new { |event|
-            if not editor.element.contains(Native(event).target)
-                if @close_block.call() != false
-                    Document.body.removeChild(element)
-
-                    Document.removeEventListener('keyup', @key_listener)
-                    Document.removeEventListener('click', @click_listener)
-                end
-            end
-        }
-
-        Window.setTimeout do
-            Document.addEventListener('keyup', @key_listener)
-            Document.addEventListener('click', @click_listener)
         end
     end
 
-    def on(type, &block)
-        if type == :close
-            @close_block = block
+    def initialize(cards)
+        if cards
+            @cards = cards
+        else
+            @cards = []
+        end
+
+        @binders = []
+
+        @show_binders = true
+    end
+
+    def cards=(cards)
+        @cards = cards
+    end
+
+    def binders=(binders)
+        @binders = binders
+    end
+
+    def on_edit(&block)
+        @on_edit_block = block
+    end
+
+    def on_delete(&block)
+        @on_delete_block = block
+    end
+
+    def full_height=(full_height)
+        @full_height = full_height
+
+        if @full_height
+            @div.classList.add('full-height')
+        else
+            @div.classList.remove('full-height')
         end
     end
 
-    def editor
-        @editor
+    def show_binders=(show_binders)
+        @show_binders = show_binders
     end
-
-    render do
-        HTML.div 'editor-modal' do
-            HTML.div 'editor-container' do
-                EditorView(@type, @text) do |editor|
-                    @editor = editor
-                end
-
-                HTML.div 'close-button', text: 'X' do
-                    on :click do
-                        Document.body.removeChild(element)
-
-                        Document.removeEventListener('keyup', @key_listener)
-                    end
-                end
-            end
-        end
-    end
-end
-
-HTTP.get('/cards') do |body|
-    cards = JSON.parse(body)
-
-    cards_view = CardsView.new(cards)
-
-    Document.body.appendChild(cards_view.element)
 end

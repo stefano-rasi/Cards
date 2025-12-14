@@ -1,10 +1,4 @@
-body {
-    margin: 0;
-
-    padding: 0;
-}
-
-.cards {
+.cards-view {
     gap: 8px;
 
     padding: 16px;
@@ -17,51 +11,111 @@ body {
 
     grid-template-columns: repeat(auto-fill, auto);
 
+    &.full-height {
+        .card-container {
+            .card-content {
+                .card {
+                    height: 88mm;
+                }
+            }
+        }
+    }
+
+    &.show-binders {
+        .card-container {
+            .binder.has_binder {
+                display: block;
+            }
+        }
+    }
+
     .card-container {
         width: 62mm;
 
-        display: inline-block;
-
         position: relative;
+        
+        border-width: 1px;
+        border-style: solid;
+        border-color: hsl(0, 0%, 90%);
+        border-radius: 5mm;
 
         vertical-align: top;
 
         &:hover {
             cursor: pointer;
 
-            .card {
-                border-color: hsl(0, 0%, 80%);
+            border-color: hsl(0, 0%, 80%);
+
+            .binder {
+                display: block;
+            }
+
+            .print-button {
+                visibility: initial;
             }
 
             .delete-button {
                 visibility: initial;
             }
         }
+        
+        .binder {
+            display: none;
 
-        .card {
-            width: 62mm;
+            padding-left: 6px;
+            padding-bottom: 6px;
 
-            overflow: hidden;
+            select {
+                padding: 4px;
 
-            min-height: 42px;
-            max-height: 88mm;
+                font-size: 12px;
+                font-family: monospace;
 
-            box-sizing: border-box;
+                border-width: 1px;
+                border-style: solid;
+                border-color: hsl(0, 0%, 90%);
+                border-radius: 12px;
 
-            border-width: 1px;
-            border-style: solid;
-            border-color: hsl(0, 0%, 90%);
-            border-radius: 5mm;
+                option {
+                    color: black;
+
+                    &[value=""] {
+                        font-size: 0;
+                    }
+                }
+
+                &:hover {
+                    border-color: hsl(0, 0%, 80%);
+                }
+
+                &:focus {
+                    outline: none;
+
+                    border-color: hsl(0, 0%, 80%);
+                }
+
+                &:has(option[value=""]:checked) {
+                    color: hsl(0, 0%, 70%);
+                }
+            }
         }
 
-        .delete-button {
-            top: 6px;
-            right: 6px;
+        .card-content {
+            min-height: 10mm;
+            max-height: 88mm;
 
+            display: inline-block;
+
+            .card {
+                height: initial;
+
+                overflow: hidden;
+            }
+        }
+
+        .button {
             width: 28px;
             height: 28px;
-
-            z-index: 1;
 
             display: flex;
 
@@ -69,6 +123,8 @@ body {
 
             visibility: hidden;
 
+            user-select: none;
+
             align-items: center;
 
             font-size: 14px;
@@ -89,136 +145,25 @@ body {
                 background-color: hsl(0, 0%, 95%);
             }
         }
-    }
 
-    .new-card-button {
-        top: 10px;
-        right: 10px;
+        .print-button {
+            right: 6px;
+            bottom: 6px;
 
-        width: 36px;
-        height: 36px;
+            &.not-printed {
+                visibility: initial;
 
-        z-index: 1;
+                background-color: hsl(60, 100%, 90%);
 
-        display: flex;
-
-        position: absolute;
-
-        align-items: center;
-
-        font-size: 26px;
-        font-family: sans-serif;
-
-        border-width: 1px;
-        border-style: solid;
-        border-color: hsl(0, 0%, 90%);
-        border-radius: 28px;
-
-        justify-content: center;
-
-        background-color: white;
-
-        &:hover {
-            cursor: pointer;
-
-            border-color: hsl(0, 0%, 80%);
-
-            background-color: hsl(0, 0%, 95%);
-        }
-    }
-}
-
-.editor-modal {
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    padding: 10%;
-
-    z-index: 1;
-
-    display: flex;
-
-    position: fixed;
-
-    box-sizing: border-box;
-
-    align-items: center;
-
-    flex-direction: column;
-
-    background-color: hsla(0, 0%, 0%, 0.4);
-
-    .editor-container {
-        display: flex;
-
-        min-width: min(550px, 100%);
-        min-height: min(600px, 100%);
-
-        max-width: 100%;
-        max-height: 100%;
-
-        position: relative;
-
-        .editor {
-            overflow: hidden;
-
-            flex-grow: 1;
-
-            border-width: 1px;
-            border-style: solid;
-            border-color: hsl(0, 0%, 50%);
-            border-radius: 16px;
-
-            background-color: white;
-
-            .row {
-                padding-right: 28px;
-            }
-
-            .text {
-                overflow: auto;
-
-                textarea {
-                    field-sizing: content;
+                &.print-ready {
+                    background-color: hsl(90, 100%, 90%);
                 }
             }
         }
 
-        .close-button {
+        .delete-button {
             top: 6px;
             right: 6px;
-
-            width: 28px;
-            height: 28px;
-
-            display: flex;
-
-            position: absolute;
-
-            align-items: center;
-
-            font-size: 14px;
-            font-family: sans-serif;
-
-            border-width: 1px;
-            border-style: solid;
-            border-color: hsl(0, 0%, 70%);
-            border-radius: 28px;
-
-            justify-content: center;
-
-            background-color: white;
-
-            &:hover {
-                cursor: pointer;
-
-                border-color: hsl(0, 0%, 50%);
-
-                background-color: hsl(0, 0%, 95%);
-            }
         }
     }
 }

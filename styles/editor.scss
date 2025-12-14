@@ -1,4 +1,4 @@
-.editor {
+.editor-view {
     display: flex;
 
     row-gap: 10px;
@@ -28,6 +28,10 @@
             &:disabled {
                 display: none;
             }
+
+            &[value=""] {
+                font-size: 0;
+            }
         }
 
         &:focus {
@@ -39,9 +43,13 @@
         &:required:invalid {
             color: hsl(0, 0%, 70%);
         }
+
+        &:has(option[value=""]:checked) {
+            color: hsl(0, 0%, 70%);
+        }
     }
 
-    .row {
+    .top-row {
         display: flex;
 
         column-gap: 10px;

@@ -4,9 +4,26 @@ require 'base64'
 require 'sinatra'
 
 require_relative 'cards'
+require_relative 'binders'
+
+DB = SQLite3::Database.new('cards.db')
+
+DB.results_as_hash = true
 
 get '/' do
-    slim :cards
+    if params[:binder]
+        binder_name = params[:binder]
+
+        binder = DB.get_first_row('SELECT * FROM binders WHERE name = ?', [ binder_name ])
+
+        @binder_id = binder['id']
+    end
+
+    if params[:is_printed]
+        @is_printed = params[:is_printed].to_i
+    end
+
+    slim :app
 end
 
 get '/views/*' do

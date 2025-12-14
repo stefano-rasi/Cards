@@ -3,41 +3,43 @@ require 'opal'
 require 'json'
 
 require 'lib/View/html'
+require 'lib/View/http'
 require 'lib/View/view'
 
 class EditorView < View
-    def initialize(type, text, attributes)
-        @type = type
-        @text = text
-
-        @attributes = attributes
-    end
-
-    def text
-        @text_textarea.value
-    end
-
-    def type
-        @type_selector.type
-    end
-
-    def type_select
-        @type_selector.select
-    end
-
-    def text_textarea
-        @text_textarea
-    end
-
     render do
-        HTML.div 'editor' do
-            HTML.div 'row' do
-                TypeSelectorView(@type) do |type_selector|
-                    @type_selector = type_selector
+        HTML.div 'editor-view' do
+            HTML.div 'top-row' do
+                HTML.div 'type' do
+                    HTML.select do |type_select|
+                        required
+
+                        if !@type
+                            HTML.option text: 'type', value: '', disabled: true, selected: true
+                        end
+
+                        @type_select = type_select
+
+                        HTTP.get('/types') do |body|
+                            types = JSON.load(body)
+
+                            types.sort.each do |type|
+                                HTML.option text: type, value: type do |option|
+                                    selected if type == @type
+
+                                    @type_select.appendChild(option)
+                                end
+                            end
+                        end
+                    end
                 end
 
                 HTML.div 'attributes' do
-                    HTML.input placeholder: 'attributes'
+                    HTML.input placeholder: 'attributes' do |input|
+                        value @attributes
+
+                        @attributes_input = input
+                    end
                 end
             end
 
@@ -49,49 +51,67 @@ class EditorView < View
 
                     @text_textarea = text_textarea
 
-                    text_textarea.setAttribute('spellcheck', false)
+                    @text_textarea.setAttribute('spellcheck', false)
+                end
+            end
+
+            HTML.div 'bottom-row' do
+                HTML.div 'binder' do
+                    HTML.select do |binder_select|
+                        HTML.option text: 'binder', value: ''
+
+                        @binder_select = binder_select
+
+                        HTTP.get('/binders') do |body|
+                            binders = JSON.load(body)
+
+                            binders.each do |binder|
+                                id = binder['id']
+                                name = binder['name']
+
+                                HTML.option text: name, value: id do |option|
+                                    selected if id == @binder_id
+
+                                    @binder_select.appendChild(option)
+                                end
+                            end
+                        end
+                    end
                 end
             end
         end
     end
 
-    class TypeSelectorView < View
-        def initialize(type)
-            @type = type
+    def initialize(type, text, attributes, binder_id)
+        @type = type
+        @text = text
 
-            HTTP.get('/types') do |body|
-                types = JSON.load(body)
+        @binder_id = binder_id
 
-                types.sort.each do |type|
-                    HTML.option text: type, value: type do |option|
-                        selected if type == @type
+        @attributes = attributes
+    end
 
-                        @select.appendChild(option)
-                    end
-                end
-            end
-        end
+    def type
+        @type_select.value
+    end
 
-        def type
-            @select.value
-        end
+    def text
+        @text_textarea.value
+    end
 
-        def select
-            @select
-        end
+    def attributes
+        @attributes_input.value
+    end
 
-        render do
-            HTML.div 'type' do
-                HTML.select do |select|
-                    required
+    def binder_id
+        @binder_select.value
+    end
 
-                    if not @type
-                        HTML.option text: 'type', value: '', disabled: true, selected: true
-                    end
+    def focus_type()
+        @type_select.focus()
+    end
 
-                    @select = select
-                end
-            end
-        end
+    def focus_text()
+        @text_textarea.focus()
     end
 end
