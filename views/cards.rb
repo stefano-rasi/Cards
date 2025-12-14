@@ -130,11 +130,7 @@ class CardsView < View
                         HTML.span text: 'X'
 
                         on :click do
-                            if Window.confirm('Sei sicuro di voler cancellare la carta?')
-                                HTTP.delete("/cards/#{card_id}") do
-                                    @on_delete_block.call(card_id)
-                                end
-                            end
+                            @on_delete_block.call(card_id)
                         end
                     end
                 end

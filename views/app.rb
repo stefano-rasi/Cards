@@ -47,17 +47,15 @@ class AppView < View
     end
 
     def initialize()
-        @full_height = false
-
         binder_id = Document.getElementById('binder_id').value
+
+        is_printed = Document.getElementById('is_printed').value
 
         if !binder_id.empty?
             @binder_id = binder_id.to_i
         else
             @binder_id = nil
         end
-
-        is_printed = Document.getElementById('is_printed').value
 
         if !is_printed.empty?
             @is_printed = is_printed.to_i
@@ -70,16 +68,16 @@ class AppView < View
 
             @cards_view.binders = binders
 
-            @cards_view.show_binders = true
-
             get_cards() do |cards|
                 @cards_view.cards = cards
+
+                if @is_printed
+                    @cards_view.full_height = true
+                end
 
                 if @binder_id || @is_printed
                     @cards_view.show_binders = false
                 end
-
-                @cards_view.full_height = @full_height
 
                 @cards_view.render
             end
@@ -93,7 +91,7 @@ class AppView < View
     end
 
     def on_new()
-        open_modal(nil, nil, nil, nil, @binder_id)
+        open_modal(binder_id: @binder_id)
     end
 
     def on_home()
@@ -101,21 +99,19 @@ class AppView < View
 
         @is_printed = nil
 
-        @sidebar_view.binder_id = @binder_id
+        @sidebar_view.binder_id = nil
 
         @sidebar_view.render
 
         get_cards() do |cards|
             @cards_view.cards = cards
 
-            @cards_view.full_height = @full_height
-
             @cards_view.show_binders = true
 
             @cards_view.render
         end
 
-        Window.history.pushState(nil, '', '/')
+        Window.history.pushState(nil, nil, '/')
     end
 
     def on_edit(id)
@@ -134,13 +130,11 @@ class AppView < View
     end
 
     def on_view()
-        if @full_height
-            @full_height = false
+        if @cards_view.full_height
+            @cards_view.full_height = false
         else
-            @full_height = true
+            @cards_view.full_height = true
         end
-
-        @cards_view.full_height = @full_height
     end
 
     def on_print()
@@ -162,7 +156,7 @@ class AppView < View
             @cards_view.render
         end
 
-        Window.history.pushState(nil, '', "/?is_printed=#{@is_printed}")
+        Window.history.pushState(nil, nil, "/?is_printed=#{@is_printed}")
     end
 
     def on_change(binder_id, binder_name)
@@ -184,10 +178,14 @@ class AppView < View
     end
 
     def on_delete(id)
-        get_cards() do |cards|
-            @cards_view.cards = cards
+        if Window.confirm('Sei sicuro di voler cancellare la carta?')
+            HTTP.delete("/cards/#{id}") do
+                get_cards() do |cards|
+                    @cards_view.cards = cards
 
-            @cards_view.render
+                    @cards_view.render
+                end
+            end
         end
     end
 
@@ -200,7 +198,7 @@ class AppView < View
         when 'p'
             on_print()
         when 'n'
-            open_modal(nil, nil, nil, nil, @binder_id)
+            open_modal()
         end
     end
 
@@ -212,8 +210,8 @@ class AppView < View
         end
     end
 
-    def open_modal(id, type, text, attributes, binder_id)
-        modal = EditorModalView.new(type, text, attributes, binder_id)
+    def open_modal(type, text, attributes)
+        modal = EditorModalView.new(type, text, attributes, @binder_id)
 
         modal.on_close do |type, text, attributes, binder_id|
             if type.empty? and !text.empty?
@@ -222,15 +220,20 @@ class AppView < View
                 false
             else
                 if !text.empty?
-                    payload = { type:, text:, attributes:, binder_id:, is_printed: 0 }
+                    payload = {
+                        type: type,
+                        text: text,
+
+                        binder_id: binder_id,
+
+                        is_printed: 0,
+
+                        attributes: attributes
+                    }
 
                     if id
                         HTTP.put("/cards/#{id}", payload.to_json) do
-                            binder_id = @sidebar_view.binder_id
-
-                            HTTP.get("/cards?binder_id=#{binder_id}") do |body|
-                                cards = JSON.parse(body)
-
+                            get_cards() do |cards|
                                 @cards_view.cards = cards
 
                                 @cards_view.render
@@ -238,11 +241,7 @@ class AppView < View
                         end
                     else
                         HTTP.post('/cards', payload.to_json) do
-                            binder_id = @sidebar_view.binder_id
-
-                            HTTP.get("/cards?binder_id=#{binder_id}") do |body|
-                                cards = JSON.parse(body)
-
+                            get_cards() do |cards|
                                 @cards_view.cards = cards
 
                                 @cards_view.render
