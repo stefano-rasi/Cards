@@ -14,21 +14,35 @@
     }
 
     .app-view {
+        height: initial;
+
+        display: block;
+
         .sidebar-view {
             display: none;
         }
 
         .right-pane {
+            height: initial;
+
+            display: block;
+
             .toolbar {
                 display: none;
             }
 
             .cards-view {
+                height: initial;
+
+                display: block;
+
                 gap: 0;
 
                 padding: 0;
 
                 .card-container {
+                    display: inline-block;
+
                     border-color: hsl(0, 0%, 95%);
                     border-radius: 0;
 
