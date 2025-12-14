@@ -1,0 +1,52 @@
+@page {
+    size: A4;
+
+    margin-top: 10mm;
+    margin-left: 10mm;
+    margin-right: 10mm;
+    margin-bottom: 10mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .app-view {
+        .sidebar-view {
+            display: none;
+        }
+
+        .right-pane {
+            .toolbar {
+                display: none;
+            }
+
+            .cards-view {
+                gap: 0;
+
+                padding: 0;
+
+                .card-container {
+                    border-color: hsl(0, 0%, 95%);
+                    border-radius: 0;
+
+                    .binder {
+                        display: none;
+                    }
+
+                    .button {
+                        display: none;
+                    }
+
+                    .card-content {
+                        .card {
+                            height: 88mm;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
