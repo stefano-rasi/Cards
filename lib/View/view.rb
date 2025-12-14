@@ -9,8 +9,28 @@ class View
         end
     end
 
-    def render
+    def self.destroy(&block)
+        if block_given?
+            @destroy_block = block
+        else
+            @destroy_block
+        end
+    end
+
+    def element
+        if !@element
+            @element = instance_eval(&self.class.render)
+        end
+
+        @element
+    end
+
+    def render()
         if @element
+            if self.class.destroy
+                instance_eval(&self.class.destroy)
+            end
+
             element = instance_eval(&self.class.render)
 
             @element.replaceWith(element)
@@ -21,11 +41,9 @@ class View
         end
     end
 
-    def element
-        if not @element
-            @element = instance_eval(&self.class.render)
+    def destroy()
+        if self.class.destroy
+            instance_eval(&self.class.destroy)
         end
-
-        @element
     end
 end

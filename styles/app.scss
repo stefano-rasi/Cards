@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+
+    height: 100%;
+
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.app-view {
+    height: 100%;
+
+    display: flex;
+
+    flex-grow: 1;
+    flex-direction: row;
+
+    position: relative;
+
+    .sidebar-view {
+        flex-grow: 0;
+
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: hsl(0, 0%, 80%);
+    }
+
+    .right-pane {
+        height: 100%;
+
+        display: flex;
+
+        overflow: auto;
+
+        flex-grow: 1;
+        flex-direction: column;
+
+        .toolbar {
+            top: 0;
+
+            z-index: 1;
+
+            padding: 8px;
+
+            display: flex;
+
+            position: sticky;
+
+            column-gap: 8px;
+
+            flex-grow: 0;
+            flex-direction: row;
+
+            justify-content: end;
+
+            background-color: white;
+
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: hsl(0, 0%, 80%);
+
+            .button {
+                width: 36px;
+                height: 36px;
+
+                display: flex;
+
+                flex-grow: 0;
+
+                user-select: none;
+
+                align-items: center;
+
+                font-family: sans-serif;
+
+                border-width: 1px;
+                border-style: solid;
+                border-color: hsl(0, 0%, 80%);
+                border-radius: 28px;
+
+                justify-content: center;
+
+                &:hover {
+                    cursor: pointer;
+
+                    border-color: hsl(0, 0%, 70%);
+
+                    background-color: hsl(0, 0%, 95%);
+                }
+            }
+
+            .new-button {
+                font-size: 26px;
+            }
+
+            .view-button {
+                font-size: 18px;
+            }
+        }
+
+        .cards-view {
+            flex-grow: 1;
+        }
+    }
+}

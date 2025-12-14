@@ -8,7 +8,7 @@ module HTML
     def HTML.method_missing(name, *args, **kwargs, &block)
         element = Document.createElement(name)
 
-        if not kwargs.empty?
+        if !kwargs.empty?
             kwargs.each do |key, value|
                 case key
                 when 'text'
@@ -25,7 +25,7 @@ module HTML
             end
         end
 
-        if not args.empty?
+        if !args.empty?
             element.className = args[0]
         end
 
@@ -37,7 +37,9 @@ module HTML
 
         @element = element
 
-        block.call(element)
+        if block_given?
+            block.call(element)
+        end
 
         @element = parent
 
@@ -65,10 +67,16 @@ module Kernel
 
                         HTML.element.appendChild(view.element)
 
-                        block.call(view)
+                        if block_given?
+                            block.call(view)
+                        end
 
                         view
+                    else
+                        old_method_missing(name, *args, &block)
                     end
+                else
+                    old_method_missing(name, *args, &block)
                 end
             else
                 case name
@@ -90,6 +98,8 @@ module Kernel
                     HTML.element.selected = true
                 when 'placeholder'
                     HTML.element.placeholder = args[0]
+                else
+                    old_method_missing(name, *args, &block)
                 end
             end
         else

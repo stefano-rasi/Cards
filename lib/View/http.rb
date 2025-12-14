@@ -11,7 +11,9 @@ module HTTP
         $$.fetch(args[0], options).then { |response|
             `response.text()`
         }.then { |body|
-            block.call(body)
+            if block_given?
+                block.call(body)
+            end
         }
     end
 end
