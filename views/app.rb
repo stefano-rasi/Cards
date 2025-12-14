@@ -13,20 +13,12 @@ require_relative 'sidebar'
 class AppView < View
     render do
         HTML.div 'app-view' do
-            SidebarView(@binder_id) do |sidebar_view|
+            View.SidebarView(@binder_id) do |sidebar_view|
                 @sidebar_view = sidebar_view
 
-                @sidebar_view.on_home do
-                    on_home()
-                end
-
-                @sidebar_view.on_print do
-                    on_print()
-                end
-
-                @sidebar_view.on_change do |binder_id, binder_name|
-                    on_change(binder_id, binder_name)
-                end
+                @sidebar_view.on_home &method(:on_home)
+                @sidebar_view.on_print &method(:on_print)
+                @sidebar_view.on_change &method(:on_change)
             end
 
             HTML.div 'right-pane' do
@@ -34,30 +26,21 @@ class AppView < View
                     HTML.div 'button view-button' do
                         HTML.span text: 'V'
 
-                        on :click do
-                            on_view()
-                        end
+                        on :click, &method(:on_view)
                     end
 
                     HTML.div 'button new-button' do
                         HTML.span text: '+'
 
-                        on :click do
-                            open_modal()
-                        end
+                        on :click, &method(:on_new)
                     end
                 end
 
-                CardsView() do |cards_view|
+                View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    @cards_view.on_edit do |id|
-                        on_edit(id)
-                    end
-
-                    @cards_view.on_delete do |id|
-                        on_delete(id)
-                    end
+                    @cards_view.on_edit &method(:on_edit)
+                    @cards_view.on_delete &method(:on_delete)
                 end
             end
         end
@@ -90,11 +73,13 @@ class AppView < View
             @cards_view.show_binders = true
 
             get_cards() do |cards|
+                @cards_view.cards = cards
+
                 if @binder_id || @is_printed
                     @cards_view.show_binders = false
                 end
 
-                @cards_view.cards = cards
+                @cards_view.full_height = @full_height
 
                 @cards_view.render
             end
@@ -105,6 +90,10 @@ class AppView < View
         end
 
         Window.addEventListener('keyup', &@on_keyup)
+    end
+
+    def on_new()
+        open_modal(nil, nil, nil, nil, @binder_id)
     end
 
     def on_home()
@@ -211,7 +200,7 @@ class AppView < View
         when 'p'
             on_print()
         when 'n'
-            open_modal()
+            open_modal(nil, nil, nil, nil, @binder_id)
         end
     end
 
