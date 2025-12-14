@@ -10,11 +10,7 @@
 
         .first-row {
             .buttons {
-                .home-button {
-                    display: flex;
-                }
-
-                .print-button {
+                .button {
                     display: flex;
                 }
             }
@@ -117,10 +113,7 @@
             
             flex-direction: row;
 
-            .home-button {
-                width: 34px;
-                height: 34px;
-
+            .button {
                 display: none;
 
                 border-width: 1px;
@@ -130,17 +123,9 @@
                 &:hover {
                     border-color: hsl(0, 0%, 70%);
                 }
-            }
 
-            .print-button {
-                display: none;
-
-                border-width: 1px;
-                border-style: solid;
-                border-color: hsl(0, 0%, 80%);
-
-                &:hover {
-                    border-color: hsl(0, 0%, 70%);
+                &.selected {
+                    background-color: hsl(0, 0%, 95%);
                 }
             }
         }

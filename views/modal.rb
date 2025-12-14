@@ -9,24 +9,12 @@ class EditorModalView < View
     render do
         HTML.div 'editor-modal-view' do
             HTML.div 'editor-container' do
-                EditorView(@type, @text, @attributes, @binder_id) do |editor|
+                View.EditorView(@type, @text, @attributes, @binder_id) do |editor|
                     @editor = editor
                 end
 
                 HTML.div 'close-button' do
-                    on :click do
-                        type = @editor.type
-                        text = @editor.text
-
-                        binder_id = @editor.binder_id
-
-                        attributes = @editor.attributes
-
-                        if @on_close_block.call(type, text, attributes, binder_id) != false
-                            Document.removeEventListener('keyup', &@on_keyup)
-                            Document.removeEventListener('click', &@on_click)
-                        end
-                    end
+                    on :click, &method(:on_close)
 
                     HTML.span text: 'X'
                 end
@@ -42,8 +30,8 @@ class EditorModalView < View
 
         @attributes = attributes
 
-        @on_keyup = Proc.new do |event|
-            if Native(event).key == 'Escape'
+        @on_click = Proc.new do |event|
+            if !@editor.element.contains(Native(event).target)
                 type = @editor.type
                 text = @editor.text
 
@@ -58,8 +46,8 @@ class EditorModalView < View
             end
         end
 
-        @on_click = Proc.new do |event|
-            if !@editor.element.contains(Native(event).target)
+        @on_keyup = Proc.new do |event|
+            if Native(event).key == 'Escape'
                 type = @editor.type
                 text = @editor.text
 
@@ -81,7 +69,21 @@ class EditorModalView < View
     end
 
     def on_close(&block)
-        @on_close_block = block
+        if block_given?
+            @on_close_block = block
+        else
+            type = @editor.type
+            text = @editor.text
+
+            binder_id = @editor.binder_id
+
+            attributes = @editor.attributes
+
+            if @on_close_block.call(type, text, attributes, binder_id) != false
+                Document.removeEventListener('keyup', &@on_keyup)
+                Document.removeEventListener('click', &@on_click)
+            end
+        end
     end
 
     def focus_type()

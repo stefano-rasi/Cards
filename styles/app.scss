@@ -20,14 +20,6 @@ body {
 
     position: relative;
 
-    .sidebar-view {
-        flex-grow: 0;
-
-        border-right-width: 1px;
-        border-right-style: solid;
-        border-right-color: hsl(0, 0%, 80%);
-    }
-
     .right-pane {
         height: 100%;
 
@@ -90,19 +82,27 @@ body {
 
                     background-color: hsl(0, 0%, 95%);
                 }
-            }
 
-            .new-button {
-                font-size: 26px;
-            }
+                &.new-button {
+                    font-size: 26px;
+                }
 
-            .view-button {
-                font-size: 18px;
+                &.view-button {
+                    font-size: 18px;
+                }
             }
         }
 
         .cards-view {
             flex-grow: 1;
         }
+    }
+
+    .sidebar-view {
+        flex-grow: 0;
+
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: hsl(0, 0%, 80%);
     }
 }

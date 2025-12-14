@@ -9,16 +9,11 @@ require 'lib/View/document'
 
 class CardsView < View
     render do
-        HTML.div 'cards-view' do |div|
-            @div = div
+        HTML.div 'cards-view' do
+            @classList = classList
 
-            if @full_height
-                @div.classList.add('full-height')
-            end
-
-            if @show_binders
-                @div.classList.add('show-binders')
-            end
+            @classList.add('full-height') if @full_height
+            @classList.add('show-binders') if @show_binders
 
             @cards.each do |card|
                 card_id = card['id']
@@ -43,18 +38,6 @@ class CardsView < View
                     HTML.div 'binder' do |binder_div|
                         HTML.select do |binder_select|
                             HTML.option text: 'binder', value: ''
-
-                            on :change do
-                                binder_id = binder_select.value
-
-                                HTTP.patch("/cards/#{card_id}", { binder_id: }.to_json)
-
-                                if !binder_id.empty?
-                                    binder_div.classList.add('has_binder')
-                                else
-                                    binder_div.classList.remove('has_binder')
-                                end
-                            end
 
                             if !@binders.empty?
                                 @binders.each do |binder|
@@ -91,6 +74,19 @@ class CardsView < View
                                     end
                                 end
                             end
+
+                            on :change do
+                                binder_id = binder_select.value
+
+                                HTTP.patch("/cards/#{card_id}", { binder_id: }.to_json)
+
+                                if !binder_id.empty?
+                                    binder_div.classList.add('has_binder')
+                                else
+                                    binder_div.classList.remove('has_binder')
+                                end
+                            end
+
                         end
                     end
 
@@ -99,10 +95,10 @@ class CardsView < View
 
                         case is_printed
                         when 0
-                            button.classList.add('not-printed')
+                            classList.add('not-printed')
                         when 1
-                            button.classList.add('not-printed')
-                            button.classList.add('print-ready')
+                            classList.add('not-printed')
+                            classList.add('print-ready')
                         end
 
                         on :click do
@@ -129,13 +125,7 @@ class CardsView < View
                     HTML.div 'button delete-button' do
                         HTML.span text: 'X'
 
-                        on :click do
-                            if Window.confirm('Sei sicuro di voler cancellare la carta?')
-                                HTTP.delete("/cards/#{card_id}") do
-                                    @on_delete_block.call(card_id)
-                                end
-                            end
-                        end
+                        on(:click) { on_delete(card_id) }
                     end
                 end
             end
@@ -150,6 +140,8 @@ class CardsView < View
         end
 
         @binders = []
+
+        @full_height = false
 
         @show_binders = true
     end
@@ -166,17 +158,25 @@ class CardsView < View
         @on_edit_block = block
     end
 
-    def on_delete(&block)
-        @on_delete_block = block
+    def on_delete(id, &block)
+        if block_given?
+            @on_delete_block = block
+        else
+            @on_delete_block.call(id)
+        end
+    end
+
+    def full_height
+        @full_height
     end
 
     def full_height=(full_height)
         @full_height = full_height
 
         if @full_height
-            @div.classList.add('full-height')
+            @classList.add('full-height')
         else
-            @div.classList.remove('full-height')
+            @classList.remove('full-height')
         end
     end
 
