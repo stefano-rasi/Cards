@@ -9,7 +9,7 @@ class EditorModalView < View
     render do
         HTML.div 'editor-modal-view' do
             HTML.div 'editor-container' do
-                EditorView(@type, @text, @attributes, @binder_id) do |editor|
+                View.EditorView(@type, @text, @attributes, @binder_id) do |editor|
                     @editor = editor
                 end
 
