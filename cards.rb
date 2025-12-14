@@ -29,19 +29,10 @@ get '/cards' do
     cards.to_json
 end
 
-get '/types' do
-    content_type 'application/json'
-
-    Card.classes.keys.to_json
-end
-
 get '/cards/:id' do |id|
     content_type 'application/json'
 
     card = DB.get_first_row('SELECT * FROM cards WHERE id = ?', id)
-
-    type = card['type']
-    text = card['text']
 
     card.to_json
 end
@@ -53,6 +44,20 @@ get '/cards/:id/html' do |id|
     text = card['text']
 
     Card.classes[type].new(text, {}).to_html
+end
+
+get '/types' do
+    content_type 'application/json'
+
+    Card.classes.keys.to_json
+end
+
+get '/binders' do
+    content_type 'application/json'
+
+    binders = DB.execute('SELECT * FROM binders ORDER BY `order`')
+
+    binders.to_json
 end
 
 put '/cards/:id' do |id|

@@ -4,7 +4,6 @@ require 'base64'
 require 'sinatra'
 
 require_relative 'cards'
-require_relative 'binders'
 
 DB = SQLite3::Database.new('cards.db')
 
