@@ -111,8 +111,6 @@ class AppView < View
     end
 
     def on_home()
-        @print = false
-
         @binder_id = nil
 
         @is_printed = nil
