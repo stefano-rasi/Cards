@@ -21,7 +21,7 @@ get '/cards' do
     elsif params[:is_printed] && !params[:is_printed].empty?
         is_printed = params[:is_printed]
 
-        cards = DB.execute('SELECT * FROM cards WHERE is_printed = ? ORDER BY id DESC', [ is_printed ])
+        cards = DB.execute('SELECT * FROM cards WHERE is_printed = ? ORDER BY id ASC', [ is_printed ])
     else
         cards = DB.execute('SELECT * FROM cards WHERE is_deleted = 0 ORDER BY id DESC')
     end
