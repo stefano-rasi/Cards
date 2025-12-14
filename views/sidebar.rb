@@ -4,9 +4,9 @@ require 'lib/View/view'
 
 class SidebarView < View
     render do
-        HTML.div 'sidebar-view' do |sidebar|
+        HTML.div 'sidebar-view' do
             if @expanded
-                sidebar.classList.add('expanded')
+                classList.add('expanded')
             end
 
             HTML.div 'first-row' do
@@ -17,32 +17,32 @@ class SidebarView < View
                 end
 
                 HTML.div 'buttons' do
-                    HTML.div 'button print-button' do |button|
+                    HTML.div 'button print-button' do
                         HTML.span text: 'P'
 
                         on :click, &method(:on_print)
 
-                        button.classList.add('selected') if @print
+                        classList.add('selected') if @print
                     end
 
-                    HTML.div 'button home-button' do |button|
+                    HTML.div 'button home-button' do
                         HTML.span text: 'H'
 
                         on :click, &method(:on_home)
 
-                        button.classList.add('selected') if @home
+                        classList.add('selected') if @home
                     end
                 end
             end
 
             HTML.div 'binders' do
                 @binders.each do |binder|
-                    HTML.div 'binder' do |binder_div|
+                    HTML.div 'binder' do
                         binder_id = binder['id']
                         binder_name = binder['name']
 
                         if binder_id == @binder_id
-                            binder_div.classList.add('selected')
+                            classList.add('selected')
                         end
 
                         HTML.span 'icon', text: '▶'
