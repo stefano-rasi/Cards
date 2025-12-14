@@ -19,12 +19,24 @@
                 }
             }
         }
+
+        &.show-binders {
+            .card-container {
+                .binder {
+                    display: block;
+
+                    position: initial;
+                }
+            }
+        }
     }
 
     &.show-binders {
         .card-container {
             .binder.has_binder {
                 display: block;
+
+                position: initial;
             }
         }
     }
@@ -60,7 +72,12 @@
         }
         
         .binder {
+            left: 0;
+            bottom: 0;
+
             display: none;
+
+            position: absolute;
 
             padding-left: 6px;
             padding-bottom: 6px;
@@ -100,19 +117,6 @@
             }
         }
 
-        .card-content {
-            min-height: 10mm;
-            max-height: 88mm;
-
-            display: inline-block;
-
-            .card {
-                height: initial;
-
-                overflow: hidden;
-            }
-        }
-
         .button {
             width: 28px;
             height: 28px;
@@ -144,26 +148,39 @@
 
                 background-color: hsl(0, 0%, 95%);
             }
-        }
 
-        .print-button {
-            right: 6px;
-            bottom: 6px;
+            &.print-button {
+                right: 6px;
+                bottom: 6px;
 
-            &.not-printed {
-                visibility: initial;
+                &.not-printed {
+                    visibility: initial;
 
-                background-color: hsl(60, 100%, 90%);
+                    background-color: hsl(60, 100%, 90%);
 
-                &.print-ready {
-                    background-color: hsl(90, 100%, 90%);
+                    &.print-ready {
+                        background-color: hsl(90, 100%, 90%);
+                    }
                 }
+            }
+
+            &.delete-button {
+                top: 6px;
+                right: 6px;
             }
         }
 
-        .delete-button {
-            top: 6px;
-            right: 6px;
+        .card-content {
+            min-height: 20mm;
+            max-height: 88mm;
+
+            display: inline-block;
+
+            .card {
+                height: initial;
+
+                overflow: hidden;
+            }
         }
     }
 }

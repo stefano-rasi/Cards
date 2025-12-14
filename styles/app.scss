@@ -20,14 +20,6 @@ body {
 
     position: relative;
 
-    .sidebar-view {
-        flex-grow: 0;
-
-        border-right-width: 1px;
-        border-right-style: solid;
-        border-right-color: hsl(0, 0%, 80%);
-    }
-
     .right-pane {
         height: 100%;
 
@@ -104,5 +96,13 @@ body {
         .cards-view {
             flex-grow: 1;
         }
+    }
+
+    .sidebar-view {
+        flex-grow: 0;
+
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: hsl(0, 0%, 80%);
     }
 }

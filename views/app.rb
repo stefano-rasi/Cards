@@ -181,8 +181,6 @@ class AppView < View
         get_cards() do |cards|
             @cards_view.cards = cards
 
-            @cards_view.full_height = @full_height
-
             @cards_view.show_binders = false
 
             @cards_view.render

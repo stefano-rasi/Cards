@@ -95,10 +95,10 @@ class CardsView < View
 
                         case is_printed
                         when 0
-                            button.classList.add('not-printed')
+                            classList.add('not-printed')
                         when 1
-                            button.classList.add('not-printed')
-                            button.classList.add('print-ready')
+                            classList.add('not-printed')
+                            classList.add('print-ready')
                         end
 
                         on :click do
@@ -164,9 +164,6 @@ class CardsView < View
         else
             @on_delete_block.call(id)
         end
-    end
-
-    def on_binder_change()
     end
 
     def full_height
