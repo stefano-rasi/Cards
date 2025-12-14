@@ -248,8 +248,23 @@ class AppView < View
         end
     end
 
-    def open_modal(id, type, text, attributes)
-        modal = EditorModalView.new(type, text, attributes, @binder_id)
+    def open_modal(id, type, text, attributes, binder_id)
+        old_type = type
+        old_text = text
+
+        old_binder_id = binder_id
+
+        if attributes
+            old_attributes = attributes
+        else
+            old_attributes = ''
+        end
+
+        if !binder_id
+            binder_id = @binder_id
+        end
+
+        modal = EditorModalView.new(type, text, attributes, binder_id)
 
         modal.on_close do |type, text, attributes, binder_id|
             if type.empty? and !text.empty?
@@ -258,23 +273,18 @@ class AppView < View
                 false
             else
                 if !text.empty?
-                    payload = {
-                        type: type,
-                        text: text,
+                    payload = { type:, text:, binder_id:, attributes: }
 
-                        binder_id: binder_id,
-
-                        is_printed: 0,
-
-                        attributes: attributes
-                    }
+                    payload[:is_printed] = 0
 
                     if id
-                        HTTP.put("/cards/#{id}", payload.to_json) do
-                            get_cards() do |cards|
-                                @cards_view.cards = cards
+                        if type != old_type || text != old_text || binder_id.to_i != old_binder_id || attributes != old_attributes
+                            HTTP.put("/cards/#{id}", payload.to_json) do
+                                get_cards() do |cards|
+                                    @cards_view.cards = cards
 
-                                @cards_view.render
+                                    @cards_view.render
+                                end
                             end
                         end
                     else
