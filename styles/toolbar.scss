@@ -1,0 +1,62 @@
+.toolbar-view {
+    padding: 8px;
+
+    display: flex;
+
+    column-gap: 8px;
+
+    flex-direction: row;
+
+    justify-content: end;
+
+    .button {
+        width: 36px;
+        height: 36px;
+
+        display: flex;
+
+        flex-grow: 0;
+
+        user-select: none;
+
+        align-items: center;
+
+        font-family: sans-serif;
+
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 28px;
+
+        justify-content: center;
+
+        &:hover {
+            cursor: pointer;
+
+            background-color: hsl(0, 0%, 95%);
+        }
+
+        &.new-card-button {
+            font-size: 26px;
+
+            border-color: hsl(0, 0%, 80%);
+
+            &:hover {
+                border-color: hsl(0, 0%, 70%);
+            }
+        }
+
+        &.expand-cards-button {
+            font-size: 18px;
+
+            border-color: transparent;
+
+            &.selected {
+                background-color: hsl(0, 0%, 95%);
+            }
+
+            span {
+                margin-top: 2px;
+            }
+        }
+    }
+}

@@ -5,19 +5,11 @@ require_relative 'html'
 class View
     alias_method :old_method_missing, :method_missing
 
-    def self.render(&block)
+    def self.draw(&block)
         if block_given?
-            @render_block = block
+            @draw_block = block
         else
-            @render_block
-        end
-    end
-
-    def self.destroy(&block)
-        if block_given?
-            @destroy_block = block
-        else
-            @destroy_block
+            @draw_block
         end
     end
 
@@ -49,33 +41,27 @@ class View
         end
     end
 
-    def element
-        if !@element
-            @element = instance_eval(&self.class.render)
-        end
-
-        @element
-    end
-
-    def render()
+    def draw
         if @element
             if self.class.destroy
                 instance_eval(&self.class.destroy)
             end
 
-            element = instance_eval(&self.class.render)
+            element = instance_eval(&self.class.draw)
 
             @element.replaceWith(element)
 
             @element = element
         else
-            @element = instance_eval(&self.class.render)
+            @element = instance_eval(&self.class.draw)
         end
     end
 
-    def destroy()
-        if self.class.destroy
-            instance_eval(&self.class.destroy)
+    def element
+        if !@element
+            @element = instance_eval(&self.class.draw)
         end
+
+        @element
     end
 end

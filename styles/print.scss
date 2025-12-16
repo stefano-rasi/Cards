@@ -18,18 +18,10 @@
 
         display: block;
 
-        .sidebar-view {
-            display: none;
-        }
-
         .right-pane {
             height: initial;
 
             display: block;
-
-            .toolbar {
-                display: none;
-            }
 
             .cards-view {
                 height: initial;
@@ -40,7 +32,7 @@
 
                 padding: 0;
 
-                .card-container {
+                .card-view {
                     display: inline-block;
 
                     border-color: hsl(0, 0%, 95%);
@@ -54,13 +46,21 @@
                         display: none;
                     }
 
-                    .card-content {
+                    .card-container {
                         .card {
                             height: 88mm;
                         }
                     }
                 }
             }
+
+            .toolbar-view {
+                display: none;
+            }
+        }
+
+        .sidebar-view {
+            display: none;
         }
     }
 }

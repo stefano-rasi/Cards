@@ -9,239 +9,120 @@ require 'lib/View/document'
 require_relative 'cards'
 require_relative 'modal'
 require_relative 'sidebar'
+require_relative 'toolbar'
 
 class AppView < View
-    render do
+    draw do
         HTML.div 'app-view' do
-            View.SidebarView(@binder_id) do |sidebar_view|
+            View.SidebarView() do |sidebar_view|
                 @sidebar_view = sidebar_view
 
-                if !@binder_id && !@is_printed
-                    @sidebar_view.home = true
+                case @state
+                when :home
+                    @sidebar_view.state = :home
+                when :print
+                    @sidebar_view.state = :print
+                when :binder
+                    @sidebar_view.state = :binder
+
+                    @sidebar_view.binder_id = @binder_id
                 end
 
-                if @is_printed
-                    @sidebar_view.print = true
+                if @expand_sidebar
+                    @sidebar_view.expand = true
+                else
+                    @sidebar_view.expand = false
                 end
 
-                @sidebar_view.on_home &method(:on_home)
-                @sidebar_view.on_print &method(:on_print)
-                @sidebar_view.on_change &method(:on_change)
+                @sidebar_view.on_home(&method(:on_home))
+                @sidebar_view.on_print(&method(:on_print))
+                @sidebar_view.on_binder(&method(:on_binder))
             end
 
             HTML.div 'right-pane' do
-                HTML.div 'toolbar' do
-                    HTML.div 'button full-height-button' do |button|
-                        @full_height_button = button
+                View.ToolbarView() do |toolbar_view|
+                    @toolbar_view = toolbar_view
 
-                        if @full_height
-                            classList.add('selected')
-                        end
-
-                        HTML.span text: 'V'
-
-                        on :click, &method(:on_full_height)
+                    if @expand_cards
+                        @toolbar_view.expand_cards = true
+                    else
+                        @toolbar_view.expand_cards = false
                     end
 
-                    HTML.div 'button new-button' do
-                        HTML.span text: '+'
-
-                        on :click, &method(:on_new)
-                    end
+                    @toolbar_view.on_new_card(&method(:on_new_card))
+                    @toolbar_view.on_expand_cards(&method(:on_expand_cards))
                 end
 
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    @cards_view.full_height = @full_height
+                    @cards_view.expand = @expand_cards
 
-                    if @binder_id || @is_printed
-                        @cards_view.show_binders = false
+                    case @state
+                    when :home
+                        @cards_view.show_binder = true
+                    else
+                        @cards_view.show_binder = false
                     end
 
-                    @cards_view.on_edit &method(:on_edit)
-                    @cards_view.on_delete &method(:on_delete)
+                    @cards_view.on_edit(&method(:on_edit_card))
+                    @cards_view.on_delete(&method(:on_delete_card))
                 end
             end
         end
     end
 
     def initialize()
-        binder_id = Document.getElementById('binder_id').value
+        print_value = Document.getElementById('print').value
+        binder_id_value = Document.getElementById('binder_id').value
 
-        is_printed = Document.getElementById('is_printed').value
+        if !print_value.empty?
+            @state = :print
 
-        if !binder_id.empty?
-            @binder_id = binder_id.to_i
+            @expand_cards = true
+        elsif !binder_id_value.empty?
+            @state = :binder
+
+            @binder_id = binder_id_value.to_i
+
+            @expand_cards = false
         else
-            @binder_id = nil
+            @state = :home
         end
 
-        if !is_printed.empty?
-            @is_printed = is_printed.to_i
+        @expand_sidebar = true
 
-            @full_height = true
-        else
-            @is_printed = nil
+        get_cards() do |cards|
+            @cards = cards
 
-            @full_height = false
+            @cards_view.cards = cards
         end
 
-        HTTP.get('/binders') do |binders_body|
-            binders = JSON.load(binders_body)
-
-            @cards_view.binders = binders
-
-            get_cards() do |cards|
-                @cards_view.cards = cards
-
-                @cards_view.render
-            end
-        end
-
-        @on_keyup = Proc.new do |event|
+        @on_keyup = Proc.new { |event|
             on_keyup(event)
-        end
+        }
 
         Window.addEventListener('keyup', &@on_keyup)
-    end
 
-    def on_new()
-        open_modal(binder_id: @binder_id)
-    end
+        Window.addEventListener('popstate') do |event|
+            event = Native(event)
 
-    def on_home()
-        @binder_id = nil
-
-        @is_printed = nil
-
-        @cards_view.full_height = @full_height
-
-        @cards_view.show_binders = true
-
-        @sidebar_view.home = true
-        @sidebar_view.print = false
-
-        @sidebar_view.binder_id = nil
-
-        @sidebar_view.render
-
-        get_cards() do |cards|
-            @cards_view.cards = cards
-
-            @cards_view.render
-        end
-    
-        if @full_height
-            @full_height_button.classList.add('selected')
-        else
-            @full_height_button.classList.remove('selected')
-        end
-
-        Window.history.pushState(nil, nil, '/')
-    end
-
-    def on_edit(id)
-        HTTP.get("/cards/#{id}") do |body|
-            card = JSON.parse(body)
-
-            type = card['type']
-            text = card['text']
-
-            binder_id = card['binder_id']
-
-            attributes = card['attributes']
-
-            open_modal(id, type, text, attributes, binder_id)
-        end
-    end
-
-    def on_print()
-        @binder_id = nil
-
-        @is_printed = 1
-
-        @full_height = true
-
-        @cards_view.full_height = @full_height
-
-        @cards_view.show_binders = false
-
-        @sidebar_view.home = false
-        @sidebar_view.print = true
-
-        @sidebar_view.binder_id = nil
-
-        @sidebar_view.render
-
-        get_cards() do |cards|
-            @cards_view.cards = cards
-
-            @cards_view.render
-        end
-
-        @full_height_button.classList.add('selected')
-
-        Window.history.pushState(nil, nil, "/?is_printed=#{@is_printed}")
-    end
-
-    def on_change(binder_id, binder_name)
-        @binder_id = binder_id
-
-        @is_printed = nil
-
-        @cards_view.show_binders = false
-
-        get_cards() do |cards|
-            @cards_view.cards = cards
-
-            @cards_view.render
-        end
-
-        Window.history.pushState(@binder_id, '', "/?binder=#{binder_name}")
-    end
-
-    def on_delete(id)
-        if Window.confirm('Sei sicuro di voler cancellare la carta?')
-            HTTP.delete("/cards/#{id}") do
-                get_cards() do |cards|
-                    @cards_view.cards = cards
-
-                    @cards_view.render
-                end
-            end
-        end
-    end
-
-    def on_full_height()
-        if @full_height
-            @full_height = false
-
-            @full_height_button.classList.remove('selected')
-        else
-            @full_height = true
-
-            @full_height_button.classList.add('selected')
-        end
-
-        @cards_view.full_height = @full_height
-    end
-
-    def on_keyup(event)
-        case Native(event).key
-        when 'h'
-            on_home()
-        when 'v'
-            on_full_height()
-        when 'p'
-            on_print()
-        when 'n'
-            open_modal()
+            on_popstate(event.state)
         end
     end
 
     def get_cards(&block)
-        HTTP.get("/cards?binder_id=#{@binder_id}&is_printed=#{@is_printed}") do |body|
+        params = {}
+
+        if @state == :home
+            params[:binder_id] = nil
+        elsif @state == :print
+            params[:printed] = 1
+        elsif @state == :binder
+            params[:binder_id] = @binder_id
+        end
+
+        HTTP.get("/cards?#{params.map { |key, value| "#{key}=#{value}" }.join('&')}") do |body|
             cards = JSON.load(body)
 
             block.call(cards)
@@ -249,41 +130,31 @@ class AppView < View
     end
 
     def open_modal(id, type, text, attributes, binder_id)
-        old_type = type
-        old_text = text
-
-        old_binder_id = binder_id
-
-        if attributes
-            old_attributes = attributes
-        else
-            old_attributes = ''
-        end
-
-        if !binder_id
+        if !id
             binder_id = @binder_id
         end
 
         modal = EditorModalView.new(type, text, attributes, binder_id)
 
-        modal.on_close do |type, text, attributes, binder_id|
-            if type.empty? and !text.empty?
-                Window.alert('Inserire il tipo')
+        modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
+            if new_type.empty? and !new_text.empty?
+                Window.alert('Inserire il tipo di carta')
 
                 false
             else
-                if !text.empty?
-                    payload = { type:, text:, binder_id:, attributes: }
-
-                    payload[:is_printed] = 0
+                if !new_text.empty?
+                    payload = {
+                        type: new_type,
+                        text: new_text,
+                        binder_id: new_binder_id,
+                        attributes: new_attributes
+                    }
 
                     if id
-                        if type != old_type || text != old_text || binder_id.to_i != old_binder_id || attributes != old_attributes
-                            HTTP.put("/cards/#{id}", payload.to_json) do
+                        if new_text != text
+                            HTTP.patch("/cards/#{id}", payload.to_json) do
                                 get_cards() do |cards|
                                     @cards_view.cards = cards
-
-                                    @cards_view.render
                                 end
                             end
                         end
@@ -291,8 +162,6 @@ class AppView < View
                         HTTP.post('/cards', payload.to_json) do
                             get_cards() do |cards|
                                 @cards_view.cards = cards
-
-                                @cards_view.render
                             end
                         end
                     end
@@ -308,11 +177,162 @@ class AppView < View
 
         Document.body.appendChild(modal.element)
 
-        if text
-            modal.focus_text()
+        if id
+            modal.focus_text
         else
-            modal.focus_type()
+            modal.focus_type
         end
+    end
+
+    def on_home()
+        @state = :home
+
+        @binder_id = nil
+
+        get_cards() do |cards|
+            @cards_view.cards = cards
+        end
+
+        @cards_view.show_binder = true
+
+        @sidebar_view.state = :home
+    
+        Window.history.pushState({ state: :home }, nil, '/')
+    end
+
+    def on_print()
+        @state = :print
+
+        @binder_id = nil
+
+        @expand_cards = true
+
+        get_cards() do |cards|
+            @cards_view.cards = cards
+        end
+
+        @cards_view.expand = true
+        @cards_view.show_binder = false
+
+        @sidebar_view.state = :print
+
+        @toolbar_view.expand_cards = @expand_cards
+
+        Window.history.pushState({ state: :print }, nil, '/?print')
+    end
+
+    def on_keyup(event)
+        event = Native(event)
+
+        case event.key
+        when 'h'
+            on_home()
+        when 'p'
+            on_print()
+        when 'n'
+            open_modal()
+        when 'v'
+            on_expand_cards()
+        end
+    end
+
+    def on_binder(id, name)
+        @state = :binder
+
+        @binder_id = id
+
+        get_cards() do |cards|
+            @cards_view.cards = cards
+        end
+
+        @cards_view.show_binder = false
+
+        @sidebar_view.state = :binder
+        @sidebar_view.binder_id = id
+
+        Window.history.pushState({ state: :binder, binder_id: id }, nil, "/?binder_id=#{id}")
+    end
+
+    def on_new_card()
+        open_modal(binder_id: @binder_id)
+    end
+
+    def on_popstate(state)
+        if state[:state] == :home
+            @state = :home
+
+            @binder_id = nil
+
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
+
+            @cards_view.show_binder = true
+
+            @sidebar_view.state = :home
+        elsif state[:state] == :print
+            @state = :print
+
+            @binder_id = nil
+
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
+
+            @cards_view.show_binder = false
+
+            @sidebar_view.state = :print
+        elsif state[:state] == :binder
+            binder_id = state[:binder_id]
+
+            @binder_id = binder_id
+
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
+
+            @cards_view.show_binder = false
+
+            @sidebar_view.state = :binder
+            @sidebar_view.binder_id = binder_id
+        end
+    end
+
+    def on_edit_card(id)
+        HTTP.get("/cards/#{id}") do |body|
+            card = JSON.parse(body)
+
+            type = card['type']
+            text = card['text']
+
+            binder_id = card['binder_id']
+
+            attributes = card['attributes']
+
+            open_modal(id, type, text, attributes, binder_id)
+        end
+    end
+
+    def on_delete_card(id)
+        if Window.confirm('Sei sicuro di voler cancellare la carta?')
+            HTTP.delete("/cards/#{id}") do
+                get_cards() do |cards|
+                    @cards_view.cards = cards
+                end
+            end
+        end
+    end
+
+    def on_expand_cards()
+        if @expand_cards
+            @expand_cards = false
+        else
+            @expand_cards = true
+        end
+
+        @cards_view.expand = @expand_cards
+
+        @toolbar_view.expand_cards = @expand_cards
     end
 end
 

@@ -1,5 +1,3 @@
-require 'opal'
-
 require 'json'
 
 require 'lib/View/html'
@@ -7,7 +5,7 @@ require 'lib/View/http'
 require 'lib/View/view'
 
 class EditorView < View
-    render do
+    draw do
         HTML.div 'editor-view' do
             HTML.div 'top-row' do
                 HTML.div 'type' do
@@ -40,6 +38,12 @@ class EditorView < View
 
                         @attributes_input = input
                     end
+                end
+
+                HTML.div 'close-button' do
+                    HTML.span text: 'X'
+
+                    on :click, &method(:on_close)
                 end
             end
 
@@ -91,6 +95,14 @@ class EditorView < View
         @attributes = attributes
     end
 
+    def on_close(&block)
+        if block_given?
+            @on_close_block = block
+        else
+            @on_close_block.call()
+        end
+    end
+
     def type
         @type_select.value
     end
@@ -99,12 +111,12 @@ class EditorView < View
         @text_textarea.value
     end
 
-    def attributes
-        @attributes_input.value
-    end
-
     def binder_id
         @binder_select.value
+    end
+
+    def attributes
+        @attributes_input.value
     end
 
     def focus_type()

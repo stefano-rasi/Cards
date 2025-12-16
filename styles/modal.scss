@@ -43,13 +43,9 @@
             border-width: 1px;
             border-style: solid;
             border-color: hsl(0, 0%, 50%);
-            border-radius: 16px;
+            border-radius: 5mm;
 
             background-color: white;
-
-            .top-row {
-                padding-right: 28px;
-            }
 
             .text {
                 overflow: auto;
@@ -57,40 +53,6 @@
                 textarea {
                     field-sizing: content;
                 }
-            }
-        }
-
-        .close-button {
-            top: 6px;
-            right: 6px;
-
-            width: 28px;
-            height: 28px;
-
-            display: flex;
-
-            position: absolute;
-
-            align-items: center;
-
-            font-size: 14px;
-            font-family: sans-serif;
-
-            border-width: 1px;
-            border-style: solid;
-            border-color: hsl(0, 0%, 70%);
-            border-radius: 28px;
-
-            justify-content: center;
-
-            background-color: white;
-
-            &:hover {
-                cursor: pointer;
-
-                border-color: hsl(0, 0%, 50%);
-
-                background-color: hsl(0, 0%, 95%);
             }
         }
     }

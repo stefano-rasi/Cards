@@ -91,6 +91,9 @@
             font-size: 18px;
             font-family: sans-serif;
 
+            border-width: 1px;
+            border-style: solid;
+            border-color: transparent;
             border-radius: 28px;
 
             flex-direction: column;
@@ -102,6 +105,8 @@
             &:hover {
                 cursor: pointer;
 
+                border-color: hsl(0, 0%, 95%);
+
                 background-color: hsl(0, 0%, 95%);
             }
         }
@@ -110,19 +115,11 @@
             display: flex;
 
             column-gap: 4px;
-            
+
             flex-direction: row;
 
             .button {
                 display: none;
-
-                border-width: 1px;
-                border-style: solid;
-                border-color: hsl(0, 0%, 80%);
-
-                &:hover {
-                    border-color: hsl(0, 0%, 70%);
-                }
 
                 &.selected {
                     background-color: hsl(0, 0%, 95%);
@@ -131,16 +128,6 @@
         }
 
         .expand-button {
-            border-width: 1px;
-            border-style: solid;
-            border-color: transparent;
-
-            &:hover {
-                border-width: 1px;
-                border-style: solid;
-                border-color: hsl(0, 0%, 95%);
-            }
-
             span {
                 margin-top: -2px;
             }
