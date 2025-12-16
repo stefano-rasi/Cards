@@ -111,14 +111,51 @@ class AppView < View
         end
     end
 
+    def state(state)
+        @state = state
+
+        case @state
+        when :home
+            @binder_id = nil
+
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
+
+            @cards_view.show_binder = true
+
+            @sidebar_view.state = :home
+        when :print
+            @binder_id = nil
+
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
+
+            @cards_view.show_binder = false
+
+            @sidebar_view.state = :print
+        when :binder
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
+
+            @cards_view.show_binder = false
+
+            @sidebar_view.state = :binder
+            @sidebar_view.binder_id = @binder_id
+        end
+    end
+
     def get_cards(&block)
         params = {}
 
-        if @state == :home
+        case @state
+        when :home
             params[:binder_id] = nil
-        elsif @state == :print
+        when :print
             params[:printed] = 1
-        elsif @state == :binder
+        when :binder
             params[:binder_id] = @binder_id
         end
 
@@ -185,38 +222,13 @@ class AppView < View
     end
 
     def on_home()
-        @state = :home
+        state(:home)
 
-        @binder_id = nil
-
-        get_cards() do |cards|
-            @cards_view.cards = cards
-        end
-
-        @cards_view.show_binder = true
-
-        @sidebar_view.state = :home
-    
         Window.history.pushState({ state: :home }, nil, '/')
     end
 
     def on_print()
-        @state = :print
-
-        @binder_id = nil
-
-        @expand_cards = true
-
-        get_cards() do |cards|
-            @cards_view.cards = cards
-        end
-
-        @cards_view.expand = true
-        @cards_view.show_binder = false
-
-        @sidebar_view.state = :print
-
-        @toolbar_view.expand_cards = @expand_cards
+        state(:print)
 
         Window.history.pushState({ state: :print }, nil, '/?print')
     end
@@ -237,18 +249,9 @@ class AppView < View
     end
 
     def on_binder(id, name)
-        @state = :binder
-
         @binder_id = id
 
-        get_cards() do |cards|
-            @cards_view.cards = cards
-        end
-
-        @cards_view.show_binder = false
-
-        @sidebar_view.state = :binder
-        @sidebar_view.binder_id = id
+        state(:binder)
 
         Window.history.pushState({ state: :binder, binder_id: id }, nil, "/?binder_id=#{id}")
     end
@@ -259,42 +262,13 @@ class AppView < View
 
     def on_popstate(state)
         if state[:state] == :home
-            @state = :home
-
-            @binder_id = nil
-
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
-            @cards_view.show_binder = true
-
-            @sidebar_view.state = :home
+            state(:home)
         elsif state[:state] == :print
-            @state = :print
-
-            @binder_id = nil
-
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
-            @cards_view.show_binder = false
-
-            @sidebar_view.state = :print
+            state(:print)
         elsif state[:state] == :binder
-            binder_id = state[:binder_id]
+            @binder_id = state[:binder_id]
 
-            @binder_id = binder_id
-
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
-            @cards_view.show_binder = false
-
-            @sidebar_view.state = :binder
-            @sidebar_view.binder_id = binder_id
+            state(:binder)
         end
     end
 

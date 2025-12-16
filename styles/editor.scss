@@ -1,3 +1,5 @@
+$border-radius: 3.5mm;
+
 .editor-view {
     display: flex;
 
@@ -20,7 +22,7 @@
         border-width: 1px;
         border-style: solid;
         border-color: hsl(0, 0%, 70%);
-        border-radius: 3mm;
+        border-radius: $border-radius;
 
         option {
             color: black;
@@ -55,7 +57,7 @@
         border-width: 1px;
         border-style: solid;
         border-color: hsl(0, 0%, 70%);
-        border-radius: 3mm;
+        border-radius: $border-radius;
 
         &:has(textarea:focus) {
             border-color: hsl(0, 0%, 50%);
@@ -110,7 +112,7 @@
 
                 border-style: solid;
                 border-color: hsl(0, 0%, 70%);
-                border-radius: 3mm;
+                border-radius: $border-radius;
 
                 padding-top: 4px;
                 padding-left: 6px;
