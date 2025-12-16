@@ -88,42 +88,51 @@
             bottom: 6px;
 
             &.printed {
-                border-color: hsl(90, 100%, 80%);
+                $color: hsl(90, 100%, 80%);
+                $hover-color: hsl(90, 100%, 70%);
 
-                background-color: hsl(90, 100%, 80%);
+                border-color: $color;
+
+                background-color: $color;
 
                 &:hover {
-                    border-color: hsl(90, 100%, 70%);
+                    border-color: $hover-color;
 
-                    background-color: hsl(90, 100%, 70%);
+                    background-color: $hover-color;
                 }
             }
 
             &.print-ready {
+                $color: hsl(60, 100%, 80%);
+                $hover-color: hsl(60, 100%, 60%);
+
                 visibility: initial;
 
-                border-color: hsl(60, 100%, 80%);
+                border-color: $color;
 
-                background-color: hsl(60, 100%, 80%);
+                background-color: $color;
 
                 &:hover {
-                    border-color: hsl(60, 100%, 60%);
+                    border-color: $hover-color;
 
-                    background-color: hsl(60, 100%, 60%);
+                    background-color: $hover-color;
                 }
             }
 
             &.not-printed {
+                $color: hsl(0, 100%, 90%);
+                $hover-color: hsl(0, 100%, 80%);
+
                 visibility: initial;
 
-                border-color: hsl(0, 100%, 90%);
+                border-color: $color;
 
-                background-color: hsl(0, 100%, 90%);
+                background-color: $color;
 
                 &:hover {
-                    border-color: hsl(0, 100%, 80%);
+                    border-color: $hover-color;
 
-                    background-color: hsl(0, 100%, 80%);
+                    background-color: $hover-color;
                 }
             }
         }
