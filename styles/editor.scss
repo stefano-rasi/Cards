@@ -1,7 +1,7 @@
 .editor-view {
     display: flex;
 
-    row-gap: 10px;
+    row-gap: 8px;
 
     padding: 16px;
 
@@ -20,7 +20,7 @@
         border-width: 1px;
         border-style: solid;
         border-color: hsl(0, 0%, 70%);
-        border-radius: 8px;
+        border-radius: 3mm;
 
         option {
             color: black;
@@ -49,58 +49,13 @@
         }
     }
 
-    .top-row {
-        display: flex;
-
-        column-gap: 10px;
-
-        flex-grow: 0;
-        flex-direction: row;
-
-        .type {
-            flex-grow: 0;
-        }
-
-        .attributes {
-            display: flex;
-
-            flex-grow: 1;
-
-            flex-direction: row;
-
-            input {
-                flex-grow: 1;
-
-                font-size: 14px;
-                font-family: monospace;
-
-                border-style: solid;
-                border-color: hsl(0, 0%, 70%);
-                border-radius: 8px;
-
-                padding-top: 4px;
-                padding-left: 6px;
-                padding-right: 6px;
-                padding-bottom: 4px;
-
-                border-width: 1px;
-
-                &:focus {
-                    outline: none;
-
-                    border-color: hsl(0, 0%, 50%);
-                }
-            }
-        }
-    }
-
     .text {
         flex-grow: 1;
 
         border-width: 1px;
         border-style: solid;
         border-color: hsl(0, 0%, 70%);
-        border-radius: 8px;
+        border-radius: 3mm;
 
         &:has(textarea:focus) {
             border-color: hsl(0, 0%, 50%);
@@ -124,6 +79,80 @@
 
             &:focus {
                 outline: none;
+            }
+        }
+    }
+
+    .top-row {
+        display: flex;
+
+        column-gap: 8px;
+
+        flex-grow: 0;
+        flex-direction: row;
+
+        .type {
+            flex-grow: 0;
+        }
+
+        .attributes {
+            display: flex;
+
+            flex-grow: 1;
+
+            flex-direction: row;
+
+            input {
+                flex-grow: 1;
+
+                font-size: 14px;
+                font-family: monospace;
+
+                border-style: solid;
+                border-color: hsl(0, 0%, 70%);
+                border-radius: 3mm;
+
+                padding-top: 4px;
+                padding-left: 6px;
+                padding-right: 6px;
+                padding-bottom: 4px;
+
+                border-width: 1px;
+
+                &:focus {
+                    outline: none;
+
+                    border-color: hsl(0, 0%, 50%);
+                }
+            }
+        }
+
+        .close-button {
+            width: 28px;
+            height: 28px;
+
+            display: flex;
+
+            flex-grow: 0;
+
+            align-items: center;
+
+            font-size: 14px;
+            font-family: sans-serif;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 70%);
+            border-radius: 28px;
+
+            justify-content: center;
+
+            &:hover {
+                cursor: pointer;
+
+                border-color: hsl(0, 0%, 50%);
+
+                background-color: hsl(0, 0%, 95%);
             }
         }
     }

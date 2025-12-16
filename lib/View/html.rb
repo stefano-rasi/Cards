@@ -13,6 +13,8 @@ module HTML
                 case key
                 when 'text'
                     element.textContent = value
+                when 'title'
+                    element.title = value
                 when 'value'
                     element.value = value
                 when 'disabled'
@@ -26,7 +28,7 @@ module HTML
         end
 
         if !args.empty?
-            element.className = args[0]
+            element.className = args.compact.join(' ')
         end
 
         parent = @element
@@ -86,18 +88,18 @@ module Kernel
                     else
                         HTML.element.addEventListener(args[0], args[1])
                     end
-                when 'data'
-                    HTML.element.dataset[args[0]] = args[1]
+                when 'html'
+                    HTML.element.innerHTML = args[0]
                 when 'text'
                     HTML.element.textContent = args[0]
+                when 'title'
+                    HTML.element.title = args[0]
                 when 'value'
                     HTML.element.value = args[0]
                 when 'required'
                     HTML.element.required = true
                 when 'selected'
                     HTML.element.selected = true
-                when 'classList'
-                    HTML.element.classList
                 when 'placeholder'
                     HTML.element.placeholder = args[0]
                 else

@@ -1,6 +1,212 @@
-.card {
+.card-view {
     width: 62mm;
-    height: 88mm;
 
-    box-sizing: border-box;
+    display: flex;
+
+    position: relative;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: hsl(0, 0%, 90%);
+    border-radius: 5mm;
+
+    flex-direction: column;
+
+    &:hover {
+        cursor: pointer;
+
+        border-color: hsl(0, 0%, 80%);
+
+        .binder {
+            display: block;
+        }
+
+        .print-button {
+            visibility: initial;
+        }
+
+        .delete-button {
+            visibility: initial;
+        }
+    }
+
+    &.expand {
+        &.show-binder {
+            .binder {
+                display: block;
+
+                position: initial;
+            }
+        }
+
+        .card-container {
+            height: 88mm;
+        }
+    }
+
+    &.loading {
+        .card-container {
+            height: 88mm;
+        }
+    }
+
+    &.show-binder {
+        &.has-binder {
+            .binder {
+                display: block;
+
+                position: initial;
+            }
+        }
+    }
+
+    .button {
+        width: 28px;
+        height: 28px;
+
+        display: flex;
+
+        position: absolute;
+
+        visibility: hidden;
+
+        user-select: none;
+
+        align-items: center;
+
+        font-size: 14px;
+        font-family: sans-serif;
+
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 28px;
+
+        justify-content: center;
+
+        &.print-button {
+            right: 6px;
+            bottom: 6px;
+
+            &.printed {
+                border-color: hsl(90, 100%, 80%);
+
+                background-color: hsl(90, 100%, 80%);
+
+                &:hover {
+                    border-color: hsl(90, 100%, 70%);
+
+                    background-color: hsl(90, 100%, 70%);
+                }
+            }
+
+            &.print-ready {
+                visibility: initial;
+
+                border-color: hsl(60, 100%, 80%);
+
+                background-color: hsl(60, 100%, 80%);
+
+                &:hover {
+                    border-color: hsl(60, 100%, 60%);
+
+                    background-color: hsl(60, 100%, 60%);
+                }
+            }
+
+            &.not-printed {
+                visibility: initial;
+
+                border-color: hsl(0, 100%, 90%);
+
+                background-color: hsl(0, 100%, 90%);
+
+                &:hover {
+                    border-color: hsl(0, 100%, 80%);
+
+                    background-color: hsl(0, 100%, 80%);
+                }
+            }
+        }
+
+        &.delete-button {
+            top: 6px;
+            right: 6px;
+
+            border-color: hsl(0, 0%, 90%);
+
+            background-color: white;
+
+            &:hover {
+                border-color: hsl(0, 0%, 80%);
+
+                background-color: hsl(0, 0%, 95%);
+            }
+        }
+    }
+
+    .binder {
+        left: 0;
+        bottom: 0;
+
+        display: none;
+
+        position: absolute;
+
+        padding-left: 6px;
+        padding-bottom: 6px;
+
+        select {
+            padding: 4px;
+
+            font-size: 12px;
+            font-family: monospace;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 90%);
+            border-radius: 4mm;
+
+            option {
+                color: black;
+
+                &[value=""] {
+                    font-size: 0;
+                }
+            }
+
+            &:hover {
+                border-color: hsl(0, 0%, 80%);
+            }
+
+            &:focus {
+                outline: none;
+
+                border-color: hsl(0, 0%, 80%);
+            }
+
+            &:has(option[value=""]:checked) {
+                color: hsl(0, 0%, 70%);
+            }
+        }
+    }
+
+    .card-container {
+        display: flex;
+
+        min-height: 30mm;
+        max-height: 88mm;
+
+        flex-grow: 1;
+        flex-direction: column;
+
+        .card {
+            height: initial;
+
+            flex-grow: 1;
+
+            overflow: hidden;
+
+            box-sizing: border-box;
+        }
+    }
 }

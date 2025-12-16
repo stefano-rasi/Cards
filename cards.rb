@@ -1,6 +1,6 @@
 require 'json'
 
-require 'sqlite3'
+require 'sequel'
 require 'sinatra'
 
 require_relative 'lib/card'
@@ -14,17 +14,17 @@ require_relative 'lib/card/japanese'
 get '/cards' do
     content_type 'application/json'
 
-    if params[:binder_id] && !params[:binder_id].empty?
-        binder_id = params[:binder_id]
+    conditions = { deleted: 0 }
 
-        cards = DB.execute('SELECT * FROM cards WHERE is_deleted = 0 AND binder_id = ? ORDER BY id DESC', [ binder_id ])
-    elsif params[:is_printed] && !params[:is_printed].empty?
-        is_printed = params[:is_printed]
-
-        cards = DB.execute('SELECT * FROM cards WHERE is_printed = ? ORDER BY id DESC', [ is_printed ])
-    else
-        cards = DB.execute('SELECT * FROM cards WHERE is_deleted = 0 ORDER BY id DESC')
+    if params[:printed]
+        conditions[:printed] = params[:printed]
     end
+
+    if params[:binder_id]
+        conditions[:binder_id] = params[:binder_id]
+    end
+
+    cards = DB[:cards].where(conditions).order(Sequel.desc(:id)).all
 
     cards.to_json
 end
@@ -32,57 +32,24 @@ end
 get '/cards/:id' do |id|
     content_type 'application/json'
 
-    card = DB.get_first_row('SELECT * FROM cards WHERE id = ?', id)
+    card = DB[:cards].where(id: id).first
 
     card.to_json
 end
 
 get '/cards/:id/html' do |id|
-    card = DB.get_first_row('SELECT * FROM cards WHERE id = ?', id)
+    card = DB[:cards].where(id: id).first
 
-    type = card['type']
-    text = card['text']
+    type = card[:type]
+    text = card[:text]
 
-    Card.classes[type].new(text, {}).to_html
-end
+    attributes = card[:attributes].split(/\s+/).map do |attribute|
+        name, value = attribute.split('=')
 
-get '/types' do
-    content_type 'application/json'
-
-    Card.classes.keys.to_json
-end
-
-get '/binders' do
-    content_type 'application/json'
-
-    binders = DB.execute('SELECT * FROM binders ORDER BY `order`')
-
-    binders.to_json
-end
-
-put '/cards/:id' do |id|
-    request.body.rewind
-
-    payload = JSON.parse(request.body.read)
-
-    type = payload['type']
-    text = payload['text']
-
-    is_printed = payload['is_printed']
-
-    if payload['binder_id'].empty?
-        binder_id = nil
-    else
-        binder_id = payload['binder_id']
+        { name:, value: }
     end
 
-    if payload['attributes'].empty?
-        attributes = nil
-    else
-        attributes = payload['attributes']
-    end
-
-    DB.execute('UPDATE cards SET type = ?, text = ?, attributes = ?, binder_id = ?, is_printed = ? WHERE id = ?', [ type, text, attributes, binder_id, is_printed, id ])
+    Card.classes[type].new(text, attributes).to_html
 end
 
 post '/cards' do
@@ -94,46 +61,43 @@ post '/cards' do
 
     type = payload['type']
     text = payload['text']
+    binder_id = payload['binder_id']
+    attributes = payload['attributes']
 
-    if payload['binder_id'].empty?
-        binder_id = nil
-    else
-        binder_id = payload['binder_id']
-    end
+    fields = {
+        type: type,
+        text: text,
+        binder_id: binder_id,
+        attributes: attributes
+    }
 
-    if payload['attributes'].empty?
-        attributes = nil
-    else
-        attributes = payload['attributes']
-    end
-
-    DB.execute('INSERT INTO cards (type, text, attributes, binder_id) VALUES (?, ?, ?, ?)', [ type, text, attributes, binder_id ])
-
-    id = DB.last_insert_row_id
-
-    { id: id }.to_json
+    DB[:cards].insert(fields)
 end
 
 patch '/cards/:id' do |id|
     request.body.rewind
 
+    fields = {}
+
     payload = JSON.parse(request.body.read)
 
-    if payload['binder_id']
-        if payload['binder_id'].empty?
-            binder_id = nil
-        else
-            binder_id = payload['binder_id']
-        end
+    type = payload['type']
+    text = payload['text']
+    printed = payload['printed']
+    binder_id = payload['binder_id']
+    attributes = payload['attributes']
 
-        DB.execute('UPDATE cards SET binder_id = ? WHERE id = ?', [ binder_id, id ])
-    elsif payload['is_printed']
-        is_printed = payload['is_printed']
+    fields = {}
 
-        DB.execute('UPDATE cards SET is_printed = ? WHERE id = ?', [ is_printed, id ])
-    end
+    fields[:type] = type if type
+    fields[:text] = text if text
+    fields[:printed] = printed if printed
+    fields[:binder_id] = binder_id if binder_id
+    fields[:attributes] = attributes if attributes
+
+    DB[:cards].where(id: id).update(fields)
 end
 
 delete '/cards/:id' do |id|
-    DB.execute('UPDATE cards SET is_deleted = 1 WHERE id = ?', id)
+    DB[:cards].where(id: id).update(deleted: 1)
 end
