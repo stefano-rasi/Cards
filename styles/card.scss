@@ -60,6 +60,52 @@
         }
     }
 
+    .binder {
+        left: 0;
+        bottom: 0;
+
+        display: none;
+
+        position: absolute;
+
+        padding-left: 6px;
+        padding-bottom: 6px;
+
+        select {
+            padding: 4px;
+
+            font-size: 12px;
+            font-family: monospace;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 90%);
+            border-radius: 3.5mm;
+
+            option {
+                color: black;
+
+                &[value=""] {
+                    font-size: 0;
+                }
+            }
+
+            &:hover {
+                border-color: hsl(0, 0%, 80%);
+            }
+
+            &:focus {
+                outline: none;
+
+                border-color: hsl(0, 0%, 80%);
+            }
+
+            &:has(option[value=""]:checked) {
+                color: hsl(0, 0%, 70%);
+            }
+        }
+    }
+
     .button {
         width: 28px;
         height: 28px;
@@ -149,52 +195,6 @@
                 border-color: hsl(0, 0%, 80%);
 
                 background-color: hsl(0, 0%, 95%);
-            }
-        }
-    }
-
-    .binder {
-        left: 0;
-        bottom: 0;
-
-        display: none;
-
-        position: absolute;
-
-        padding-left: 6px;
-        padding-bottom: 6px;
-
-        select {
-            padding: 4px;
-
-            font-size: 12px;
-            font-family: monospace;
-
-            border-width: 1px;
-            border-style: solid;
-            border-color: hsl(0, 0%, 90%);
-            border-radius: 3.5mm;
-
-            option {
-                color: black;
-
-                &[value=""] {
-                    font-size: 0;
-                }
-            }
-
-            &:hover {
-                border-color: hsl(0, 0%, 80%);
-            }
-
-            &:focus {
-                outline: none;
-
-                border-color: hsl(0, 0%, 80%);
-            }
-
-            &:has(option[value=""]:checked) {
-                color: hsl(0, 0%, 70%);
             }
         }
     }
