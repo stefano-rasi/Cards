@@ -43,11 +43,11 @@ get '/cards/:id/html' do |id|
     type = card[:type]
     text = card[:text]
 
-    attributes = card[:attributes].split(/\s+/).map do |attribute|
-        name, value = attribute.split('=')
+    attributes = card[:attributes].split(/\s+/).map { |attribute|
+        key, value = attribute.split('=')
 
-        { name:, value: }
-    end
+        [ key, value ]
+    }.to_h
 
     Card.classes[type].new(text, attributes).to_html
 end

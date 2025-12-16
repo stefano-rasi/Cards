@@ -5,17 +5,16 @@
 
     position: relative;
 
-    border-width: 1px;
-    border-style: solid;
-    border-color: hsl(0, 0%, 90%);
-    border-radius: 5mm;
-
     flex-direction: column;
 
     &:hover {
         cursor: pointer;
 
-        border-color: hsl(0, 0%, 80%);
+        .card-container {
+            .card {
+                border-color: hsl(0, 0%, 80%);
+            }
+        }
 
         .binder {
             display: block;
@@ -216,6 +215,11 @@
             overflow: hidden;
 
             box-sizing: border-box;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 90%);
+            border-radius: 5mm;
         }
     }
 }

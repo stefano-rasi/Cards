@@ -128,13 +128,18 @@ class AppView < View
         when :print
             @binder_id = nil
 
+            @expand_cards = true
+
             get_cards() do |cards|
                 @cards_view.cards = cards
             end
 
+            @cards_view.expand = @expand_cards
             @cards_view.show_binder = false
 
             @sidebar_view.state = :print
+
+            @toolbar_view.expand_cards = @expand_cards
         when :binder
             get_cards() do |cards|
                 @cards_view.cards = cards
@@ -188,7 +193,7 @@ class AppView < View
                     }
 
                     if id
-                        if new_text != text
+                        if new_text != text || new_type != type || new_binder_id != binder_id || new_attributes != attributes
                             HTTP.patch("/cards/#{id}", payload.to_json) do
                                 get_cards() do |cards|
                                     @cards_view.cards = cards

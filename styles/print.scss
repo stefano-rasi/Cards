@@ -24,19 +24,18 @@
             display: block;
 
             .cards-view {
-                height: initial;
-
-                display: block;
-
                 gap: 0;
 
+                height: initial;
+
                 padding: 0;
+
+                display: block;
 
                 .card-view {
                     display: inline-block;
 
-                    border-color: hsl(0, 0%, 95%);
-                    border-radius: 0;
+                    vertical-align: top;
 
                     .binder {
                         display: none;
@@ -49,6 +48,9 @@
                     .card-container {
                         .card {
                             height: 88mm;
+
+                            border-color: hsl(0, 0%, 95%);
+                            border-radius: 0;
                         }
                     }
                 }
