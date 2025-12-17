@@ -77,8 +77,6 @@ end
 patch '/cards/:id' do |id|
     request.body.rewind
 
-    fields = {}
-
     payload = JSON.parse(request.body.read)
 
     type = payload['type']
