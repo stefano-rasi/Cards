@@ -26,6 +26,7 @@ class CardsView < View
                     card_view.show_binder = @show_binder
 
                     card_view.on_edit(&method(:on_edit))
+                    card_view.on_binder(&method(:on_binder))
                     card_view.on_delete(&method(:on_delete))
                 end
             end
@@ -65,6 +66,14 @@ class CardsView < View
             @on_edit_block = block
         else
             @on_edit_block.call(id)
+        end
+    end
+
+    def on_binder(id, binder_id, &block)
+        if block_given?
+            @on_binder_block = block
+        else
+            @on_binder_block.call(id, binder_id)
         end
     end
 

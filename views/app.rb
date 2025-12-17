@@ -66,6 +66,7 @@ class AppView < View
                     end
 
                     @cards_view.on_edit(&method(:on_edit_card))
+                    @cards_view.on_binder(&method(:on_card_binder))
                     @cards_view.on_delete(&method(:on_delete_card))
                 end
             end
@@ -289,6 +290,14 @@ class AppView < View
             attributes = card['attributes']
 
             open_modal(id, type, text, attributes, binder_id)
+        end
+    end
+
+    def on_card_binder(id, binder_id)
+        HTTP.patch("/cards/#{id}", { binder_id: }.to_json) do
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
         end
     end
 

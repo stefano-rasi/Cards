@@ -34,6 +34,10 @@ class CardView < View
                         end
                     end
                 end
+
+                on(:change) do |event|
+                    on_binder(@id, Native(event).target.value)
+                end
             end
 
             HTML.div 'button print-button', ('not-printed' if @printed == 0), ('print-ready' if @printed == 1), ('printed' if @printed == 2) do
@@ -118,6 +122,14 @@ class CardView < View
             @on_delete_block = block
         else
             @on_delete_block.call(id)
+        end
+    end
+
+    def on_binder(id, binder_id, &block)
+        if block_given?
+            @on_binder_block= block
+        else
+            @on_binder_block.call(id, binder_id)
         end
     end
 end
