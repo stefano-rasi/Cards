@@ -19,13 +19,13 @@
         display: block;
 
         .right-pane {
-            height: initial;
+            height: initial !important;
 
             display: block;
 
-            .cards-view {
-                gap: 0;
+            overflow: initial !important;
 
+            .cards-view {
                 height: initial;
 
                 padding: 0;
@@ -48,6 +48,8 @@
                     .card-container {
                         .card {
                             height: 88mm;
+
+                            break-inside: avoid;
 
                             border-color: hsl(0, 0%, 95%);
                             border-radius: 0;
