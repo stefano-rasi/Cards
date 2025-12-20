@@ -56,6 +56,20 @@ get '/cards/:id/html' do |id|
     Card.classes[type].new(text, attributes).to_html
 end
 
+get '/types' do
+    content_type 'application/json'
+
+    Card.classes.keys.to_json
+end
+
+get '/binders' do
+    content_type 'application/json'
+
+    binders = DB[:binders].order(:order).all
+
+    binders.to_json
+end
+
 post '/cards' do
     content_type 'application/json'
 

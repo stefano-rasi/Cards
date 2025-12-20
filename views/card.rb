@@ -12,13 +12,17 @@ class CardView < View
 
                 HTML.span text: 'X'
 
-                on(:click) { on_delete(@id) }
+                on(:click) do
+                    on_delete(@id)
+                end
             end
 
             HTML.div 'card-container' do
                 html @html
 
-                on(:click) { on_edit(@id) }
+                on(:click) do
+                    on_edit(@id)
+                end
             end
 
             HTML.div 'binder' do
@@ -45,7 +49,9 @@ class CardView < View
 
                 HTML.span text: 'P'
 
-                on(:click) { on_print(@id) }
+                on(:click) do
+                    on_print(@id)
+                end
             end
         end
     end
