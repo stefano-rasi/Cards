@@ -11,6 +11,8 @@ require_relative 'lib/card/recipe'
 require_relative 'lib/card/italian'
 require_relative 'lib/card/japanese'
 
+DB = Sequel.connect('sqlite://cards.db')
+
 get '/cards' do
     content_type 'application/json'
 

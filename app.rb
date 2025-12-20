@@ -6,10 +6,6 @@ require 'sequel'
 require 'sinatra'
 
 require_relative 'cards'
-require_relative 'types'
-require_relative 'binders'
-
-DB = Sequel.connect('sqlite://cards.db')
 
 get '/' do
     if params.has_key?(:print)
