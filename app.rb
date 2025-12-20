@@ -32,7 +32,7 @@ get '/views/*' do
 
     builder.append_paths('.')
 
-    builder.build('lib/View/console')
+    builder.build('lib/view/console')
     builder.build(path)
 
     "#{builder.to_s}\n//# sourceMappingURL=data:application/json;base64,#{Base64.strict_encode64(JSON.dump(builder.source_map.as_json))}"
