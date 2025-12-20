@@ -56,14 +56,14 @@ class AppView < View
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    @cards_view.expand = @expand_cards
-
                     case @state
                     when :home
                         @cards_view.show_binder = true
                     else
                         @cards_view.show_binder = false
                     end
+
+                    @cards_view.expand = @expand_cards
 
                     @cards_view.on_edit(&method(:on_edit_card))
                     @cards_view.on_binder(&method(:on_card_binder))
