@@ -28,11 +28,7 @@ class AppView < View
                     @sidebar_view.binder_id = @binder_id
                 end
 
-                if @expand_sidebar
-                    @sidebar_view.expand = true
-                else
-                    @sidebar_view.expand = false
-                end
+                @sidebar_view.expand = @expand_sidebar
 
                 @sidebar_view.on_home(&method(:on_home))
                 @sidebar_view.on_print(&method(:on_print))
@@ -43,11 +39,7 @@ class AppView < View
                 View.ToolbarView() do |toolbar_view|
                     @toolbar_view = toolbar_view
 
-                    if @expand_cards
-                        @toolbar_view.expand_cards = true
-                    else
-                        @toolbar_view.expand_cards = false
-                    end
+                    @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
 
                     @toolbar_view.on_new_card(&method(:on_new_card))
                     @toolbar_view.on_expand_cards(&method(:on_expand_cards))
@@ -56,7 +48,7 @@ class AppView < View
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    @cards_view.expand = @expand_cards
+                    @cards_view.expand = @expand_cards || @temporary_expand_cards
 
                     case @state
                     when :home
@@ -77,21 +69,24 @@ class AppView < View
         print_value = Document.getElementById('print').value
         binder_id_value = Document.getElementById('binder_id').value
 
+        @expand_cards = false
+        @expand_sidebar = true
+
         if !print_value.empty?
             @state = :print
 
-            @expand_cards = true
+            @temporary_expand_cards = true
         elsif !binder_id_value.empty?
             @state = :binder
 
             @binder_id = binder_id_value.to_i
 
-            @expand_cards = false
+            @temporary_expand_cards = false
         else
             @state = :home
-        end
 
-        @expand_sidebar = true
+            @temporary_expand_cards = false
+        end
 
         get_cards() do |cards|
             @cards = cards
@@ -119,37 +114,47 @@ class AppView < View
         when :home
             @binder_id = nil
 
+            @temporary_expand_cards = false
+
             get_cards() do |cards|
                 @cards_view.cards = cards
             end
 
+            @cards_view.expand = @expand_cards || @temporary_expand_cards
             @cards_view.show_binder = true
 
             @sidebar_view.state = :home
+
+            @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
         when :print
             @binder_id = nil
 
-            @expand_cards = true
+            @temporary_expand_cards = true
 
             get_cards() do |cards|
                 @cards_view.cards = cards
             end
 
-            @cards_view.expand = @expand_cards
+            @cards_view.expand = @expand_cards || @temporary_expand_cards
             @cards_view.show_binder = false
 
             @sidebar_view.state = :print
 
-            @toolbar_view.expand_cards = @expand_cards
+            @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
         when :binder
+            @temporary_expand_cards = false
+
             get_cards() do |cards|
                 @cards_view.cards = cards
             end
 
+            @cards_view.expand = @expand_cards || @temporary_expand_cards
             @cards_view.show_binder = false
 
             @sidebar_view.state = :binder
             @sidebar_view.binder_id = @binder_id
+
+            @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
         end
     end
 
@@ -312,11 +317,13 @@ class AppView < View
     end
 
     def on_expand_cards()
-        if @expand_cards
+        if @expand_cards || @temporary_expand_cards
             @expand_cards = false
         else
             @expand_cards = true
         end
+
+        @temporary_expand_cards = false
 
         @cards_view.expand = @expand_cards
 
