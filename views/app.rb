@@ -120,12 +120,9 @@ class AppView < View
                 @cards_view.cards = cards
             end
 
-            @cards_view.expand = @expand_cards || @temporary_expand_cards
             @cards_view.show_binder = true
 
             @sidebar_view.state = :home
-
-            @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
         when :print
             @binder_id = nil
 
@@ -135,12 +132,9 @@ class AppView < View
                 @cards_view.cards = cards
             end
 
-            @cards_view.expand = @expand_cards || @temporary_expand_cards
             @cards_view.show_binder = false
 
             @sidebar_view.state = :print
-
-            @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
         when :binder
             @temporary_expand_cards = false
 
@@ -148,14 +142,15 @@ class AppView < View
                 @cards_view.cards = cards
             end
 
-            @cards_view.expand = @expand_cards || @temporary_expand_cards
             @cards_view.show_binder = false
 
             @sidebar_view.state = :binder
             @sidebar_view.binder_id = @binder_id
-
-            @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
         end
+
+        @cards_view.expand = @expand_cards || @temporary_expand_cards
+
+        @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
     end
 
     def get_cards(&block)
