@@ -143,7 +143,7 @@ $monospace-font: "Source Code Pro";
 
             &.printed {
                 $color: hsl(90, 100%, 80%);
-                $hover-color: hsl(90, 100%, 70%);
+                $hover-color: hsl(90, 100%, 60%);
 
                 border-color: $color;
 
@@ -158,7 +158,7 @@ $monospace-font: "Source Code Pro";
 
             &.print-ready {
                 $color: hsl(60, 100%, 80%);
-                $hover-color: hsl(60, 100%, 60%);
+                $hover-color: hsl(60, 100%, 50%);
 
                 visibility: initial;
 
