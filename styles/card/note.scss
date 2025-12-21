@@ -52,8 +52,14 @@
     ol {
         padding-left: 4.5mm;
 
-        li p {
-            margin: 0;
+        li {
+            p {
+                margin: 0;
+            }
+
+            ol {
+                margin-bottom: 0;
+            }
         }
     }
 
