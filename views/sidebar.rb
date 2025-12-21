@@ -17,20 +17,20 @@ class SidebarView < View
                 end
 
                 HTML.div 'buttons' do
-                    HTML.div 'button print-button', ('selected' if @state == :print) do
-                        title 'print'
-
-                        HTML.span text: 'P'
-
-                        on :click, &method(:on_print)
-                    end
-
                     HTML.div 'button home-button', ('selected' if @state == :home) do
                         title 'home'
 
                         HTML.span text: 'H'
 
                         on :click, &method(:on_home)
+                    end
+
+                    HTML.div 'button print-button', ('selected' if @state == :print) do
+                        title 'print'
+
+                        HTML.span text: 'P'
+
+                        on :click, &method(:on_print)
                     end
                 end
             end
