@@ -69,6 +69,12 @@ get '/binders' do
 
     binders = DB[:binders].order(:order).all
 
+    binders.each do |binder|
+        dividers = DB[:dividers].where(binder_id: binder[:id]).order(:order).all
+
+        binder[:dividers] = dividers
+    end
+
     binders.to_json
 end
 
