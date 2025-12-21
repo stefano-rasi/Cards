@@ -6,7 +6,7 @@ require 'lib/view/view'
 
 class CardView < View
     draw do
-        HTML.div 'card-view', ('expand' if @expand), ('loading' if !@html), ('has-binder' if @binder_id), ('show-binder' if @show_binder) do
+        HTML.div 'card-view', ('expand' if @expand), ('has-binder' if @binder_id), ('show-binder' if @show_binder) do
             HTML.div 'button delete-button' do
                 title 'delete'
 
@@ -56,10 +56,10 @@ class CardView < View
         end
     end
 
-    def initialize(id, printed, binder_id)
+    def initialize(id, html, printed, binder_id)
         @id = id
 
-        @html = nil
+        @html = html
 
         @binders = []
 
@@ -70,12 +70,6 @@ class CardView < View
         @binder_id = binder_id
 
         @show_binder = false
-
-        HTTP.get("/cards/#{id}/html") do |body|
-            @html = body
-
-            draw
-        end
 
         HTTP.get('/binders') do |body|
             binders = JSON.parse(body)

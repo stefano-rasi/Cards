@@ -13,12 +13,11 @@ class CardsView < View
 
             @cards.each do |card|
                 id = card['id']
-
+                html = card['html']
                 printed = card['printed']
-
                 binder_id = card['binder_id']
 
-                View.CardView(id, printed, binder_id) do |card_view|
+                View.CardView(id, html, printed, binder_id) do |card_view|
                     @card_views << card_view
 
                     card_view.expand = @expand

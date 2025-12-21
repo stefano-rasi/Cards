@@ -52,12 +52,6 @@ $monospace-font: "Source Code Pro";
         }
     }
 
-    &.loading {
-        .card-container {
-            height: 88mm;
-        }
-    }
-
     &.show-binder {
         &.has-binder {
             .binder {
