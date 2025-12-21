@@ -6,7 +6,7 @@ require 'lib/view/view'
 
 class CardView < View
     draw do
-        HTML.div 'card-view', ('expand' if @expand), ('has-binder' if @binder_id), ('show-binder' if @show_binder) do
+        HTML.div 'card-view', ('expand' if @expand), ('loading' if !@html), ('has-binder' if @binder_id), ('show-binder' if @show_binder) do
             HTML.div 'button delete-button' do
                 title 'delete'
 
@@ -70,6 +70,16 @@ class CardView < View
         @binder_id = binder_id
 
         @show_binder = false
+
+        if !@html
+            HTTP.get("/cards/#{id}") do |body|
+                card = JSON.load(body)
+
+                @html = card['html']
+
+                draw
+            end
+        end
 
         HTTP.get('/binders') do |body|
             binders = JSON.parse(body)

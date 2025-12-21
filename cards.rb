@@ -32,19 +32,21 @@ get '/cards' do
 
     cards = DB[:cards].where(conditions).order(order).all
 
-    cards.each do |card|
-        type = card[:type]
-        text = card[:text]
+    if params[:eager_html]
+        cards.each do |card|
+            type = card[:type]
+            text = card[:text]
 
-        attributes = card[:attributes].split(/\s+/).map { |attribute|
-            key, value = attribute.split('=')
+            attributes = card[:attributes].split(/\s+/).map { |attribute|
+                key, value = attribute.split('=')
 
-            [ key, value ]
-        }.to_h
+                [ key, value ]
+            }.to_h
 
-        html = Card.classes[type].new(text, attributes).to_html
+            html = Card.classes[type].new(text, attributes).to_html
 
-        card[:html] = html
+            card[:html] = html
+        end
     end
 
     cards.to_json
