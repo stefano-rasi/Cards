@@ -112,7 +112,7 @@ class EditorView < View
     end
 
     def binder_id
-        @binder_select.value
+        @binder_select.value.to_i
     end
 
     def attributes
