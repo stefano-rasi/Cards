@@ -94,7 +94,9 @@ post '/cards' do
 
     fields[:printed] = printed if printed
 
-    DB[:cards].insert(fields)
+    id = DB[:cards].insert(fields)
+
+    { id: id }.to_json
 end
 
 patch '/cards/:id' do |id|
