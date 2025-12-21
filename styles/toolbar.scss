@@ -37,6 +37,20 @@ $sans-font: "Source Sans 3";
             background-color: hsl(0, 0%, 95%);
         }
 
+        &.refresh-button {
+            font-size: 20px;
+
+            border-color: hsl(0, 0%, 80%);
+
+            &:hover {
+                border-color: hsl(0, 0%, 70%);
+            }
+
+            span {
+                margin-top: 2px;
+            }
+        }
+
         &.new-card-button {
             font-size: 26px;
 

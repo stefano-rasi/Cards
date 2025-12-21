@@ -12,6 +12,12 @@ class ToolbarView < View
                 on :click, &method(:on_expand_cards)
             end
 
+            HTML.div 'button refresh-button' do
+                title 'refresh'
+
+                HTML.span text: 'R'
+            end
+
             HTML.div 'button new-card-button' do
                 title 'new card'
 
