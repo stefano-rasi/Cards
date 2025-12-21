@@ -71,6 +71,14 @@ class CardView < View
 
         @show_binder = false
 
+        HTTP.get('/binders') do |body|
+            binders = JSON.parse(body)
+
+            @binders = binders
+
+            draw
+        end
+
         if !@html
             HTTP.get("/cards/#{id}") do |body|
                 card = JSON.load(body)
@@ -79,14 +87,6 @@ class CardView < View
 
                 draw
             end
-        end
-
-        HTTP.get('/binders') do |body|
-            binders = JSON.parse(body)
-
-            @binders = binders
-
-            draw
         end
     end
 
