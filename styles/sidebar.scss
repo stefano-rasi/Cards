@@ -5,6 +5,9 @@ $monospace-font: "Source Code Pro";
 .sidebar-view {
     display: flex;
 
+    overflow-y: auto;
+    overflow-x: hidden;
+
     flex-direction: column;
 
     &.expanded {
