@@ -40,11 +40,44 @@ class SidebarView < View
                     id = binder['id']
                     name = binder['name']
 
-                    HTML.div 'binder', ('selected' if @state == :binder && id == @binder_id) do
-                        HTML.span 'icon', text: '▶'
-                        HTML.span 'name', text: name
+                    HTML.div 'binder-container' do
+                        HTML.div 'binder', ('selected' if @state == :binder && id == @binder_id && !@divider_id) do
+                            if id == @binder_id
+                                HTML.span 'icon', text: '▼'
+                            else
+                                HTML.span 'icon', text: '▶'
+                            end
 
-                        on(:click) { on_binder(id, name) }
+                            HTML.span 'name', text: name
+
+                            on(:click) do
+                                on_binder(id, name)
+                            end
+                        end
+
+                        if id == @binder_id
+                            HTML.div 'dividers' do
+                                binder['dividers'].each do |divider|
+                                    divider_id = divider['id']
+                                    divider_name = divider['name']
+
+                                    HTML.div 'divider', ('color' if divider_name.start_with? 'hsl'), ('selected' if @state == :binder && divider_id == @divider_id) do
+                                        HTML.div 'name' do
+                                            if divider_name.start_with? 'hsl'
+                                                style.color = divider_name
+                                                style.backgroundColor = divider_name
+                                            else
+                                                text divider_name
+                                            end
+                                        end
+
+                                        on(:click) do
+                                            on_binder(id, name, divider_id)
+                                        end
+                                    end
+                                end
+                            end
+                        end
                     end
                 end
             end
@@ -85,6 +118,12 @@ class SidebarView < View
         draw
     end
 
+    def divider_id=(divider_id)
+        @divider_id = divider_id
+
+        draw
+    end
+
     def on_home(&block)
         if block_given?
             @on_home_block = block
@@ -101,10 +140,12 @@ class SidebarView < View
         end
     end
 
-    def on_binder(id, name, &block)
+    def on_binder(id, name, divider_id, &block)
         if block_given?
             @on_binder_block = block
         else
+            @divider_id = divider_id
+
             @on_binder_block.call(id, name)
         end
     end
