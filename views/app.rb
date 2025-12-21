@@ -41,6 +41,7 @@ class AppView < View
 
                     @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
 
+                    @toolbar_view.on_refresh(&method(:on_refresh))
                     @toolbar_view.on_new_card(&method(:on_new_card))
                     @toolbar_view.on_expand_cards(&method(:on_expand_cards))
                 end
@@ -253,6 +254,8 @@ class AppView < View
             on_print()
         when 'n'
             open_modal()
+        when 'r'
+            on_refresh()
         when 'v'
             on_expand_cards()
         end
@@ -264,6 +267,12 @@ class AppView < View
         state(:binder)
 
         Window.history.pushState({ state: :binder, binder_id: id }, nil, "/?binder_id=#{id}")
+    end
+
+    def on_refresh()
+        get_cards() do |cards|
+            @cards_view.cards = cards
+        end
     end
 
     def on_new_card()
