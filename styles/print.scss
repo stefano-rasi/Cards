@@ -35,8 +35,11 @@
                 .card-view {
                     display: inline-block;
 
-                    vertical-align: top;
+                    border-color: hsl(0, 0%, 95%);
+                    border-radius: 0;
 
+                    vertical-align: top;
+                    
                     .binder {
                         display: none;
                     }
@@ -50,9 +53,6 @@
                             height: 88mm;
 
                             break-inside: avoid;
-
-                            border-color: hsl(0, 0%, 95%);
-                            border-radius: 0;
                         }
                     }
                 }
