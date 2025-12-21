@@ -81,6 +81,7 @@ post '/cards' do
 
     type = payload['type']
     text = payload['text']
+    printed = payload['printed']
     binder_id = payload['binder_id']
     attributes = payload['attributes']
 
@@ -90,6 +91,8 @@ post '/cards' do
         binder_id: binder_id,
         attributes: attributes
     }
+
+    fields[:printed] = printed if printed
 
     DB[:cards].insert(fields)
 end

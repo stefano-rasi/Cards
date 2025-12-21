@@ -207,6 +207,10 @@ class AppView < View
                             end
                         end
                     else
+                        if @state == :print
+                            payload[:printed] = 1
+                        end
+
                         HTTP.post('/cards', payload.to_json) do
                             get_cards() do |cards|
                                 @cards_view.cards = cards
