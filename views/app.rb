@@ -55,7 +55,7 @@ class AppView < View
                         @cards_view.show_binder = false
                     end
 
-                    @cards_view.expand = @expand_cards
+                    @cards_view.expand = @expand_cards || @temporary_expand_cards
 
                     @cards_view.on_edit(&method(:on_edit_card))
                     @cards_view.on_binder(&method(:on_card_binder))
