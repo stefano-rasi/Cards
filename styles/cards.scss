@@ -1,13 +1,15 @@
 .cards-view {
-    gap: 8px;
+    .divider {
+        gap: 8px;
 
-    padding: 16px;
+        padding: 16px;
 
-    display: masonry;
+        display: masonry;
 
-    position: relative;
+        position: relative;
 
-    justify-content: start;
+        justify-content: start;
 
-    grid-template-columns: repeat(auto-fill, auto);
+        grid-template-columns: repeat(auto-fill, auto);
+    }
 }

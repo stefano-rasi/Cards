@@ -22,15 +22,33 @@ get '/cards' do
         conditions[:printed] = params[:printed]
 
         order = Sequel.asc(:id)
-    end
-
-    if params[:binder_id]
-        conditions[:binder_id] = params[:binder_id]
-
+    else
         order = Sequel.desc(:id)
     end
 
-    cards = DB[:cards].where(conditions).order(order).all
+    if params[:binder_id]
+        binder_id = params[:binder_id]
+
+        cards = {
+            dividers: []
+        }
+
+        cards[:dividers] << {
+            cards: DB[:cards].where(conditions.merge({ binder_id: binder_id, divider_id: nil })).order(order).all
+        }
+
+        dividers = DB[:dividers].where(binder_id: binder_id).order(:order).all
+
+        dividers.each do |divider|
+            cards[:dividers] << {
+                id: divider[:id],
+                name: divider[:name],
+                cards: DB[:cards].where(conditions.merge({ divider_id: divider[:id] })).order(order).all
+            }
+        end
+    else
+        cards = DB[:cards].where(conditions).order(order).all
+    end
 
     cards.to_json
 end

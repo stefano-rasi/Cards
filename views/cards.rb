@@ -11,23 +11,39 @@ class CardsView < View
         HTML.div 'cards-view' do
             @card_views = []
 
-            @cards.each do |card|
-                id = card['id']
+            if @cards.is_a? Hash
+                dividers = @cards['dividers']
+            else
+                dividers = [ cards: @cards ]
+            end
 
-                printed = card['printed']
+            Console.log(dividers)
 
-                binder_id = card['binder_id']
+            dividers.each do |divider|
+                cards = divider['cards']
 
-                View.CardView(id, printed, binder_id) do |card_view|
-                    @card_views << card_view
+                if !cards.empty?
+                    HTML.div 'divider' do
+                        cards.each do |card|
+                            id = card['id']
 
-                    card_view.expand = @expand
+                            printed = card['printed']
 
-                    card_view.show_binder = @show_binder
+                            binder_id = card['binder_id']
 
-                    card_view.on_edit(&method(:on_edit))
-                    card_view.on_binder(&method(:on_binder))
-                    card_view.on_delete(&method(:on_delete))
+                            View.CardView(id, printed, binder_id) do |card_view|
+                                @card_views << card_view
+
+                                card_view.expand = @expand
+
+                                card_view.show_binder = @show_binder
+
+                                card_view.on_edit(&method(:on_edit))
+                                card_view.on_binder(&method(:on_binder))
+                                card_view.on_delete(&method(:on_delete))
+                            end
+                        end
+                    end
                 end
             end
         end
