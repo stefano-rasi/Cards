@@ -29,12 +29,12 @@ class CardsView < View
                         if divider_name
                             HTML.div 'head' do
                                 HTML.div 'label', ('color' if divider_name.start_with? 'hsl') do
-                                    if divider_name.start_with? 'hsl'
-                                        HTML.div 'color' do
+                                    HTML.div 'name' do
+                                        if divider_name.start_with? 'hsl'
                                             style.backgroundColor = divider_name
+                                        else
+                                            text divider_name
                                         end
-                                    else
-                                        text divider_name
                                     end
                                 end
                             end

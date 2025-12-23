@@ -41,14 +41,14 @@ $monospace-font: "Source Code Pro";
 
                 &.color {
                     padding: 6px;
-                }
 
-                .color {
-                    width: 150px;
-                    height: 1.6em;
+                    .name {
+                        width: 150px;
+                        height: 1.6em;
 
-                    border-top-left-radius: 2mm;
-                    border-top-right-radius: 2mm;
+                        border-top-left-radius: 2mm;
+                        border-top-right-radius: 2mm;
+                    }
                 }
             }
         }

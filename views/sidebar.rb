@@ -64,7 +64,6 @@ class SidebarView < View
                                     HTML.div 'divider', ('color' if divider_name.start_with? 'hsl'), ('selected' if @state == :binder && divider_id == @divider_id) do
                                         HTML.div 'name' do
                                             if divider_name.start_with? 'hsl'
-                                                style.color = divider_name
                                                 style.backgroundColor = divider_name
                                             else
                                                 text divider_name
