@@ -20,6 +20,12 @@ get '/' do
         @binder_id = nil
     end
 
+    if params[:divider_id]
+        @divider_id = params[:divider_id]
+    else
+        @divider_id = nil
+    end
+
     slim :app
 end
 

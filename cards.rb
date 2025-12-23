@@ -29,22 +29,28 @@ get '/cards' do
     if params[:binder_id]
         binder_id = params[:binder_id]
 
-        cards = {
-            dividers: []
-        }
+        if params[:divider_id]
+            divider_id = params[:divider_id]
 
-        cards[:dividers] << {
-            cards: DB[:cards].where(conditions.merge({ binder_id: binder_id, divider_id: nil })).order(order).all
-        }
-
-        dividers = DB[:dividers].where(binder_id: binder_id).order(:order).all
-
-        dividers.each do |divider|
-            cards[:dividers] << {
-                id: divider[:id],
-                name: divider[:name],
-                cards: DB[:cards].where(conditions.merge({ divider_id: divider[:id] })).order(order).all
+            cards = DB[:cards].where(conditions.merge({ divider_id: divider_id })).order(order).all
+        else
+            cards = {
+                dividers: []
             }
+
+            cards[:dividers] << {
+                cards: DB[:cards].where(conditions.merge({ binder_id: binder_id, divider_id: nil })).order(order).all
+            }
+
+            dividers = DB[:dividers].where(binder_id: binder_id).order(:order).all
+
+            dividers.each do |divider|
+                cards[:dividers] << {
+                    id: divider[:id],
+                    name: divider[:name],
+                    cards: DB[:cards].where(conditions.merge({ divider_id: divider[:id] })).order(order).all
+                }
+            end
         end
     else
         cards = DB[:cards].where(conditions).order(order).all

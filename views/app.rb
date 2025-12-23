@@ -26,6 +26,7 @@ class AppView < View
                     @sidebar_view.state = :binder
 
                     @sidebar_view.binder_id = @binder_id
+                    @sidebar_view.divider_id = @divider_id
                 end
 
                 @sidebar_view.expand = @expand_sidebar
@@ -68,6 +69,7 @@ class AppView < View
     def initialize()
         print_value = Document.getElementById('print').value
         binder_id_value = Document.getElementById('binder_id').value
+        divider_id_value = Document.getElementById('divider_id').value
 
         @expand_cards = false
         @expand_sidebar = true
@@ -80,6 +82,10 @@ class AppView < View
             @state = :binder
 
             @binder_id = binder_id_value.to_i
+
+            if !divider_id_value.empty?
+                @divider_id = divider_id_value.to_i
+            end
 
             @temporary_expand_cards = false
         else
@@ -113,6 +119,7 @@ class AppView < View
         case @state
         when :home
             @binder_id = nil
+            @divider_id = nil
 
             @temporary_expand_cards = false
 
@@ -125,6 +132,7 @@ class AppView < View
             @sidebar_view.state = :home
         when :print
             @binder_id = nil
+            @divider_id = nil
 
             @temporary_expand_cards = true
 
@@ -145,7 +153,9 @@ class AppView < View
             @cards_view.show_binder = false
 
             @sidebar_view.state = :binder
+
             @sidebar_view.binder_id = @binder_id
+            @sidebar_view.divider_id = @divider_id
         end
 
         @cards_view.expand = @expand_cards || @temporary_expand_cards
@@ -163,6 +173,10 @@ class AppView < View
             params[:printed] = 1
         when :binder
             params[:binder_id] = @binder_id
+
+            if @divider_id
+                params[:divider_id] = @divider_id
+            end
         end
 
         HTTP.get("/cards?#{params.map { |key, value| "#{key}=#{value}" }.join('&')}") do |body|
@@ -258,12 +272,17 @@ class AppView < View
         end
     end
 
-    def on_binder(id, name)
-        @binder_id = id
+    def on_binder(binder_id, divider_id)
+        @binder_id = binder_id
+        @divider_id = divider_id
 
         state(:binder)
 
-        Window.history.pushState({ state: :binder, binder_id: id }, nil, "/?binder_id=#{id}")
+        if divider_id
+            Window.history.pushState({ state: :binder, binder_id: binder_id, divider_id: divider_id }, nil, "/?binder_id=#{binder_id}&divider_id=#{divider_id}")
+        else
+            Window.history.pushState({ state: :binder, binder_id: binder_id }, nil, "/?binder_id=#{binder_id}")
+        end
     end
 
     def on_new_card()
@@ -277,6 +296,12 @@ class AppView < View
             state(:print)
         elsif state[:state] == :binder
             @binder_id = state[:binder_id]
+
+            if state[:binder_id]
+                @divider_id = state[:divider_id]
+            else
+                @divider_id = nil
+            end
 
             state(:binder)
         end

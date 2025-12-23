@@ -37,25 +37,25 @@ class SidebarView < View
 
             HTML.div 'binders' do
                 @binders.each do |binder|
-                    id = binder['id']
-                    name = binder['name']
+                    binder_id = binder['id']
+                    binder_name = binder['name']
 
                     HTML.div 'binder-container' do
-                        HTML.div 'binder', ('selected' if @state == :binder && id == @binder_id && !@divider_id) do
-                            if id == @binder_id
+                        HTML.div 'binder', ('selected' if @state == :binder && binder_id == @binder_id && !@divider_id) do
+                            if binder_id == @binder_id
                                 HTML.span 'icon', text: '▼'
                             else
                                 HTML.span 'icon', text: '▶'
                             end
 
-                            HTML.span 'name', text: name
+                            HTML.span 'name', text: binder_name
 
                             on(:click) do
-                                on_binder(id, name)
+                                on_binder(binder_id)
                             end
                         end
 
-                        if id == @binder_id
+                        if binder_id == @binder_id
                             HTML.div 'dividers' do
                                 binder['dividers'].each do |divider|
                                     divider_id = divider['id']
@@ -72,7 +72,7 @@ class SidebarView < View
                                         end
 
                                         on(:click) do
-                                            on_binder(id, name, divider_id)
+                                            on_binder(binder_id, divider_id)
                                         end
                                     end
                                 end
@@ -140,13 +140,11 @@ class SidebarView < View
         end
     end
 
-    def on_binder(id, name, divider_id, &block)
+    def on_binder(binder_id, divider_id, &block)
         if block_given?
             @on_binder_block = block
         else
-            @divider_id = divider_id
-
-            @on_binder_block.call(id, name)
+            @on_binder_block.call(binder_id, divider_id)
         end
     end
 

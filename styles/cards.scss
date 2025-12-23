@@ -1,15 +1,72 @@
+$monospace-font: "Source Code Pro";
+
 .cards-view {
+    padding-bottom: 16px;
+
     .divider {
-        gap: 8px;
+        .head {
+            display: flex;
 
-        padding: 16px;
+            padding-top: 16px;
+            padding-right: 16px;
 
-        display: masonry;
+            flex-direction: row;
 
-        position: relative;
+            justify-content: end;
 
-        justify-content: start;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: hsl(0, 0%, 80%);
 
-        grid-template-columns: repeat(auto-fill, auto);
+            .label {
+                text-align: center;
+
+                font-size: 14px;
+                font-family: $monospace-font;
+
+                padding-top: 8px;
+                padding-left: 14px;
+                padding-right: 14px;
+                padding-bottom: 6px;
+
+                border-width: 1px;
+                border-color: hsl(0, 0%, 80%);
+
+                border-top-style: solid;
+                border-left-style: solid;
+                border-right-style: solid;
+
+                border-top-left-radius: 3mm;
+                border-top-right-radius: 3mm;
+
+                &.color {
+                    padding: 6px;
+                }
+
+                .color {
+                    width: 150px;
+                    height: 1.6em;
+
+                    border-top-left-radius: 2mm;
+                    border-top-right-radius: 2mm;
+                }
+            }
+        }
+
+        .cards {
+            gap: 8px;
+
+            padding-top: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
+
+            display: masonry;
+
+            position: relative;
+
+            justify-content: start;
+
+            grid-template-columns: repeat(auto-fill, auto);
+        }
     }
 }

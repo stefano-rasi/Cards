@@ -22,25 +22,43 @@ class CardsView < View
             dividers.each do |divider|
                 cards = divider['cards']
 
+                divider_name = divider['name']
+
                 if !cards.empty?
                     HTML.div 'divider' do
-                        cards.each do |card|
-                            id = card['id']
+                        if divider_name
+                            HTML.div 'head' do
+                                HTML.div 'label', ('color' if divider_name.start_with? 'hsl') do
+                                    if divider_name.start_with? 'hsl'
+                                        HTML.div 'color' do
+                                            style.backgroundColor = divider_name
+                                        end
+                                    else
+                                        text divider_name
+                                    end
+                                end
+                            end
+                        end
 
-                            printed = card['printed']
+                        HTML.div 'cards' do
+                            cards.each do |card|
+                                id = card['id']
 
-                            binder_id = card['binder_id']
+                                printed = card['printed']
 
-                            View.CardView(id, printed, binder_id) do |card_view|
-                                @card_views << card_view
+                                binder_id = card['binder_id']
 
-                                card_view.expand = @expand
+                                View.CardView(id, printed, binder_id) do |card_view|
+                                    @card_views << card_view
 
-                                card_view.show_binder = @show_binder
+                                    card_view.expand = @expand
 
-                                card_view.on_edit(&method(:on_edit))
-                                card_view.on_binder(&method(:on_binder))
-                                card_view.on_delete(&method(:on_delete))
+                                    card_view.show_binder = @show_binder
+
+                                    card_view.on_edit(&method(:on_edit))
+                                    card_view.on_binder(&method(:on_binder))
+                                    card_view.on_delete(&method(:on_delete))
+                                end
                             end
                         end
                     end
