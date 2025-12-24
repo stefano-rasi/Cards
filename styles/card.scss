@@ -9,6 +9,8 @@ $monospace-font: "Source Code Pro";
 
     position: relative;
 
+    min-height: 30mm;
+
     border-width: 1px;
     border-style: solid;
     border-color: hsl(0, 0%, 90%);
@@ -210,7 +212,6 @@ $monospace-font: "Source Code Pro";
     .card-container {
         display: flex;
 
-        min-height: 30mm;
         max-height: 88mm;
 
         flex-grow: 1;
