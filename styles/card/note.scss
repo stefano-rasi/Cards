@@ -63,6 +63,50 @@
         }
     }
 
+    table {
+        width: 100%;
+
+        border-collapse: collapse;
+
+        thead {
+            tr {
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: black;
+
+                th {
+                    font-family: "Source Sans 3";
+                }
+            }
+        }
+
+        tr {
+            td, th {
+                padding-right: 4px;
+
+                p {
+                    margin: 0;
+                }
+            }
+
+            td + td, th + th {
+                padding-left: 4px;
+
+                border-left-width: 1px;
+                border-left-style: solid;
+                border-left-color: black;
+            }
+        }
+
+        tr + tr {
+            td {
+                border-top-width: 1px;
+                border-top-style: solid;
+                border-top-color: black;
+            }
+        }
+    }
+
     code {
         font-size: 11pt;
         font-family: "Source Code Pro";
