@@ -41,8 +41,7 @@ class SidebarView < View
                     name = binder['name']
 
                     HTML.div 'binder', ('selected' if @state == :binder && id == @binder_id) do
-                        HTML.span 'icon', text: '▶'
-                        HTML.span 'name', text: name
+                        text name
 
                         on(:click) { on_binder(id, name) }
                     end
