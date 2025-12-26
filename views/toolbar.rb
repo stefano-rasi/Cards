@@ -6,7 +6,7 @@ class ToolbarView < View
         HTML.div 'toolbar-view' do
             HTML.div 'left-buttons' do
                 HTML.div 'button sidebar-expand-button', ('selected' if @sidebar_expand) do
-                    title 'expand'
+                    title 'expand sidebar'
 
                     HTML.span text: '☰'
 
