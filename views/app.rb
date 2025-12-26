@@ -224,6 +224,10 @@ class AppView < View
             open_modal()
         when 'v'
             on_cards_expand()
+        when 'r'
+            get_cards() do |cards|
+                @cards_view.cards = cards
+            end
         end
     end
 
