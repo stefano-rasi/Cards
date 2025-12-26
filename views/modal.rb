@@ -42,7 +42,7 @@ class EditorModalView < View
 
         Window.setTimeout do
             Document.addEventListener('keyup', &@on_keyup)
-            Document.addEventListener('click', &@on_click)
+            Document.addEventListener('mousedown', &@on_click)
         end
     end
 
@@ -65,7 +65,7 @@ class EditorModalView < View
 
             if @on_close_block.call(type, text, attributes, binder_id) != false
                 Document.removeEventListener('keyup', &@on_keyup)
-                Document.removeEventListener('click', &@on_click)
+                Document.removeEventListener('mousedown', &@on_click)
             end
         end
     end

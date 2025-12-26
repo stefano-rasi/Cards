@@ -90,6 +90,8 @@ module Kernel
                     end
                 when 'html'
                     HTML.element.innerHTML = args[0]
+                when 'style'
+                    HTML.element.style
                 when 'text'
                     HTML.element.textContent = args[0]
                 when 'title'
