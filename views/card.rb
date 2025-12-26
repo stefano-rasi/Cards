@@ -27,8 +27,6 @@ class CardView < View
 
             HTML.div 'binder' do
                 HTML.select do
-                    HTML.option text: 'binder', value: ''
-
                     @binders.each do |binder|
                         binder_id = binder['id']
                         binder_name = binder['name']

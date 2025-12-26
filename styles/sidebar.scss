@@ -15,11 +15,9 @@ $monospace-font: "Source Code Pro";
             display: flex;
         }
 
-        .first-row {
-            .buttons {
-                .button {
-                    display: flex;
-                }
+        .buttons {
+            .button.print-button {
+                display: flex;
             }
         }
     }
@@ -70,7 +68,7 @@ $monospace-font: "Source Code Pro";
         }
     }
 
-    .first-row {
+    .buttons {
         display: flex;
 
         padding: 8px;
@@ -111,30 +109,22 @@ $monospace-font: "Source Code Pro";
                 background-color: hsl(0, 0%, 95%);
             }
 
-            span {
-                margin-top: 2px;
-            }
-        }
-
-        .buttons {
-            display: flex;
-
-            column-gap: 4px;
-
-            flex-direction: row;
-
-            .button {
+            &.print-button {
                 display: none;
 
                 &.selected {
                     background-color: hsl(0, 0%, 95%);
                 }
             }
-        }
 
-        .expand-button {
+            &.expand-button {
+                span {
+                    margin-top: -1px;
+                }
+            }
+
             span {
-                margin-top: -1px;
+                margin-top: 2px;
             }
         }
     }

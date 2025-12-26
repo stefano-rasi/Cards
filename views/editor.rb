@@ -104,7 +104,11 @@ class EditorView < View
     end
 
     def type
-        @type_select.value
+        if @type_select.value.empty?
+            nil
+        else
+            @type_select.value
+        end
     end
 
     def text
@@ -112,7 +116,11 @@ class EditorView < View
     end
 
     def binder_id
-        @binder_select.value.to_i
+        if @binder_select.value.empty?
+            nil
+        else
+            @binder_select.value.to_i
+        end
     end
 
     def attributes

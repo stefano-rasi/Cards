@@ -18,8 +18,6 @@ class AppView < View
                 @sidebar_view = sidebar_view
 
                 case @state
-                when :home
-                    @sidebar_view.state = :home
                 when :print
                     @sidebar_view.state = :print
                 when :binder
@@ -30,7 +28,6 @@ class AppView < View
 
                 @sidebar_view.expand = @expand_sidebar
 
-                @sidebar_view.on_home(&method(:on_home))
                 @sidebar_view.on_print(&method(:on_print))
                 @sidebar_view.on_binder(&method(:on_binder))
             end
@@ -48,12 +45,7 @@ class AppView < View
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    case @state
-                    when :home
-                        @cards_view.show_binder = true
-                    else
-                        @cards_view.show_binder = false
-                    end
+                    @cards_view.show_binder = false
 
                     @cards_view.expand = @expand_cards || @temporary_expand_cards
 
@@ -82,10 +74,6 @@ class AppView < View
             @binder_id = binder_id_value.to_i
 
             @temporary_expand_cards = false
-        else
-            @state = :home
-
-            @temporary_expand_cards = false
         end
 
         get_cards() do |cards|
@@ -111,18 +99,6 @@ class AppView < View
         @state = state
 
         case @state
-        when :home
-            @binder_id = nil
-
-            @temporary_expand_cards = false
-
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
-            @cards_view.show_binder = true
-
-            @sidebar_view.state = :home
         when :print
             @binder_id = nil
 
@@ -157,8 +133,6 @@ class AppView < View
         params = {}
 
         case @state
-        when :home
-            params[:binder_id] = nil
         when :print
             params[:printed] = 1
         when :binder
@@ -180,12 +154,16 @@ class AppView < View
         modal = EditorModalView.new(type, text, attributes, binder_id)
 
         modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
-            if new_type.empty? and !new_text.empty?
-                Window.alert('Inserire il tipo di carta')
+            if !new_text.empty?
+                if !new_type
+                    Window.alert('Inserire il tipo di carta')
 
-                false
-            else
-                if !new_text.empty?
+                    false
+                elsif !new_binder_id
+                    Window.alert('Inserire il raccoglitore')
+
+                    false
+                else
                     payload = {
                         type: new_type,
                         text: new_text,
@@ -212,11 +190,11 @@ class AppView < View
                             end
                         end
                     end
+
+                    Window.addEventListener('keyup', &@on_keyup)
+
+                    Document.body.removeChild(modal.element)
                 end
-
-                Window.addEventListener('keyup', &@on_keyup)
-
-                Document.body.removeChild(modal.element)
             end
         end
 
@@ -231,12 +209,6 @@ class AppView < View
         end
     end
 
-    def on_home()
-        state(:home)
-
-        Window.history.pushState({ state: :home }, nil, '/')
-    end
-
     def on_print()
         state(:print)
 
@@ -247,8 +219,6 @@ class AppView < View
         event = Native(event)
 
         case event.key
-        when 'h'
-            on_home()
         when 'p'
             on_print()
         when 'n'
@@ -271,9 +241,7 @@ class AppView < View
     end
 
     def on_popstate(state)
-        if state[:state] == :home
-            state(:home)
-        elsif state[:state] == :print
+        if state[:state] == :print
             state(:print)
         elsif state[:state] == :binder
             @binder_id = state[:binder_id]
