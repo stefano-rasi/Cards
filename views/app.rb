@@ -32,9 +32,7 @@ class AppView < View
 
                     @toolbar_view.on_home(&method(:on_home))
                     @toolbar_view.on_print(&method(:on_print))
-
                     @toolbar_view.on_card_new(&method(:on_card_new))
-
                     @toolbar_view.on_cards_expand(&method(:on_cards_expand))
                     @toolbar_view.on_sidebar_expand(&method(:on_sidebar_expand))
                 end
@@ -45,7 +43,6 @@ class AppView < View
                     @sidebar_view = sidebar_view
 
                     @sidebar_view.expand = @sidebar_expand
-
                     @sidebar_view.binder_id = @binder_id
 
                     @sidebar_view.on_binder(&method(:on_binder))
@@ -56,7 +53,6 @@ class AppView < View
                         @cards_view = cards_view
 
                         @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
-
                         @cards_view.show_binders = @cards_show_binders
 
                         @cards_view.on_card_edit(&method(:on_card_edit))
@@ -168,7 +164,6 @@ class AppView < View
         end
 
         @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
-
         @cards_view.show_binders = @cards_show_binders
 
         @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
