@@ -4,7 +4,7 @@ require 'lib/view/view'
 class ToolbarView < View
     draw do
         HTML.div 'toolbar-view' do
-            HTML.div 'button expand-cards-button', ('selected' if @cards_expand) do
+            HTML.div 'button cards-expand-button', ('selected' if @cards_expand) do
                 title 'expand cards'
 
                 HTML.span text: 'V'
@@ -12,7 +12,7 @@ class ToolbarView < View
                 on :click, &method(:on_cards_expand)
             end
 
-            HTML.div 'button new-card-button' do
+            HTML.div 'button card-new-button' do
                 title 'new card'
 
                 HTML.span text: '+'
