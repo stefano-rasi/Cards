@@ -195,6 +195,10 @@ class AppView < View
 
                     Document.body.removeChild(modal.element)
                 end
+            else
+                Window.addEventListener('keyup', &@on_keyup)
+
+                Document.body.removeChild(modal.element)
             end
         end
 

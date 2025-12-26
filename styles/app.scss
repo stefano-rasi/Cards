@@ -43,8 +43,6 @@ body {
 
             flex-grow: 0;
 
-            background-color: white;
-
             border-bottom-width: 1px;
             border-bottom-style: solid;
             border-bottom-color: hsl(0, 0%, 80%);
@@ -57,5 +55,11 @@ body {
         border-right-width: 1px;
         border-right-style: solid;
         border-right-color: hsl(0, 0%, 80%);
+
+        .buttons {
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: hsl(0, 0%, 80%);
+        }
     }
 }

@@ -27,14 +27,6 @@ $monospace-font: "Source Code Pro";
 
         flex-direction: column;
 
-        border-color: hsl(0, 0%, 90%);
-
-        border-top-width: 1px;
-        border-top-style: solid;
-
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-
         .binder {
             user-select: none;
 
@@ -45,6 +37,10 @@ $monospace-font: "Source Code Pro";
             padding-left: 10px;
             padding-right: 10px;
             padding-bottom: 6px;
+
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: hsl(0, 0%, 90%);
 
             &:hover {
                 cursor: pointer;
@@ -60,12 +56,6 @@ $monospace-font: "Source Code Pro";
                 background-color: hsl(0, 0%, 95%);
             }
         }
-
-        .binder + .binder {
-            border-top-width: 1px;
-            border-top-style: solid;
-            border-top-color: hsl(0, 0%, 90%);
-        }
     }
 
     .buttons {
@@ -76,6 +66,8 @@ $monospace-font: "Source Code Pro";
         flex-direction: row;
 
         justify-content: space-between;
+
+        background-color: hsl(0, 0%, 97.5%);
 
         .button {
             width: 36px;
@@ -99,21 +91,19 @@ $monospace-font: "Source Code Pro";
 
             justify-content: center;
 
-            background-color: white;
-
             &:hover {
                 cursor: pointer;
 
-                border-color: hsl(0, 0%, 95%);
+                border-color: hsl(0, 0%, 92.5%);
 
-                background-color: hsl(0, 0%, 95%);
+                background-color: hsl(0, 0%, 92.5%);
             }
 
             &.print-button {
                 display: none;
 
                 &.selected {
-                    background-color: hsl(0, 0%, 95%);
+                    background-color: hsl(0, 0%, 92.5%);
                 }
             }
 
