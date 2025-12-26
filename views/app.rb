@@ -38,7 +38,7 @@ class AppView < View
 
                     @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
 
-                    @toolbar_view.on_new_card(&method(:on_new_card))
+                    @toolbar_view.on_card_new(&method(:on_card_new))
                     @toolbar_view.on_cards_expand(&method(:on_cards_expand))
                     @toolbar_view.on_cards_refresh(&method(:on_cards_refresh))
                 end
