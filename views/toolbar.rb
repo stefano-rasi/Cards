@@ -13,6 +13,14 @@ class ToolbarView < View
                     on :click, &method(:on_sidebar_expand)
                 end
 
+                HTML.div 'button home-button', ('selected' if @state == :home) do
+                    title 'home'
+
+                    HTML.span text: 'H'
+
+                    on :click, &method(:on_home)
+                end
+
                 HTML.div 'button print-button', ('selected' if @state == :print) do
                     title 'print'
 
@@ -66,6 +74,14 @@ class ToolbarView < View
         @sidebar_expand = sidebar_expand
 
         draw
+    end
+
+    def on_home(&block)
+        if block_given?
+            @on_home_block = block
+        else
+            @on_home_block.call()
+        end
     end
 
     def on_print(&block)

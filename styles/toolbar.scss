@@ -39,6 +39,16 @@ $sans-font: "Source Sans 3";
             background-color: hsl(0, 0%, 90%);
         }
 
+        &.home-button {
+            font-size: 20px;
+
+            border-color: transparent;
+
+            &.selected {
+                background-color: hsl(0, 0%, 90%);
+            }
+        }
+
         &.print-button {
             font-size: 20px;
 
