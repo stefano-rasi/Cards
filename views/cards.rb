@@ -8,7 +8,7 @@ require_relative 'card'
 
 class CardsView < View
     draw do
-        HTML.div 'cards-view', ('cards-expand' if @cards_expand) do |div|
+        HTML.div 'cards-view', ('cards-expand' if @cards_expand), ('show-binders' if @show_binders) do |div|
             @div = div
 
             @card_views = []
@@ -49,6 +49,16 @@ class CardsView < View
             @div.classList.add('cards-expand')
         else
             @div.classList.remove('cards-expand')
+        end
+    end
+
+    def show_binders=(show_binders)
+        @show_binders = show_binders
+
+        if @show_binders
+            @div.classList.add('show-binders')
+        else
+            @div.classList.remove('show-binders')
         end
     end
 

@@ -56,6 +56,8 @@ class AppView < View
 
                     @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
+                    @cards_view.show_binders = @cards_show_binders
+
                     @cards_view.on_card_edit(&method(:on_card_edit))
                     @cards_view.on_card_delete(&method(:on_card_delete))
                     @cards_view.on_card_binder(&method(:on_card_binder))
@@ -77,17 +79,23 @@ class AppView < View
 
             @binder_id = nil
 
+            @cards_show_binders = false
+
             @temporary_cards_expand = true
         elsif !binder_id_value.empty?
             @state = :binder
 
             @binder_id = binder_id_value.to_i
 
+            @cards_show_binders = false
+
             @temporary_cards_expand = false
         else
             @state = :home
 
             @binder_id = nil
+
+            @cards_show_binders = true
 
             @temporary_cards_expand = false
         end
@@ -118,6 +126,8 @@ class AppView < View
         when :home
             @binder_id = nil
 
+            @cards_show_binders = true
+
             @temporary_cards_expand = false
 
             get_cards() do |cards|
@@ -128,6 +138,8 @@ class AppView < View
         when :print
             @binder_id = nil
 
+            @cards_show_binders = false
+
             @temporary_cards_expand = true
 
             get_cards() do |cards|
@@ -136,6 +148,8 @@ class AppView < View
 
             @toolbar_view.state = :print
         when :binder
+            @cards_show_binders = false
+
             @temporary_cards_expand = false
 
             get_cards() do |cards|
@@ -146,6 +160,8 @@ class AppView < View
         end
 
         @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
+
+        @cards_view.show_binders = @cards_show_binders
 
         @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
 

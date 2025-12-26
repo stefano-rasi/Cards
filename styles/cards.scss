@@ -12,8 +12,20 @@
     grid-template-columns: repeat(auto-fill, auto);
 
     &.cards-expand {
-        .card-container {
-            height: 88mm;
+        .card-view {
+            .card-container {
+                height: 88mm;
+            }
+        }
+    }
+
+    &.show-binders {
+        .card-view {
+            .binder {
+                display: block;
+
+                position: relative;
+            }
         }
     }
 }
