@@ -145,7 +145,7 @@ class AppView < View
         end
     end
 
-    def open_modal(id, type, text, attributes, binder_id)
+    def open_editor_modal(id, type, text, attributes, binder_id)
         if !id
             binder_id = @binder_id
         end
@@ -220,8 +220,8 @@ class AppView < View
         case event.key
         when 'p'
             on_print()
-        when 'n'
-            open_modal()
+        when 'n', '+'
+            open_editor_modal()
         when 'v'
             on_cards_expand()
         when 'r'
@@ -250,7 +250,7 @@ class AppView < View
     end
 
     def on_card_new()
-        open_modal(binder_id: @binder_id)
+        open_editor_modal(binder_id: @binder_id)
     end
 
     def on_card_edit(id)
@@ -264,7 +264,7 @@ class AppView < View
 
             attributes = card['attributes']
 
-            open_modal(id, type, text, attributes, binder_id)
+            open_editor_modal(id, type, text, attributes, binder_id)
         end
     end
 
