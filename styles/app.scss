@@ -11,24 +11,20 @@ body {
 }
 
 .app-view {
-    height: 100%;
-
     display: flex;
 
+    min-height: 0;
+
     flex-grow: 1;
-    flex-direction: row;
+    flex-direction: column;
 
     position: relative;
 
-    .right-pane {
-        height: 100%;
-
+    .top-pane {
         display: flex;
 
-        overflow: auto;
-
-        flex-grow: 1;
-        flex-direction: column;
+        flex-grow: 0;
+        flex-direction: row;
 
         .cards-view {
             flex-grow: 1;
@@ -36,6 +32,8 @@ body {
 
         .toolbar-view {
             top: 0;
+
+            width: 100%;
 
             z-index: 1;
 
@@ -49,17 +47,41 @@ body {
         }
     }
 
-    .sidebar-view {
-        flex-grow: 0;
+    .bottom-pane {
+        min-height: 0;
 
-        border-right-width: 1px;
-        border-right-style: solid;
-        border-right-color: hsl(0, 0%, 80%);
+        display: flex;
 
-        .buttons {
-            border-bottom-width: 1px;
-            border-bottom-style: solid;
-            border-bottom-color: hsl(0, 0%, 80%);
+        flex-grow: 1;
+        flex-direction: row;
+
+        .cards-view {
+            overflow: auto;
+
+            flex-grow: 1;
+
+            min-height: 0;
+
+            box-sizing: border-box;
+        }
+
+        .sidebar-view {
+            flex-grow: 0;
+
+            min-height: 0;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            border-right-width: 1px;
+            border-right-style: solid;
+            border-right-color: hsl(0, 0%, 80%);
+
+            .buttons {
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: hsl(0, 0%, 80%);
+            }
         }
     }
 }
