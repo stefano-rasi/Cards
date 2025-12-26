@@ -8,7 +8,7 @@ require_relative 'card'
 
 class CardsView < View
     draw do
-        HTML.div 'cards-view' do |div|
+        HTML.div 'cards-view', ('cards-expand' if @cards_expand) do |div|
             @div = div
 
             @card_views = []
