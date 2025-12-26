@@ -24,6 +24,8 @@
                 .card-view {
                     display: inline-block;
 
+                    break-inside: avoid;
+
                     border-color: hsl(0, 0%, 95%);
                     border-radius: 0;
 
@@ -40,8 +42,6 @@
                     .card-container {
                         .card {
                             height: 88mm;
-
-                            break-inside: avoid;
                         }
                     }
                 }
