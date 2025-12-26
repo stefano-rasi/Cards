@@ -22,11 +22,11 @@ get '/cards' do
         conditions[:printed] = params[:printed]
 
         id_order = Sequel.asc(:id)
-    end
-
-    if params[:binder_id]
+    elsif params[:binder_id]
         conditions[:binder_id] = params[:binder_id]
 
+        id_order = Sequel.desc(:id)
+    else
         id_order = Sequel.desc(:id)
     end
 
