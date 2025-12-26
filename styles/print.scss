@@ -19,8 +19,6 @@
 
                 display: block;
 
-                overflow: initial;
-
                 .card-view {
                     display: inline-block;
 
@@ -31,11 +29,7 @@
 
                     vertical-align: top;
 
-                    .button {
-                        display: none;
-                    }
-
-                    .binder {
+                    .button, .binder {
                         display: none;
                     }
 

@@ -51,16 +51,18 @@ class AppView < View
                     @sidebar_view.on_binder(&method(:on_binder))
                 end
 
-                View.CardsView() do |cards_view|
-                    @cards_view = cards_view
+                HTML.div 'cards-container' do
+                    View.CardsView() do |cards_view|
+                        @cards_view = cards_view
 
-                    @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
+                        @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
-                    @cards_view.show_binders = @cards_show_binders
+                        @cards_view.show_binders = @cards_show_binders
 
-                    @cards_view.on_card_edit(&method(:on_card_edit))
-                    @cards_view.on_card_delete(&method(:on_card_delete))
-                    @cards_view.on_card_binder(&method(:on_card_binder))
+                        @cards_view.on_card_edit(&method(:on_card_edit))
+                        @cards_view.on_card_delete(&method(:on_card_delete))
+                        @cards_view.on_card_binder(&method(:on_card_binder))
+                    end
                 end
             end
         end
