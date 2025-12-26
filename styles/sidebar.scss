@@ -67,7 +67,7 @@ $monospace-font: "Source Code Pro";
 
         justify-content: space-between;
 
-        background-color: hsl(0, 0%, 97.5%);
+        background-color: hsl(0, 0%, 95%);
 
         .button {
             width: 36px;
@@ -94,16 +94,16 @@ $monospace-font: "Source Code Pro";
             &:hover {
                 cursor: pointer;
 
-                border-color: hsl(0, 0%, 92.5%);
+                border-color: hsl(0, 0%, 90%);
 
-                background-color: hsl(0, 0%, 92.5%);
+                background-color: hsl(0, 0%, 90%);
             }
 
             &.print-button {
                 display: none;
 
                 &.selected {
-                    background-color: hsl(0, 0%, 92.5%);
+                    background-color: hsl(0, 0%, 90%);
                 }
             }
 
