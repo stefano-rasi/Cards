@@ -11,6 +11,8 @@ $sans-font: "Source Sans 3";
 
     justify-content: end;
 
+    background-color: hsl(0, 0%, 95%);
+
     .button {
         width: 36px;
         height: 36px;
@@ -34,7 +36,7 @@ $sans-font: "Source Sans 3";
         &:hover {
             cursor: pointer;
 
-            background-color: hsl(0, 0%, 95%);
+            background-color: hsl(0, 0%, 90%);
         }
 
         &.new-card-button {
@@ -53,7 +55,7 @@ $sans-font: "Source Sans 3";
             border-color: transparent;
 
             &.selected {
-                background-color: hsl(0, 0%, 95%);
+                background-color: hsl(0, 0%, 90%);
             }
 
             span {

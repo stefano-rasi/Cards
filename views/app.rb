@@ -18,8 +18,6 @@ class AppView < View
                 @sidebar_view = sidebar_view
 
                 case @state
-                when :home
-                    @sidebar_view.state = :home
                 when :print
                     @sidebar_view.state = :print
                 when :binder
@@ -28,9 +26,8 @@ class AppView < View
                     @sidebar_view.binder_id = @binder_id
                 end
 
-                @sidebar_view.expand = @expand_sidebar
+                @sidebar_view.expand = @sidebar_expand
 
-                @sidebar_view.on_home(&method(:on_home))
                 @sidebar_view.on_print(&method(:on_print))
                 @sidebar_view.on_binder(&method(:on_binder))
             end
@@ -39,53 +36,42 @@ class AppView < View
                 View.ToolbarView() do |toolbar_view|
                     @toolbar_view = toolbar_view
 
-                    @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
+                    @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
 
-                    @toolbar_view.on_new_card(&method(:on_new_card))
-                    @toolbar_view.on_expand_cards(&method(:on_expand_cards))
+                    @toolbar_view.on_card_new(&method(:on_card_new))
+                    @toolbar_view.on_cards_expand(&method(:on_cards_expand))
                 end
 
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    case @state
-                    when :home
-                        @cards_view.show_binder = true
-                    else
-                        @cards_view.show_binder = false
-                    end
+                    @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
-                    @cards_view.expand = @expand_cards || @temporary_expand_cards
-
-                    @cards_view.on_edit(&method(:on_edit_card))
-                    @cards_view.on_binder(&method(:on_card_binder))
-                    @cards_view.on_delete(&method(:on_delete_card))
+                    @cards_view.on_card_edit(&method(:on_card_edit))
+                    @cards_view.on_card_delete(&method(:on_card_delete))
+                    @cards_view.on_card_binder(&method(:on_card_binder))
                 end
             end
         end
     end
 
     def initialize()
-        print_value = Document.getElementById('print').value
+        printed_value = Document.getElementById('printed').value
         binder_id_value = Document.getElementById('binder_id').value
 
-        @expand_cards = false
-        @expand_sidebar = true
+        @cards_expand = false
+        @sidebar_expand = true
 
-        if !print_value.empty?
+        if !printed_value.empty?
             @state = :print
 
-            @temporary_expand_cards = true
+            @temporary_cards_expand = true
         elsif !binder_id_value.empty?
             @state = :binder
 
             @binder_id = binder_id_value.to_i
 
-            @temporary_expand_cards = false
-        else
-            @state = :home
-
-            @temporary_expand_cards = false
+            @temporary_cards_expand = false
         end
 
         get_cards() do |cards|
@@ -111,54 +97,37 @@ class AppView < View
         @state = state
 
         case @state
-        when :home
-            @binder_id = nil
-
-            @temporary_expand_cards = false
-
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
-            @cards_view.show_binder = true
-
-            @sidebar_view.state = :home
         when :print
             @binder_id = nil
 
-            @temporary_expand_cards = true
+            @temporary_cards_expand = true
 
             get_cards() do |cards|
                 @cards_view.cards = cards
             end
-
-            @cards_view.show_binder = false
 
             @sidebar_view.state = :print
         when :binder
-            @temporary_expand_cards = false
+            @temporary_cards_expand = false
 
             get_cards() do |cards|
                 @cards_view.cards = cards
             end
 
-            @cards_view.show_binder = false
-
             @sidebar_view.state = :binder
+
             @sidebar_view.binder_id = @binder_id
         end
 
-        @cards_view.expand = @expand_cards || @temporary_expand_cards
+        @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
-        @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
+        @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
     end
 
     def get_cards(eager_html: false, &block)
         params = {}
 
         case @state
-        when :home
-            params[:binder_id] = nil
         when :print
             params[:printed] = 1
         when :binder
@@ -184,8 +153,12 @@ class AppView < View
         modal = EditorModalView.new(type, text, attributes, binder_id)
 
         modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
-            if new_type.empty? and !new_text.empty?
+            if !new_type && !new_text.empty?
                 Window.alert('Inserire il tipo di carta')
+
+                false
+            elsif !new_binder_id && !new_text.empty?
+                Window.alert('Inserire il raccoglitore')
 
                 false
             else
@@ -229,36 +202,28 @@ class AppView < View
         Document.body.appendChild(modal.element)
 
         if id
-            modal.focus_text
+            modal.focus_text()
         else
-            modal.focus_type
+            modal.focus_type()
         end
-    end
-
-    def on_home()
-        state(:home)
-
-        Window.history.pushState({ state: :home }, nil, '/')
     end
 
     def on_print()
         state(:print)
 
-        Window.history.pushState({ state: :print }, nil, '/?print')
+        Window.history.pushState({ state: :print }, nil, '/?printed=1')
     end
 
     def on_keyup(event)
         event = Native(event)
 
         case event.key
-        when 'h'
-            on_home()
         when 'p'
             on_print()
         when 'n'
             open_modal()
         when 'v'
-            on_expand_cards()
+            on_cards_expand()
         end
     end
 
@@ -270,14 +235,8 @@ class AppView < View
         Window.history.pushState({ state: :binder, binder_id: id }, nil, "/?binder_id=#{id}")
     end
 
-    def on_new_card()
-        open_modal(binder_id: @binder_id)
-    end
-
     def on_popstate(state)
-        if state[:state] == :home
-            state(:home)
-        elsif state[:state] == :print
+        if state[:state] == :print
             state(:print)
         elsif state[:state] == :binder
             @binder_id = state[:binder_id]
@@ -286,7 +245,11 @@ class AppView < View
         end
     end
 
-    def on_edit_card(id)
+    def on_card_new()
+        open_modal(binder_id: @binder_id)
+    end
+
+    def on_card_edit(id)
         HTTP.get("/cards/#{id}") do |body|
             card = JSON.parse(body)
 
@@ -309,7 +272,7 @@ class AppView < View
         end
     end
 
-    def on_delete_card(id)
+    def on_card_delete(id)
         if Window.confirm('Sei sicuro di voler cancellare la carta?')
             HTTP.delete("/cards/#{id}") do
                 get_cards() do |cards|
@@ -319,18 +282,18 @@ class AppView < View
         end
     end
 
-    def on_expand_cards()
-        if @expand_cards || @temporary_expand_cards
-            @expand_cards = false
+    def on_cards_expand()
+        if @cards_expand || @temporary_cards_expand
+            @cards_expand = false
         else
-            @expand_cards = true
+            @cards_expand = true
         end
 
-        @temporary_expand_cards = false
+        @temporary_cards_expand = false
 
-        @cards_view.expand = @expand_cards
+        @cards_view.cards_expand = @cards_expand
 
-        @toolbar_view.expand_cards = @expand_cards
+        @toolbar_view.cards_expand = @cards_expand
     end
 end
 

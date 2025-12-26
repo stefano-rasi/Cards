@@ -7,7 +7,7 @@ require 'lib/view/view'
 class SidebarView < View
     draw do
         HTML.div 'sidebar-view', ('expanded' if @expand) do
-            HTML.div 'first-row' do
+            HTML.div 'buttons' do
                 HTML.div 'button expand-button' do
                     title 'expand'
 
@@ -16,22 +16,12 @@ class SidebarView < View
                     on :click, &method(:on_expand)
                 end
 
-                HTML.div 'buttons' do
-                    HTML.div 'button home-button', ('selected' if @state == :home) do
-                        title 'home'
+                HTML.div 'button print-button', ('selected' if @state == :print) do
+                    title 'print'
 
-                        HTML.span text: 'H'
+                    HTML.span text: 'P'
 
-                        on :click, &method(:on_home)
-                    end
-
-                    HTML.div 'button print-button', ('selected' if @state == :print) do
-                        title 'print'
-
-                        HTML.span text: 'P'
-
-                        on :click, &method(:on_print)
-                    end
+                    on :click, &method(:on_print)
                 end
             end
 
@@ -41,8 +31,7 @@ class SidebarView < View
                     name = binder['name']
 
                     HTML.div 'binder', ('selected' if @state == :binder && id == @binder_id) do
-                        HTML.span 'icon', text: '▶'
-                        HTML.span 'name', text: name
+                        text name
 
                         on(:click) { on_binder(id, name) }
                     end
@@ -83,14 +72,6 @@ class SidebarView < View
         @binder_id = binder_id
 
         draw
-    end
-
-    def on_home(&block)
-        if block_given?
-            @on_home_block = block
-        else
-            @on_home_block.call()
-        end
     end
 
     def on_print(&block)
