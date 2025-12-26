@@ -32,7 +32,7 @@ get '/cards' do
 
     cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), id_order).all
 
-    if params[:eager_html]
+    if params[:html]
         cards.each do |card|
             type = card[:type]
             text = card[:text]
