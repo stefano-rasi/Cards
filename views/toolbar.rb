@@ -62,6 +62,12 @@ class ToolbarView < View
         draw
     end
 
+    def sidebar_expand=(sidebar_expand)
+        @sidebar_expand = sidebar_expand
+
+        draw
+    end
+
     def on_print(&block)
         if block_given?
             @on_print_block = block
@@ -105,6 +111,8 @@ class ToolbarView < View
             end
 
             draw
+
+            @on_sidebar_expand_block.call()
         end
     end
 

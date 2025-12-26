@@ -9,13 +9,13 @@ class SidebarView < View
         HTML.div 'sidebar-view', ('expanded' if @expand) do
             HTML.div 'binders' do
                 @binders.each do |binder|
-                    id = binder['id']
-                    name = binder['name']
+                    binder_id = binder['id']
+                    binder_name = binder['name']
 
-                    HTML.div 'binder', ('selected' if @state == :binder && id == @binder_id) do
-                        text name
+                    HTML.div 'binder', ('selected' if binder_id == @binder_id) do
+                        text binder_name
 
-                        on(:click) { on_binder(id, name) }
+                        on(:click) { on_binder(binder_id, binder_name) }
                     end
                 end
             end

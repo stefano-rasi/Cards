@@ -27,6 +27,8 @@ class AppView < View
 
                     @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
 
+                    @toolbar_view.sidebar_expand = @sidebar_expand
+
                     @toolbar_view.on_print(&method(:on_print))
                     @toolbar_view.on_card_new(&method(:on_card_new))
                     @toolbar_view.on_cards_expand(&method(:on_cards_expand))
@@ -38,11 +40,9 @@ class AppView < View
                 View.SidebarView() do |sidebar_view|
                     @sidebar_view = sidebar_view
 
-                    if @state == :print
-                        @sidebar_view.binder_id = @binder_id
-                    end
-
                     @sidebar_view.expand = @sidebar_expand
+
+                    @sidebar_view.binder_id = @binder_id
 
                     @sidebar_view.on_binder(&method(:on_binder))
                 end
@@ -65,18 +65,19 @@ class AppView < View
         binder_id_value = Document.getElementById('binder_id').value
 
         @cards_expand = false
+
         @sidebar_expand = true
 
-        if !printed_value.empty?
-            @state = :print
-
-            @temporary_cards_expand = true
-        elsif !binder_id_value.empty?
+        if !binder_id_value.empty?
             @state = :binder
 
             @binder_id = binder_id_value.to_i
 
             @temporary_cards_expand = false
+        else
+            @state = :print
+
+            @temporary_cards_expand = true
         end
 
         get_cards() do |cards|
@@ -120,9 +121,9 @@ class AppView < View
             end
 
             @toolbar_view.state = :binder
-
-            @toolbar_view.binder_id = @binder_id
         end
+
+        @sidebar_view.binder_id = @binder_id
 
         @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
@@ -225,10 +226,12 @@ class AppView < View
         case event.key
         when 'p'
             on_print()
-        when 'n', '+'
-            open_editor_modal()
         when 'v'
             on_cards_expand()
+        when 'e'
+            on_sidebar_expand()
+        when 'n', '+'
+            open_editor_modal()
         when 'r'
             get_cards() do |cards|
                 @cards_view.cards = cards
@@ -303,6 +306,18 @@ class AppView < View
         @cards_view.cards_expand = @cards_expand
 
         @toolbar_view.cards_expand = @cards_expand
+    end
+
+    def on_sidebar_expand()
+        if @sidebar_expand
+            @sidebar_expand = false
+        else
+            @sidebar_expand = true
+        end
+
+        @sidebar_view.expand = @sidebar_expand
+
+        @toolbar_view.sidebar_expand = @sidebar_expand
     end
 end
 

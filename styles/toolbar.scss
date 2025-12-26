@@ -49,16 +49,6 @@ $sans-font: "Source Sans 3";
             }
         }
 
-        &.expand-button {
-            font-size: 20px;
-
-            border-color: transparent;
-
-            &.selected {
-                background-color: hsl(0, 0%, 90%);
-            }
-        }
-
         &.card-new-button {
             font-size: 26px;
 
@@ -80,6 +70,16 @@ $sans-font: "Source Sans 3";
 
             span {
                 margin-top: 2px;
+            }
+        }
+
+        &.sidebar-expand-button {
+            font-size: 20px;
+
+            border-color: transparent;
+
+            &.selected {
+                background-color: hsl(0, 0%, 90%);
             }
         }
     }
