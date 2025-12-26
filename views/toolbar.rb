@@ -12,7 +12,7 @@ class ToolbarView < View
                 on :click, &method(:on_cards_expand)
             end
 
-            HTML.div 'button refresh-button' do
+            HTML.div 'button cards-refresh-button' do
                 title 'refresh'
 
                 HTML.span text: 'R'
@@ -40,14 +40,6 @@ class ToolbarView < View
         draw
     end
 
-    def on_refresh(&block)
-        if block_given?
-            @on_refresh_block = block
-        else
-            @on_refresh_block.call()
-        end
-    end
-
     def on_card_new(&block)
         if block_given?
             @on_card_new_block = block
@@ -69,6 +61,14 @@ class ToolbarView < View
             draw
 
             @on_cards_expand_block.call()
+        end
+    end
+
+    def on_cards_refresh(&block)
+        if block_given?
+            @on_cards_refresh_block = block
+        else
+            @on_cards_refresh_block.call()
         end
     end
 end
