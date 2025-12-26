@@ -17,7 +17,7 @@ class ToolbarView < View
 
                 HTML.span text: 'R'
 
-                on :click, &method(:on_refresh)
+                on :click, &method(:on_cards_refresh)
             end
 
             HTML.div 'button new-card-button' do
