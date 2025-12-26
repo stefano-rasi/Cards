@@ -32,18 +32,29 @@ get '/cards' do
 
     cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), id_order).all
 
+    if params[:html]
+        cards.each do |card|
+            type = card[:type]
+            text = card[:text]
+
+            attributes = card[:attributes].split(/\s+/).map { |attribute|
+                key, value = attribute.split('=')
+
+                [ key, value ]
+            }.to_h
+
+            html = Card.classes[type].new(text, attributes).to_html
+
+            card[:html] = html
+        end
+    end
+
     cards.to_json
 end
 
 get '/cards/:id' do |id|
     content_type 'application/json'
 
-    card = DB[:cards].where(id: id).first
-
-    card.to_json
-end
-
-get '/cards/:id/html' do |id|
     card = DB[:cards].where(id: id).first
 
     type = card[:type]
@@ -55,7 +66,11 @@ get '/cards/:id/html' do |id|
         [ key, value ]
     }.to_h
 
-    Card.classes[type].new(text, attributes).to_html
+    html = Card.classes[type].new(text, attributes).to_html
+
+    card[:html] = html
+
+    card.to_json
 end
 
 get '/types' do

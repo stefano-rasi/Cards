@@ -124,7 +124,7 @@ class AppView < View
         @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
     end
 
-    def get_cards(&block)
+    def get_cards(html: false, &block)
         params = {}
 
         case @state
@@ -132,6 +132,10 @@ class AppView < View
             params[:printed] = 1
         when :binder
             params[:binder_id] = @binder_id
+        end
+
+        if html
+            params[:html] = true
         end
 
         HTTP.get("/cards?#{params.map { |key, value| "#{key}=#{value}" }.join('&')}") do |body|
@@ -169,7 +173,7 @@ class AppView < View
                     if id
                         if new_text != text || new_type != type || new_binder_id != binder_id || new_attributes != attributes
                             HTTP.patch("/cards/#{id}", payload.to_json) do
-                                get_cards() do |cards|
+                                get_cards(html: true) do |cards|
                                     @cards_view.cards = cards
                                 end
                             end
@@ -180,7 +184,7 @@ class AppView < View
                         end
 
                         HTTP.post('/cards', payload.to_json) do
-                            get_cards() do |cards|
+                            get_cards(html: true) do |cards|
                                 @cards_view.cards = cards
                             end
                         end

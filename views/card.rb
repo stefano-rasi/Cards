@@ -54,10 +54,10 @@ class CardView < View
         end
     end
 
-    def initialize(id, printed, binder_id)
+    def initialize(id, html, printed, binder_id)
         @id = id
 
-        @html = nil
+        @html = html
 
         @binders = []
 
@@ -65,18 +65,22 @@ class CardView < View
 
         @binder_id = binder_id
 
-        HTTP.get("/cards/#{id}/html") do |body|
-            @html = body
-
-            draw
-        end
-
         HTTP.get('/binders') do |body|
             binders = JSON.parse(body)
 
             @binders = binders
 
             draw
+        end
+
+        if !@html
+            HTTP.get("/cards/#{id}") do |body|
+                card = JSON.load(body)
+
+                @html = card['html']
+
+                draw
+            end
         end
     end
 
