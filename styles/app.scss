@@ -16,19 +16,17 @@ body {
     display: flex;
 
     flex-grow: 1;
-    flex-direction: row;
+    flex-direction: column;
 
     position: relative;
 
-    .right-pane {
-        height: 100%;
+    .top-pane {
+        width: 100%;
 
         display: flex;
 
-        overflow: auto;
-
-        flex-grow: 1;
-        flex-direction: column;
+        flex-grow: 0;
+        flex-direction: row;
 
         .cards-view {
             flex-grow: 1;
@@ -36,6 +34,8 @@ body {
 
         .toolbar-view {
             top: 0;
+
+            width: 100%;
 
             z-index: 1;
 
@@ -49,17 +49,37 @@ body {
         }
     }
 
-    .sidebar-view {
-        flex-grow: 0;
+    .bottom-pane {
+        display: flex;
 
-        border-right-width: 1px;
-        border-right-style: solid;
-        border-right-color: hsl(0, 0%, 80%);
+        flex-grow: 1;
+        flex-direction: row;
 
-        .buttons {
-            border-bottom-width: 1px;
-            border-bottom-style: solid;
-            border-bottom-color: hsl(0, 0%, 80%);
+        .cards-view {
+            height: 100%;
+
+            overflow: auto;
+
+            flex-grow: 1;
+        }
+
+        .sidebar-view {
+            height: 100%;
+
+            flex-grow: 0;
+
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            border-right-width: 1px;
+            border-right-style: solid;
+            border-right-color: hsl(0, 0%, 80%);
+
+            .buttons {
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                border-bottom-color: hsl(0, 0%, 80%);
+            }
         }
     }
 }

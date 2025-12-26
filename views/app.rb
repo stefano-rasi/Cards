@@ -14,40 +14,44 @@ require_relative 'toolbar'
 class AppView < View
     draw do
         HTML.div 'app-view' do
-            View.SidebarView() do |sidebar_view|
-                @sidebar_view = sidebar_view
-
-                case @state
-                when :print
-                    @sidebar_view.state = :print
-                when :binder
-                    @sidebar_view.state = :binder
-
-                    @sidebar_view.binder_id = @binder_id
-                end
-
-                @sidebar_view.expand = @expand_sidebar
-
-                @sidebar_view.on_print(&method(:on_print))
-                @sidebar_view.on_binder(&method(:on_binder))
-            end
-
-            HTML.div 'right-pane' do
+            HTML.div 'top-pane' do
                 View.ToolbarView() do |toolbar_view|
                     @toolbar_view = toolbar_view
 
+                    case @state
+                    when :print
+                        @toolbar_view.state = :print
+                    when :binder
+                        @toolbar_view.state = :binder
+                    end
+
                     @toolbar_view.expand_cards = @expand_cards || @temporary_expand_cards
 
+                    @toolbar_view.on_print(&method(:on_print))
                     @toolbar_view.on_new_card(&method(:on_new_card))
                     @toolbar_view.on_expand_cards(&method(:on_expand_cards))
+                end
+            end
+
+            HTML.div 'bottom-pane' do
+                View.SidebarView() do |sidebar_view|
+                    @sidebar_view = sidebar_view
+
+                    if @state == :print
+                        @sidebar_view.binder_id = @binder_id
+                    end
+
+                    @sidebar_view.expand = @expand_sidebar
+
+                    @sidebar_view.on_binder(&method(:on_binder))
                 end
 
                 View.CardsView() do |cards_view|
                     @cards_view = cards_view
 
-                    @cards_view.show_binder = false
-
                     @cards_view.expand = @expand_cards || @temporary_expand_cards
+
+                    @cards_view.show_binder = false
 
                     @cards_view.on_edit(&method(:on_edit_card))
                     @cards_view.on_binder(&method(:on_card_binder))
@@ -110,7 +114,7 @@ class AppView < View
 
             @cards_view.show_binder = false
 
-            @sidebar_view.state = :print
+            @toolbar_view.state = :print
         when :binder
             @temporary_expand_cards = false
 
@@ -120,8 +124,8 @@ class AppView < View
 
             @cards_view.show_binder = false
 
-            @sidebar_view.state = :binder
-            @sidebar_view.binder_id = @binder_id
+            @toolbar_view.state = :binder
+            @toolbar_view.binder_id = @binder_id
         end
 
         @cards_view.expand = @expand_cards || @temporary_expand_cards
