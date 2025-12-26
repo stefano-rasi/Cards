@@ -6,7 +6,7 @@ require 'lib/view/view'
 
 class CardView < View
     draw do
-        HTML.div 'card-view', ('expand' if @expand), ('loading' if !@html), ('has-binder' if @binder_id), ('show-binder' if @show_binder) do
+        HTML.div 'card-view', ('loading' if !@html) do
             HTML.div 'button delete-button' do
                 title 'delete'
 
@@ -61,13 +61,9 @@ class CardView < View
 
         @binders = []
 
-        @expand = false
-
         @printed = printed
 
         @binder_id = binder_id
-
-        @show_binder = false
 
         HTTP.get("/cards/#{id}/html") do |body|
             @html = body
@@ -82,18 +78,6 @@ class CardView < View
 
             draw
         end
-    end
-
-    def expand=(expand)
-        @expand = expand
-
-        draw
-    end
-
-    def show_binder=(show_binder)
-        @show_binder = show_binder
-
-        draw
     end
 
     def on_print()

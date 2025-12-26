@@ -40,33 +40,9 @@ $monospace-font: "Source Code Pro";
         }
     }
 
-    &.expand {
-        &.show-binder {
-            .binder {
-                display: block;
-
-                position: initial;
-            }
-        }
-
-        .card-container {
-            height: 88mm;
-        }
-    }
-
     &.loading {
         .card-container {
             height: 88mm;
-        }
-    }
-
-    &.show-binder {
-        &.has-binder {
-            .binder {
-                display: block;
-
-                position: initial;
-            }
         }
     }
 

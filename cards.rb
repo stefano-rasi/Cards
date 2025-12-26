@@ -21,16 +21,16 @@ get '/cards' do
     if params[:printed]
         conditions[:printed] = params[:printed]
 
-        order = [ Sequel.asc(:printed), Sequel.asc(:id) ]
+        id_order = Sequel.asc(:id)
     end
 
     if params[:binder_id]
         conditions[:binder_id] = params[:binder_id]
 
-        order = [ Sequel.asc(:printed), Sequel.desc(:id) ]
+        id_order = Sequel.desc(:id)
     end
 
-    cards = DB[:cards].where(conditions).order(*order).all
+    cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), id_order).all
 
     cards.to_json
 end

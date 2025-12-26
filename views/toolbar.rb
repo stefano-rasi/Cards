@@ -4,12 +4,12 @@ require 'lib/view/view'
 class ToolbarView < View
     draw do
         HTML.div 'toolbar-view' do
-            HTML.div 'button expand-cards-button', ('selected' if @expand_cards) do
+            HTML.div 'button expand-cards-button', ('selected' if @cards_expand) do
                 title 'expand cards'
 
                 HTML.span text: 'V'
 
-                on :click, &method(:on_expand_cards)
+                on :click, &method(:on_cards_expand)
             end
 
             HTML.div 'button new-card-button' do
@@ -17,42 +17,42 @@ class ToolbarView < View
 
                 HTML.span text: '+'
 
-                on :click, &method(:on_new_card)
+                on :click, &method(:on_card_new)
             end
         end
     end
 
     def initialize()
-        @expand_cards = nil
+        @cards_expand = nil
     end
 
-    def expand_cards=(expand_cards)
-        @expand_cards = expand_cards
+    def cards_expand=(cards_expand)
+        @cards_expand = cards_expand
 
         draw
     end
 
-    def on_new_card(&block)
+    def on_card_new(&block)
         if block_given?
-            @on_new_card_block = block
+            @on_card_new_block = block
         else
-            @on_new_card_block.call()
+            @on_card_new_block.call()
         end
     end
 
-    def on_expand_cards(&block)
+    def on_cards_expand(&block)
         if block_given?
-            @on_expand_cards_block = block
+            @on_cards_expand_block = block
         else
-            if @expand_cards
-                @expand_cards = false
+            if @cards_expand
+                @cards_expand = false
             else
-                @expand_cards = true
+                @cards_expand = true
             end
 
             draw
 
-            @on_expand_cards_block.call()
+            @on_cards_expand_block.call()
         end
     end
 end

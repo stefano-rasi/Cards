@@ -89,9 +89,7 @@ class EditorView < View
     def initialize(type, text, attributes, binder_id)
         @type = type
         @text = text
-
         @binder_id = binder_id
-
         @attributes = attributes
     end
 
