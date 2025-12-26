@@ -11,9 +11,9 @@ body {
 }
 
 .app-view {
-    height: 100%;
-
     display: flex;
+
+    min-height: 0;
 
     flex-grow: 1;
     flex-direction: column;
@@ -21,8 +21,6 @@ body {
     position: relative;
 
     .top-pane {
-        width: 100%;
-
         display: flex;
 
         flex-grow: 0;
@@ -50,23 +48,27 @@ body {
     }
 
     .bottom-pane {
+        min-height: 0;
+
         display: flex;
 
         flex-grow: 1;
         flex-direction: row;
 
         .cards-view {
-            height: 100%;
-
             overflow: auto;
 
             flex-grow: 1;
+
+            min-height: 0;
+
+            box-sizing: border-box;
         }
 
         .sidebar-view {
-            height: 100%;
-
             flex-grow: 0;
+
+            min-height: 0;
 
             overflow-y: auto;
             overflow-x: hidden;

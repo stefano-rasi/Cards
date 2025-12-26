@@ -3,34 +3,23 @@
 
     margin-top: 10mm;
     margin-left: 10mm;
-    margin-right: 10mm;
-    margin-bottom: 10mm;
+    margin-right: 0;
+    margin-bottom: 0;
 }
 
 @media print {
-    body {
-        margin: 0;
-        padding: 0;
-    }
-
     .app-view {
-        height: initial;
+        .top-pane {
+            display: none !important;
+        }
 
-        display: block;
-
-        .right-pane {
-            height: initial !important;
-
-            display: block;
-
-            overflow: initial !important;
-
+        .bottom-pane {
             .cards-view {
-                height: initial;
-
                 padding: 0;
 
                 display: block;
+
+                overflow: initial;
 
                 .card-view {
                     display: inline-block;
@@ -39,12 +28,12 @@
                     border-radius: 0;
 
                     vertical-align: top;
-                    
-                    .binder {
+
+                    .button {
                         display: none;
                     }
 
-                    .button {
+                    .binder {
                         display: none;
                     }
 
@@ -58,13 +47,9 @@
                 }
             }
 
-            .toolbar-view {
+            .sidebar-view {
                 display: none;
             }
-        }
-
-        .sidebar-view {
-            display: none;
         }
     }
 }
