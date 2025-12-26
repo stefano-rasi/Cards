@@ -22,6 +22,8 @@ class CardsView < View
                 View.CardView(id, html, printed, binder_id) do |card_view|
                     @card_views << card_view
 
+                    card_view.binders = @binders
+
                     card_view.on_edit(&method(:on_card_edit))
                     card_view.on_delete(&method(:on_card_delete))
                     card_view.on_binder(&method(:on_card_binder))
@@ -33,6 +35,8 @@ class CardsView < View
     def initialize()
         @cards = []
 
+        @binders = []
+
         @card_views = []
     end
 
@@ -40,6 +44,14 @@ class CardsView < View
         @cards = cards
 
         draw
+    end
+
+    def binders=(binders)
+        @binders = binders
+
+        @card_views.each do |card_view|
+            card_view.binders = binders
+        end
     end
 
     def cards_expand=(cards_expand)

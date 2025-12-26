@@ -108,6 +108,12 @@ class AppView < View
             @cards_view.cards = cards
         end
 
+        HTTP.get('/binders') do |body|
+            binders = JSON.parse(body)
+
+            @cards_view.binders = binders
+        end
+
         @on_keyup = Proc.new { |event|
             on_keyup(event)
         }
