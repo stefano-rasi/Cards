@@ -8,26 +8,23 @@ require_relative 'card'
 
 class CardsView < View
     draw do
-        HTML.div 'cards-view' do
+        HTML.div 'cards-view', ('cards-expand' if @cards_expand) do |div|
+            @div = div
+
             @card_views = []
 
             @cards.each do |card|
                 id = card['id']
-
+                html = card['html']
                 printed = card['printed']
-
                 binder_id = card['binder_id']
 
-                View.CardView(id, printed, binder_id) do |card_view|
+                View.CardView(id, html, printed, binder_id) do |card_view|
                     @card_views << card_view
 
-                    card_view.expand = @expand
-
-                    card_view.show_binder = @show_binder
-
-                    card_view.on_edit(&method(:on_edit))
-                    card_view.on_binder(&method(:on_binder))
-                    card_view.on_delete(&method(:on_delete))
+                    card_view.on_edit(&method(:on_card_edit))
+                    card_view.on_delete(&method(:on_card_delete))
+                    card_view.on_binder(&method(:on_card_binder))
                 end
             end
         end
@@ -45,43 +42,37 @@ class CardsView < View
         draw
     end
 
-    def expand=(expand)
-        @expand = expand
+    def cards_expand=(cards_expand)
+        @cards_expand = cards_expand
 
-        @card_views.each do |card_view|
-            card_view.expand = expand
-        end
-    end
-
-    def show_binder=(show_binder)
-        @show_binder = show_binder
-
-        @card_views.each do |card_view|
-            card_view.show_binder = show_binder
-        end
-    end
-
-    def on_edit(id, &block)
-        if block_given?
-            @on_edit_block = block
+        if @cards_expand
+            @div.classList.add('cards-expand')
         else
-            @on_edit_block.call(id)
+            @div.classList.remove('cards-expand')
         end
     end
 
-    def on_binder(id, binder_id, &block)
+    def on_card_edit(id, &block)
         if block_given?
-            @on_binder_block = block
+            @on_card_edit_block = block
         else
-            @on_binder_block.call(id, binder_id)
+            @on_card_edit_block.call(id)
         end
     end
 
-    def on_delete(id, &block)
+    def on_card_delete(id, &block)
         if block_given?
-            @on_delete_block = block
+            @on_card_delete_block = block
         else
-            @on_delete_block.call(id)
+            @on_card_delete_block.call(id)
+        end
+    end
+
+    def on_card_binder(id, binder_id, &block)
+        if block_given?
+            @on_card_binder_block = block
+        else
+            @on_card_binder_block.call(id, binder_id)
         end
     end
 end

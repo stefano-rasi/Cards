@@ -5,12 +5,12 @@ class ToolbarView < View
     draw do
         HTML.div 'toolbar-view' do
             HTML.div 'left-buttons' do
-                HTML.div 'button expand-button' do
+                HTML.div 'button sidebar-expand-button', ('selected' if @sidebar_expand) do
                     title 'expand'
 
                     HTML.span text: '☰'
 
-                    on :click, &method(:on_expand)
+                    on :click, &method(:on_sidebar_expand)
                 end
 
                 HTML.div 'button print-button', ('selected' if @state == :print) do
@@ -23,20 +23,20 @@ class ToolbarView < View
             end
 
             HTML.div 'right-buttons' do
-                HTML.div 'button expand-cards-button', ('selected' if @expand_cards) do
+                HTML.div 'button cards-expand-button', ('selected' if @cards_expand) do
                     title 'expand cards'
 
                     HTML.span text: 'V'
 
-                    on :click, &method(:on_expand_cards)
+                    on :click, &method(:on_cards_expand)
                 end
 
-                HTML.div 'button new-card-button' do
+                HTML.div 'button card-new-button' do
                     title 'new card'
 
                     HTML.span text: '+'
 
-                    on :click, &method(:on_new_card)
+                    on :click, &method(:on_card_new)
                 end
             end
         end
@@ -45,9 +45,9 @@ class ToolbarView < View
     def initialize()
         @state = nil
 
-        @expand = nil
+        @cards_expand = nil
 
-        @expand_cards = nil
+        @sidebar_expand = nil
     end
 
     def state=(state)
@@ -56,18 +56,10 @@ class ToolbarView < View
         draw
     end
 
-    def expand_cards=(expand_cards)
-        @expand_cards = expand_cards
+    def cards_expand=(cards_expand)
+        @cards_expand = cards_expand
 
         draw
-    end
-
-    def on_new_card(&block)
-        if block_given?
-            @on_new_card_block = block
-        else
-            @on_new_card_block.call()
-        end
     end
 
     def on_print(&block)
@@ -78,39 +70,42 @@ class ToolbarView < View
         end
     end
 
-    def on_binder(id, name, &block)
+    def on_card_new(&block)
         if block_given?
-            @on_binder_block = block
+            @on_card_new_block = block
         else
-            @on_binder_block.call(id, name)
+            @on_card_new_block.call()
         end
     end
 
-    def on_expand(&block)
-        if @expand
-            @expand = false
-
-            draw
-        else
-            @expand = true
-
-            draw
-        end
-    end
-
-    def on_expand_cards(&block)
+    def on_cards_expand(&block)
         if block_given?
-            @on_expand_cards_block = block
+            @on_cards_expand_block = block
         else
-            if @expand_cards
-                @expand_cards = false
+            if @cards_expand
+                @cards_expand = false
             else
-                @expand_cards = true
+                @cards_expand = true
             end
 
             draw
 
-            @on_expand_cards_block.call()
+            @on_cards_expand_block.call()
         end
     end
+
+    def on_sidebar_expand(&block)
+        if block_given?
+            @on_sidebar_expand_block = block
+        else
+            if @sidebar_expand
+                @sidebar_expand = false
+            else
+                @sidebar_expand = true
+            end
+
+            draw
+        end
+    end
+
 end

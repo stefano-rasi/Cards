@@ -45,10 +45,12 @@
             border-color: hsl(0, 0%, 50%);
             border-radius: 6mm;
 
-            background-color: white;
+            background-color: hsl(0, 0%, 95%);
 
             .text {
                 overflow: auto;
+
+                background-color: white;
 
                 textarea {
                     field-sizing: content;

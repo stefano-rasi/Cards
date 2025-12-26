@@ -8,10 +8,10 @@ require 'sinatra'
 require_relative 'cards'
 
 get '/' do
-    if params.has_key?(:print)
-        @print = true
+    if params.has_key?(:printed)
+        @printed = params[:printed]
     else
-        @print = nil
+        @printed = nil
     end
 
     if params[:binder_id]
