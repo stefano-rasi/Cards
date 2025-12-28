@@ -5,14 +5,7 @@ div.card.japanese.words
         - word[:japanese].each do |section|
           div.section
             ruby:
-              if section[:bold]
-                text = section[:bold][:text]
-              elsif section[:color]
-                text = section[:color][:text]
-              else
-                text = section[:text]
-              end
-            - text[:groups].each do |group|
+            - section[:text][:groups].each do |group|
               - if group[:furigana]
                 div.furigana
                   div.text

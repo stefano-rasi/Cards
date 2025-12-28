@@ -5,9 +5,7 @@ div.card.japanese.phrases
         - phrase[:japanese].each do |section|
           div.section class=("color color-#{section[:color][:name]}" if section[:color])
             ruby:
-              if section[:bold]
-                text = section[:bold][:text]
-              elsif section[:color]
+              if section[:color]
                 text = section[:color][:text]
               else
                 text = section[:text]
