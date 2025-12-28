@@ -52,8 +52,8 @@ class AppView < View
                     View.CardsView() do |cards_view|
                         @cards_view = cards_view
 
-                        @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
                         @cards_view.show_binders = @cards_show_binders
+                        @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
                         @cards_view.on_card_edit(&method(:on_card_edit))
                         @cards_view.on_card_delete(&method(:on_card_delete))
@@ -134,10 +134,6 @@ class AppView < View
 
             @temporary_cards_expand = false
 
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
             @toolbar_view.state = :home
         when :print
             @binder_id = nil
@@ -146,29 +142,26 @@ class AppView < View
 
             @temporary_cards_expand = true
 
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
             @toolbar_view.state = :print
         when :binder
             @cards_show_binders = false
 
             @temporary_cards_expand = false
 
-            get_cards() do |cards|
-                @cards_view.cards = cards
-            end
-
             @toolbar_view.state = :binder
         end
 
-        @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
-        @cards_view.show_binders = @cards_show_binders
+        @sidebar_view.binder_id = @binder_id
 
         @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
 
-        @sidebar_view.binder_id = @binder_id
+        get_cards() do |cards|
+            @cards_view.cards = cards
+
+            @cards_view.show_binders = @cards_show_binders
+
+            @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
+        end
     end
 
     def get_cards(html: false, &block)
@@ -181,9 +174,7 @@ class AppView < View
             params[:binder_id] = @binder_id
         end
 
-        if html
-            params[:html] = true
-        end
+        params[:html] = true if html
 
         HTTP.get("/cards?#{params.map { |key, value| "#{key}=#{value}" }.join('&')}") do |body|
             cards = JSON.load(body)

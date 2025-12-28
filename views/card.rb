@@ -12,17 +12,13 @@ class CardView < View
 
                 HTML.span text: 'X'
 
-                on(:click) do
-                    on_delete(@id)
-                end
+                on(:click) { on_delete(@id) }
             end
 
             HTML.div 'card-container' do
                 html @html
 
-                on(:click) do
-                    on_edit(@id)
-                end
+                on(:click) { on_edit(@id) }
             end
 
             HTML.div 'binder' do
@@ -37,9 +33,7 @@ class CardView < View
                     end
                 end
 
-                on(:change) do |event|
-                    on_binder(@id, Native(event).target.value)
-                end
+                on(:change) { |event| on_binder(@id, Native(event).target.value) }
             end
 
             HTML.div 'button print-button', ('not-printed' if @printed == 0), ('print-ready' if @printed == 1), ('printed' if @printed == 2) do
@@ -47,9 +41,7 @@ class CardView < View
 
                 HTML.span text: 'P'
 
-                on(:click) do
-                    on_print(@id)
-                end
+                on(:click) { on_print(@id) }
             end
         end
     end

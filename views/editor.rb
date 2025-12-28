@@ -10,21 +10,21 @@ class EditorView < View
             HTML.div 'top-row' do
                 HTML.div 'type' do
                     HTML.select do |type_select|
-                        @type_select = type_select
-
                         required
 
                         if !@type
                             HTML.option text: 'type', value: '', disabled: true, selected: true
                         end
+
+                        @type_select = type_select
                     end
                 end
 
                 HTML.div 'attributes' do
                     HTML.input placeholder: 'attributes' do |input|
-                        @attributes_input = input
-
                         value @attributes
+
+                        @attributes_input = input
                     end
                 end
 
@@ -37,22 +37,22 @@ class EditorView < View
 
             HTML.div 'text' do
                 HTML.textarea do |text_textarea|
-                    @text_textarea = text_textarea
-
                     value @text
 
                     placeholder 'text'
 
                     text_textarea.setAttribute('spellcheck', false)
+
+                    @text_textarea = text_textarea
                 end
             end
 
             HTML.div 'bottom-row' do
                 HTML.div 'binder' do
                     HTML.select do |binder_select|
-                        @binder_select = binder_select
-
                         HTML.option text: 'binder', value: ''
+
+                        @binder_select = binder_select
                     end
                 end
             end
@@ -93,12 +93,8 @@ class EditorView < View
         end
     end
 
-    def on_close(&block)
-        if block_given?
-            @on_close_block = block
-        else
-            @on_close_block.call()
-        end
+    def text
+        @text_textarea.value
     end
 
     def type
@@ -107,10 +103,6 @@ class EditorView < View
         else
             @type_select.value
         end
-    end
-
-    def text
-        @text_textarea.value
     end
 
     def binder_id
@@ -131,5 +123,13 @@ class EditorView < View
 
     def focus_text()
         @text_textarea.focus()
+    end
+
+    def on_close(&block)
+        if block_given?
+            @on_close_block = block
+        else
+            @on_close_block.call()
+        end
     end
 end
