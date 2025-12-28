@@ -29,6 +29,8 @@ class EditorView < View
                 end
 
                 HTML.div 'close-button' do
+                    title 'close'
+
                     HTML.span text: 'X'
 
                     on :click, &method(:on_close)
