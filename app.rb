@@ -10,14 +10,10 @@ require_relative 'cards'
 get '/' do
     if params.has_key?(:printed)
         @printed = params[:printed]
-    else
-        @printed = nil
     end
 
     if params[:binder_id]
         @binder_id = params[:binder_id]
-    else
-        @binder_id = nil
     end
 
     slim :app

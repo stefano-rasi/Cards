@@ -21,16 +21,16 @@ get '/cards' do
     if params[:printed]
         conditions[:printed] = params[:printed]
 
-        id_order = Sequel.asc(:id)
+        order = Sequel.asc(:id)
     elsif params[:binder_id]
         conditions[:binder_id] = params[:binder_id]
 
-        id_order = Sequel.desc(:id)
+        order = Sequel.desc(:id)
     else
-        id_order = Sequel.desc(:id)
+        order = Sequel.desc(:id)
     end
 
-    cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), id_order).all
+    cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), order).all
 
     if params[:html]
         cards.each do |card|
