@@ -43,7 +43,11 @@ get '/cards' do
                 [ key, value ]
             }.to_h
 
-            html = Card.classes[type].new(text, attributes).to_html
+            begin
+                html = Card.classes[type].new(text, attributes).to_html
+            rescue
+                html = nil
+            end
 
             card[:html] = html
         end
@@ -66,7 +70,11 @@ get '/cards/:id' do |id|
         [ key, value ]
     }.to_h
 
-    html = Card.classes[type].new(text, attributes).to_html
+    begin
+        html = Card.classes[type].new(text, attributes).to_html
+    rescue
+        html = nil
+    end
 
     card[:html] = html
 
