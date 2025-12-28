@@ -3,7 +3,7 @@ div.card.japanese.words
     div.word class=("color color-#{word[:color]}" if word[:color])
       div.japanese
         - word[:japanese].each do |section|
-          div.section class=('bold' if section[:bold]) class=("color color-#{section[:color][:name]}" if section[:color])
+          div.section
             ruby:
               if section[:bold]
                 text = section[:bold][:text]
