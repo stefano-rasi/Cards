@@ -39,9 +39,9 @@ class EditorView < View
                 HTML.textarea do |text_textarea|
                     value @text
 
-                    placeholder 'text'
+                    attribute 'spellcheck', false
 
-                    text_textarea.setAttribute('spellcheck', false)
+                    placeholder 'text'
 
                     @text_textarea = text_textarea
                 end
@@ -81,11 +81,11 @@ class EditorView < View
             binders = JSON.load(body)
 
             binders.each do |binder|
-                id = binder['id']
-                name = binder['name']
+                binder_id = binder['id']
+                binder_name = binder['name']
 
-                HTML.option text: name, value: id do |option|
-                    selected if id == @binder_id
+                HTML.option text: binder_name, value: binder_id do |option|
+                    selected if binder_id == @binder_id
 
                     @binder_select.appendChild(option)
                 end
