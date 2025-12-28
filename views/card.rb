@@ -37,7 +37,14 @@ class CardView < View
             end
 
             HTML.div 'button print-button', ('not-printed' if @printed == 0), ('print-ready' if @printed == 1), ('printed' if @printed == 2) do
-                title 'print'
+                case @printed
+                when 0
+                    title 'not printed'
+                when 1
+                    title 'print ready'
+                when 2
+                    title 'printed'
+                end
 
                 HTML.span text: 'P'
 
