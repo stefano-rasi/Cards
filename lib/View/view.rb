@@ -43,10 +43,6 @@ class View
 
     def draw
         if @element
-            if self.class.destroy
-                instance_eval(&self.class.destroy)
-            end
-
             element = instance_eval(&self.class.draw)
 
             @element.replaceWith(element)
