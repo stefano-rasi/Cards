@@ -102,6 +102,8 @@ module Kernel
                     HTML.element.required = true
                 when 'selected'
                     HTML.element.selected = true
+                when 'attribute'
+                    HTML.element.setAttribute(args[0], args[1])
                 when 'placeholder'
                     HTML.element.placeholder = args[0]
                 else
