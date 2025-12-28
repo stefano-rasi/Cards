@@ -249,20 +249,22 @@ class AppView < View
     def on_keyup(event)
         event = Native(event)
 
-        case event.key
-        when 'h'
-            on_home()
-        when 'p'
-            on_print()
-        when 'v'
-            on_cards_expand()
-        when 'e'
-            on_sidebar_expand()
-        when 'n', '+'
-            open_editor_modal()
-        when 'r'
-            get_cards() do |cards|
-                @cards_view.cards = cards
+        if !event.ctrlKey && !event.shiftKey
+            case event.key
+            when 'h'
+                on_home()
+            when 'p'
+                on_print()
+            when 'v'
+                on_cards_expand()
+            when 'e'
+                on_sidebar_expand()
+            when 'n', '+'
+                open_editor_modal()
+            when 'r'
+                get_cards() do |cards|
+                    @cards_view.cards = cards
+                end
             end
         end
     end
