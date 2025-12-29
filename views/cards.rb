@@ -29,6 +29,8 @@ class CardsView < View
                     card_view.on_binder(&method(:on_card_binder))
                 end
             end
+
+            div.style.zoom = @zoom
         end
     end
 
@@ -41,6 +43,8 @@ class CardsView < View
     end
 
     def zoom=(zoom)
+        @zoom = zoom
+
         @div.style.zoom = zoom
     end
 

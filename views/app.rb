@@ -52,6 +52,8 @@ class AppView < View
                     View.CardsView() do |cards_view|
                         @cards_view = cards_view
 
+                        @cards_view.zoom = @zoom
+
                         @cards_view.show_binders = @cards_show_binders
                         @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
