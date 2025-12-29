@@ -30,35 +30,19 @@ class CardsView < View
                     card_view.on_binder(&method(:on_card_binder))
                 end
             end
-
-            style.zoom = @zoom
         end
     end
 
     def initialize()
-        @zoom = 1
-
         @cards = []
 
         @binders = []
 
         @card_views = []
+    end
 
-        Document.addEventListener('keydown') do |event|
-            event = Native(event)
-
-            if event.key == '+' && !event.ctrlKey
-                @zoom += 0.1
-
-                @div.style.zoom = @zoom
-            elsif event.key == '-' && !event.ctrlKey
-                if @zoom > 0.1
-                    @zoom -= 0.1
-                end
-
-                @div.style.zoom = @zoom
-            end
-        end
+    def zoom=(zoom)
+        @div.style.zoom = zoom
     end
 
     def cards=(cards)
