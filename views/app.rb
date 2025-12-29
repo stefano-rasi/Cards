@@ -270,11 +270,11 @@ class AppView < View
                     @cards_view.cards = cards
                 end
             when '+'
-                @zoom += 0.1
+                @zoom += 0.25
 
                 @cards_view.zoom = @zoom
             when '-'
-                @zoom -= 0.1
+                @zoom -= 0.25
 
                 @cards_view.zoom = @zoom
             end
