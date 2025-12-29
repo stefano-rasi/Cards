@@ -3,7 +3,6 @@ require 'json'
 require 'lib/view/html'
 require 'lib/view/http'
 require 'lib/view/view'
-require 'lib/view/document'
 
 require_relative 'card'
 
