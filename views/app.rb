@@ -259,7 +259,7 @@ class AppView < View
                 on_cards_expand()
             when 'e'
                 on_sidebar_expand()
-            when 'n', '+'
+            when 'n'
                 open_editor_modal()
             when 'r'
                 get_cards() do |cards|

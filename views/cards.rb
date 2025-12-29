@@ -3,6 +3,7 @@ require 'json'
 require 'lib/view/html'
 require 'lib/view/http'
 require 'lib/view/view'
+require 'lib/view/document'
 
 require_relative 'card'
 
@@ -29,15 +30,37 @@ class CardsView < View
                     card_view.on_binder(&method(:on_card_binder))
                 end
             end
+
+            style.zoom = @zoom
         end
     end
 
     def initialize()
+        @zoom = 1
+
         @cards = []
 
         @binders = []
 
         @card_views = []
+
+        Document.addEventListener('keydown') do |event|
+            event = Native(event)
+
+            if event.key == '+'
+                @zoom += 0.25
+
+                @div.style.zoom = @zoom
+
+                event.preventDefault()
+            elsif event.key == '-'
+                @zoom -= 0.25
+
+                @div.style.zoom = @zoom
+
+                event.preventDefault()
+            end
+        end
     end
 
     def cards=(cards)
