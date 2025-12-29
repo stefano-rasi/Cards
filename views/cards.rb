@@ -47,18 +47,16 @@ class CardsView < View
         Document.addEventListener('keydown') do |event|
             event = Native(event)
 
-            if event.key == '+'
+            if event.key == '+' && !event.ctrlKey
                 @zoom += 0.25
 
                 @div.style.zoom = @zoom
-
-                event.preventDefault()
-            elsif event.key == '-'
-                @zoom -= 0.25
+            elsif event.key == '-' && !event.ctrlKey
+                if @zoom > 0.25
+                    @zoom -= 0.25
+                end
 
                 @div.style.zoom = @zoom
-
-                event.preventDefault()
             end
         end
     end
