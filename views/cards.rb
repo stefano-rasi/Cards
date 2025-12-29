@@ -48,12 +48,12 @@ class CardsView < View
             event = Native(event)
 
             if event.key == '+' && !event.ctrlKey
-                @zoom += 0.25
+                @zoom += 0.1
 
                 @div.style.zoom = @zoom
             elsif event.key == '-' && !event.ctrlKey
-                if @zoom > 0.25
-                    @zoom -= 0.25
+                if @zoom > 0.1
+                    @zoom -= 0.1
                 end
 
                 @div.style.zoom = @zoom
