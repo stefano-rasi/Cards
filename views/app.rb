@@ -52,6 +52,8 @@ class AppView < View
                     View.CardsView() do |cards_view|
                         @cards_view = cards_view
 
+                        @cards_view.zoom = @zoom
+
                         @cards_view.show_binders = @cards_show_binders
                         @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
 
@@ -67,6 +69,8 @@ class AppView < View
     def initialize()
         printed_value = Document.getElementById('printed').value
         binder_id_value = Document.getElementById('binder_id').value
+
+        @zoom = 1
 
         @cards_expand = false
 
@@ -110,11 +114,11 @@ class AppView < View
             @cards_view.binders = binders
         end
 
-        @on_keyup = Proc.new { |event|
-            on_keyup(event)
+        @on_keydown = Proc.new { |event|
+            on_keydown(event)
         }
 
-        Window.addEventListener('keyup', &@on_keyup)
+        Window.addEventListener('keydown', &@on_keydown)
 
         Window.addEventListener('popstate') do |event|
             event = Native(event)
@@ -229,13 +233,13 @@ class AppView < View
                     end
                 end
 
-                Window.addEventListener('keyup', &@on_keyup)
+                Window.addEventListener('keydown', &@on_keydown)
 
                 Document.body.removeChild(modal.element)
             end
         end
 
-        Window.removeEventListener('keyup', &@on_keyup)
+        Window.removeEventListener('keydown', &@on_keydown)
 
         Document.body.appendChild(modal.element)
 
@@ -246,7 +250,7 @@ class AppView < View
         end
     end
 
-    def on_keyup(event)
+    def on_keydown(event)
         event = Native(event)
 
         if !event.ctrlKey && !event.shiftKey
@@ -259,12 +263,20 @@ class AppView < View
                 on_cards_expand()
             when 'e'
                 on_sidebar_expand()
-            when 'n', '+'
+            when 'n'
                 open_editor_modal()
             when 'r'
                 get_cards() do |cards|
                     @cards_view.cards = cards
                 end
+            when '+'
+                @zoom += 0.25
+
+                @cards_view.zoom = @zoom
+            when '-'
+                @zoom -= 0.25
+
+                @cards_view.zoom = @zoom
             end
         end
     end

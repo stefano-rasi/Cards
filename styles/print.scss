@@ -10,11 +10,13 @@
 @media print {
     .app-view {
         .top-pane {
-            display: none !important;
+            display: none;
         }
 
         .bottom-pane {
             .cards-view {
+                zoom: 1 !important;
+
                 padding: 0;
 
                 display: block;
