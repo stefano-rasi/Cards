@@ -6,7 +6,7 @@ require 'parslet'
 require_relative '../card'
 
 class JapaneseWordsCard < Card
-    name 'j-words'
+    name 'japanese/words'
 
     def initialize(text, attributes)
         @words = text.split(/\n+/).map { |line|
@@ -34,7 +34,7 @@ class JapaneseWordsCard < Card
 end
 
 class JapanesePhrasesCard < Card
-    name 'j-phrases'
+    name 'japanese/phrases'
 
     def initialize(text, attributes)
         @phrases = text.sub(/\s*-\s*/, '').split(/\n+\s*-\s*/).map { |phrase|
