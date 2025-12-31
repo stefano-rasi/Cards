@@ -196,11 +196,11 @@ class AppView < View
 
         modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
             if !new_type && !new_text.empty?
-                Window.alert('Type is empty')
+                Window.alert('Insert card type')
 
                 false
             elsif !new_binder_id && !new_text.empty?
-                Window.alert('Binder is empty')
+                Window.alert('Insert card binder')
 
                 false
             else
