@@ -196,11 +196,11 @@ class AppView < View
 
         modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
             if !new_type && !new_text.empty?
-                Window.alert('Inserire il tipo di carta')
+                Window.alert('Type is empty')
 
                 false
             elsif !new_binder_id && !new_text.empty?
-                Window.alert('Inserire il raccoglitore')
+                Window.alert('Binder is empty')
 
                 false
             else
@@ -335,7 +335,7 @@ class AppView < View
 
     def on_card_binder(id, binder_id)
         HTTP.patch("/cards/#{id}", { binder_id: }.to_json) do
-            get_cards() do |cards|
+            get_cards(html: true) do |cards|
                 @cards_view.cards = cards
             end
         end
@@ -344,7 +344,7 @@ class AppView < View
     def on_card_delete(id)
         if Window.confirm('Sei sicuro di voler cancellare la carta?')
             HTTP.delete("/cards/#{id}") do
-                get_cards() do |cards|
+                get_cards(html: true) do |cards|
                     @cards_view.cards = cards
                 end
             end
