@@ -41,7 +41,15 @@ class View
         end
     end
 
-    def draw
+    def element
+        if !@element
+            @element = instance_eval(&self.class.draw)
+        end
+
+        @element
+    end
+
+    def draw()
         if @element
             element = instance_eval(&self.class.draw)
 
@@ -51,13 +59,5 @@ class View
         else
             @element = instance_eval(&self.class.draw)
         end
-    end
-
-    def element
-        if !@element
-            @element = instance_eval(&self.class.draw)
-        end
-
-        @element
     end
 end
