@@ -35,25 +35,23 @@
         }
     }
 
-    .lines-container {
-        .lines {
-            .line {
-                display: flex;
+    .lines {
+        .line {
+            display: flex;
 
+            flex-direction: row;
+
+            .character {
+                height: 1.4em;
+
+                display: inline-flex;
+
+                line-height: 1em;
+
+                align-items: center;
+
+                flex-shrink: 0;
                 flex-direction: row;
-
-                .character {
-                    height: 1.4em;
-
-                    display: inline-flex;
-
-                    line-height: 1em;
-
-                    align-items: center;
-
-                    flex-shrink: 0;
-                    flex-direction: row;
-                }
             }
         }
     }

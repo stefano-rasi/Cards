@@ -85,36 +85,22 @@ $monospace-font: "Source Code Pro";
                 outline: none;
             }
 
-            .status-bar {
-                flex-grow: 0;
-
-                padding-top: 8px;
-            }
-
-            .lines-container {
+            .lines {
                 display: flex;
 
                 flex-grow: 1;
+                flex-direction: column;
 
                 overflow-x: auto;
                 overflow-y: auto;
 
-                align-items: start;
+                background-color: white;
+            }
 
-                flex-direction: row;
+            .status-bar {
+                flex-grow: 0;
 
-                background-color: hsl(0, 0%, 95%);
-
-                .lines {
-                    display: flex;
-
-                    flex-grow: 1;
-                    flex-direction: column;
-
-                    padding-bottom: 8px;
-
-                    background-color: white;
-                }
+                padding-top: 8px;
             }
         }
     }
