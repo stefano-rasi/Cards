@@ -76,8 +76,7 @@ $monospace-font: "Source Code Pro";
 
             flex-grow: 1;
 
-            overflow-x: auto;
-            overflow-y: auto;
+            min-height: 0;
 
             font-size: 14px;
             font-family: $monospace-font;
@@ -87,7 +86,35 @@ $monospace-font: "Source Code Pro";
             }
 
             .status-bar {
-                display: none;
+                flex-grow: 0;
+
+                padding-top: 8px;
+            }
+
+            .lines-container {
+                display: flex;
+
+                flex-grow: 1;
+
+                overflow-x: auto;
+                overflow-y: auto;
+
+                align-items: start;
+
+                flex-direction: row;
+
+                background-color: hsl(0, 0%, 95%);
+
+                .lines {
+                    display: flex;
+
+                    flex-grow: 1;
+                    flex-direction: column;
+
+                    padding-bottom: 8px;
+
+                    background-color: white;
+                }
             }
         }
     }
@@ -155,6 +182,8 @@ $monospace-font: "Source Code Pro";
             border-radius: 28px;
 
             justify-content: center;
+
+            background-color: white;
 
             &:hover {
                 cursor: pointer;

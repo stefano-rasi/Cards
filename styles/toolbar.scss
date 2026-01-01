@@ -35,14 +35,16 @@ $sans-font: "Source Sans 3";
 
         &:hover {
             cursor: pointer;
-
-            background-color: hsl(0, 0%, 90%);
         }
 
         &.home-button {
             font-size: 20px;
 
             border-color: transparent;
+
+            &:hover {
+                background-color: hsl(0, 0%, 90%);
+            }
 
             &.selected {
                 background-color: hsl(0, 0%, 90%);
@@ -54,6 +56,10 @@ $sans-font: "Source Sans 3";
 
             border-color: transparent;
 
+            &:hover {
+                background-color: hsl(0, 0%, 90%);
+            }
+
             &.selected {
                 background-color: hsl(0, 0%, 90%);
             }
@@ -64,8 +70,12 @@ $sans-font: "Source Sans 3";
 
             border-color: hsl(0, 0%, 80%);
 
+            background-color: white;
+
             &:hover {
                 border-color: hsl(0, 0%, 70%);
+
+                background-color: hsl(0, 0%, 95%);
             }
         }
 
@@ -73,6 +83,10 @@ $sans-font: "Source Sans 3";
             font-size: 20px;
 
             border-color: transparent;
+
+            &:hover {
+                background-color: hsl(0, 0%, 90%);
+            }
 
             &.selected {
                 background-color: hsl(0, 0%, 90%);
@@ -87,6 +101,10 @@ $sans-font: "Source Sans 3";
             font-size: 20px;
 
             border-color: transparent;
+
+            &:hover {
+                background-color: hsl(0, 0%, 90%);
+            }
 
             &.selected {
                 background-color: hsl(0, 0%, 90%);
