@@ -88,7 +88,7 @@ class CardView < View
             @printed = 0
         end
 
-        payload = { printed: @printed }
+        payload = {printed: @printed}
 
         HTTP.patch("/cards/#{@id}", payload.to_json) do
             draw

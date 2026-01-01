@@ -16,7 +16,7 @@ class ItalianWordsCard < Card
 
             word = word.sub(/\{[^\}]+\}/, '')
 
-            { word:, color: }
+            {word:, color:}
         }
     end
 

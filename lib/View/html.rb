@@ -81,6 +81,8 @@ module Kernel
                     old_method_missing(name, *args, &block)
                 end
             else
+                name = name.sub(/^_/, '')
+
                 case name
                 when 'on'
                     if block_given?

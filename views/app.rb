@@ -286,13 +286,13 @@ class AppView < View
     def on_home()
         state(:home)
 
-        Window.history.pushState({ state: :home }, nil, '/')
+        Window.history.pushState({state: :home}, nil, '/')
     end
 
     def on_print()
         state(:print)
 
-        Window.history.pushState({ state: :print }, nil, '/?printed=1')
+        Window.history.pushState({state: :print}, nil, '/?printed=1')
     end
 
     def on_binder(id, name)
@@ -300,7 +300,7 @@ class AppView < View
 
         state(:binder)
 
-        Window.history.pushState({ state: :binder, binder_id: id }, nil, "/?binder_id=#{id}")
+        Window.history.pushState({state: :binder, binder_id: id}, nil, "/?binder_id=#{id}")
     end
 
     def on_popstate(state)
@@ -336,7 +336,7 @@ class AppView < View
     end
 
     def on_card_binder(id, binder_id)
-        HTTP.patch("/cards/#{id}", { binder_id: }.to_json) do
+        HTTP.patch("/cards/#{id}", {binder_id:}.to_json) do
             get_cards(html: true) do |cards|
                 @cards_view.cards = cards
             end

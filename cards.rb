@@ -16,7 +16,7 @@ DB = Sequel.connect('sqlite://cards.db')
 get '/cards' do
     content_type 'application/json'
 
-    conditions = { deleted: 0 }
+    conditions = {deleted: 0}
 
     if params[:printed]
         conditions[:printed] = params[:printed]
@@ -40,7 +40,7 @@ get '/cards' do
             attributes = card[:attributes].split(/\s+/).map { |attribute|
                 key, value = attribute.split('=')
 
-                [ key, value ]
+                [key, value]
             }.to_h
 
             begin
@@ -67,7 +67,7 @@ get '/cards/:id' do |id|
     attributes = card[:attributes].split(/\s+/).map { |attribute|
         key, value = attribute.split('=')
 
-        [ key, value ]
+        [key, value]
     }.to_h
 
     begin
@@ -119,7 +119,7 @@ post '/cards' do
 
     id = DB[:cards].insert(fields)
 
-    { id: id }.to_json
+    {id: id}.to_json
 end
 
 patch '/cards/:id' do |id|
