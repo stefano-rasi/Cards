@@ -1,0 +1,3 @@
+[submodule "lib/View"]
+	path = lib/View
+	url = https://github.com/stefano-rasi/View.git

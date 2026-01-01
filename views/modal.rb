@@ -1,7 +1,7 @@
-require 'lib/view/html'
-require 'lib/view/view'
-require 'lib/view/window'
-require 'lib/view/document'
+require 'lib/View/html'
+require 'lib/View/view'
+require 'lib/View/window'
+require 'lib/View/document'
 
 require_relative 'editor'
 

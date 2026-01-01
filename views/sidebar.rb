@@ -1,8 +1,8 @@
 require 'json'
 
-require 'lib/view/html'
-require 'lib/view/http'
-require 'lib/view/view'
+require 'lib/View/html'
+require 'lib/View/http'
+require 'lib/View/view'
 
 class SidebarView < View
     draw do
