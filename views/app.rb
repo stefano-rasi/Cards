@@ -198,15 +198,19 @@ class AppView < View
 
         modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
             if !new_type && !new_text.empty?
-                Window.alert('Insert card type')
+                Window.alert('Type is empty')
 
                 false
             elsif !new_binder_id && !new_text.empty?
-                Window.alert('Insert card binder')
+                Window.alert('Binder is empty')
 
                 false
             else
-                if !new_text.empty?
+                if !id && new_text.empty?
+                    Window.addEventListener('keydown', &@on_keydown)
+
+                    Document.body.removeChild(modal.element)
+                else
                     payload = {
                         type: new_type,
                         text: new_text,
@@ -216,11 +220,21 @@ class AppView < View
 
                     if id
                         if new_text != text || new_type != type || new_binder_id != binder_id || new_attributes != attributes
-                            HTTP.patch("/cards/#{id}", payload.to_json) do
-                                get_cards(html: true) do |cards|
-                                    @cards_view.cards = cards
+                            if Window.confirm('Do you want to save changes?')
+                                HTTP.patch("/cards/#{id}", payload.to_json) do
+                                    get_cards(html: true) do |cards|
+                                        @cards_view.cards = cards
+                                    end
                                 end
+
+                                Window.addEventListener('keydown', &@on_keydown)
+
+                                Document.body.removeChild(modal.element)
                             end
+                        else
+                            Window.addEventListener('keydown', &@on_keydown)
+
+                            Document.body.removeChild(modal.element)
                         end
                     else
                         if @state == :print
@@ -232,12 +246,12 @@ class AppView < View
                                 @cards_view.cards = cards
                             end
                         end
+
+                        Window.addEventListener('keydown', &@on_keydown)
+
+                        Document.body.removeChild(modal.element)
                     end
                 end
-
-                Window.addEventListener('keydown', &@on_keydown)
-
-                Document.body.removeChild(modal.element)
             end
         end
 
