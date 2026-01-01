@@ -1,5 +1,7 @@
 require 'json'
 
+require 'lib/Vi/vi'
+
 require 'lib/View/html'
 require 'lib/View/http'
 require 'lib/View/view'
@@ -38,14 +40,8 @@ class EditorView < View
             end
 
             HTML.div 'text' do
-                HTML.textarea do |text_textarea|
-                    value @text
-
-                    attribute 'spellcheck', false
-
-                    placeholder 'text'
-
-                    @text_textarea = text_textarea
+                Vi(@text) do |vi|
+                    @vi = vi
                 end
             end
 
@@ -96,7 +92,7 @@ class EditorView < View
     end
 
     def text
-        @text_textarea.value
+        @vi.text
     end
 
     def type
