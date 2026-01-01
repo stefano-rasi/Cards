@@ -6,26 +6,32 @@
     justify-content: space-between;
 
     &.insert-mode {
-        .lines-container {
-            .lines {
-                .line {
-                    .character {
-                        &.cursor {
-                            color: initial;
-
-                            background-color: initial;
-
-                            border-left-width: 1px;
-                            border-left-style: solid;
-                            border-left-color: black;
-
-                            &.last {
-                                width: 0;
-                            }
-                        }
-                    }
-                }
+        &:focus {
+            .cursor {
+                border-left-color: black;
             }
+        }
+
+        .cursor {
+            background-color: initial;
+
+            border-left-width: 1px;
+            border-left-style: solid;
+            border-left-color: hsl(0, 0%, 50%);
+        }
+    }
+
+    &.normal-mode {
+        &:focus {
+            .cursor {
+                background-color: black;
+            }
+        }
+
+        .cursor {
+            color: white;
+
+            background-color: hsl(0, 0, 50%);
         }
     }
 
@@ -47,12 +53,6 @@
 
                     flex-shrink: 0;
                     flex-direction: row;
-
-                    &.cursor {
-                        color: white;
-
-                        background-color: black;
-                    }
                 }
             }
         }
