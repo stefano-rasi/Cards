@@ -15,7 +15,7 @@ class AppView < View
     draw do
         HTML.div 'app-view' do
             HTML.div 'top-pane' do
-                View.ToolbarView() do |toolbar_view|
+                ToolbarView do |toolbar_view|
                     @toolbar_view = toolbar_view
 
                     case @state
@@ -40,7 +40,7 @@ class AppView < View
 
             HTML.div 'bottom-pane' do
                 HTML.div 'sidebar-container' do
-                    View.SidebarView() do |sidebar_view|
+                    SidebarView do |sidebar_view|
                         @sidebar_view = sidebar_view
 
                         @sidebar_view.expand = @sidebar_expand
@@ -51,7 +51,7 @@ class AppView < View
                 end
 
                 HTML.div 'cards-container' do
-                    View.CardsView() do |cards_view|
+                    CardsView do |cards_view|
                         @cards_view = cards_view
 
                         @cards_view.zoom = @zoom

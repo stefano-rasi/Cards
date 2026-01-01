@@ -8,9 +8,7 @@ require_relative 'card'
 
 class CardsView < View
     draw do
-        HTML.div 'cards-view', ('cards-expand' if @cards_expand), ('show-binders' if @show_binders) do |div|
-            @div = div
-
+        HTML.div 'cards-view', ('cards-expand' if @cards_expand), ('show-binders' if @show_binders) do |element|
             @card_views = []
 
             @cards.each do |card|
@@ -19,7 +17,7 @@ class CardsView < View
                 printed = card['printed']
                 binder_id = card['binder_id']
 
-                View.CardView(id, html, printed, binder_id) do |card_view|
+                CardView(id, html, printed, binder_id) do |card_view|
                     @card_views << card_view
 
                     card_view.binders = @binders
@@ -30,7 +28,7 @@ class CardsView < View
                 end
             end
 
-            div.style.zoom = @zoom
+            element.style.zoom = @zoom
         end
     end
 
@@ -45,7 +43,7 @@ class CardsView < View
     def zoom=(zoom)
         @zoom = zoom
 
-        @div.style.zoom = zoom
+        element.style.zoom = zoom
     end
 
     def cards=(cards)
@@ -66,9 +64,9 @@ class CardsView < View
         @cards_expand = cards_expand
 
         if @cards_expand
-            @div.classList.add('cards-expand')
+            element.classList.add('cards-expand')
         else
-            @div.classList.remove('cards-expand')
+            element.classList.remove('cards-expand')
         end
     end
 
@@ -76,9 +74,9 @@ class CardsView < View
         @show_binders = show_binders
 
         if @show_binders
-            @div.classList.add('show-binders')
+            element.classList.add('show-binders')
         else
-            @div.classList.remove('show-binders')
+            element.classList.remove('show-binders')
         end
     end
 
