@@ -1,7 +1,6 @@
 require 'lib/View/html'
 require 'lib/View/view'
 require 'lib/View/window'
-require 'lib/View/document'
 
 require_relative 'editor'
 
@@ -24,7 +23,7 @@ class EditorModalView < View
         @binder_id = binder_id
         @attributes = attributes
 
-        @on_click = Proc.new do |event|
+        @on_mousedown = Proc.new do |event|
             event = Native(event)
 
             if !@editor.element.contains(event.target)
@@ -32,17 +31,8 @@ class EditorModalView < View
             end
         end
 
-        @on_keyup = Proc.new do |event|
-            event = Native(event)
-
-            if event.key == 'Escape'
-                on_close()
-            end
-        end
-
         Window.setTimeout do
-            Document.addEventListener('keyup', &@on_keyup)
-            Document.addEventListener('mousedown', &@on_click)
+            Window.addEventListener('mousedown', &@on_mousedown)
         end
     end
 
@@ -64,8 +54,7 @@ class EditorModalView < View
             attributes = @editor.attributes
 
             if @on_close_block.call(type, text, attributes, binder_id) != false
-                Document.removeEventListener('keyup', &@on_keyup)
-                Document.removeEventListener('mousedown', &@on_click)
+                Window.removeEventListener('mousedown', &@on_mousedown)
             end
         end
     end

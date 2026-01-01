@@ -34,18 +34,16 @@
             flex-direction: row;
 
             .character {
-                height: 1.2em;
+                height: 1.4em;
 
                 display: inline-flex;
 
                 line-height: 1em;
 
+                align-items: center;
+
                 flex-shrink: 0;
                 flex-direction: row;
-
-                &.empty {
-                    width: 0.7em;
-                }
 
                 &.cursor {
                     color: white;

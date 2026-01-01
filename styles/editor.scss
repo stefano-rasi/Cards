@@ -67,6 +67,10 @@ $monospace-font: "Source Code Pro";
 
         flex-direction: column;
 
+        &:has(.vi-view:focus) {
+            border-color: hsl(0, 0%, 50%);
+        }
+
         .vi-view {
             padding: 8px;
 
@@ -77,6 +81,10 @@ $monospace-font: "Source Code Pro";
 
             font-size: 14px;
             font-family: $monospace-font;
+
+            &:focus {
+                outline: none;
+            }
 
             .status-bar {
                 display: none;

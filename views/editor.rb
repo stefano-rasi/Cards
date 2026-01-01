@@ -41,7 +41,7 @@ class EditorView < View
 
             HTML.div 'text' do
                 Vi(@text) do |vi|
-                    @vi = vi
+                    @text_editor = vi
                 end
             end
 
@@ -92,7 +92,7 @@ class EditorView < View
     end
 
     def text
-        @vi.text
+        @text_editor.text
     end
 
     def type
@@ -120,7 +120,7 @@ class EditorView < View
     end
 
     def focus_text()
-        @text_textarea.focus()
+        @text_editor.element.focus()
     end
 
     def on_close(&block)
