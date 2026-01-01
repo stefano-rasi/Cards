@@ -86,10 +86,7 @@ $monospace-font: "Source Code Pro";
             }
 
             .lines {
-                display: flex;
-
                 flex-grow: 1;
-                flex-direction: column;
 
                 overflow-x: auto;
                 overflow-y: auto;
