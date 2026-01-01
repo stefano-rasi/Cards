@@ -40,8 +40,12 @@ class EditorView < View
             end
 
             HTML.div 'text' do
-                Vi(@text) do |vi|
-                    @text_editor = vi
+                Vi(@text, true) do |text_editor|
+                    @text_editor = text_editor
+
+                    Window.setTimeout do
+                        @text_editor.scroll
+                    end
                 end
             end
 
