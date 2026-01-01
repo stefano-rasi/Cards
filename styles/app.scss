@@ -18,28 +18,14 @@ body {
     flex-grow: 1;
     flex-direction: column;
 
-    position: relative;
-
     .top-pane {
         display: flex;
 
         flex-grow: 0;
         flex-direction: row;
 
-        .cards-view {
-            flex-grow: 1;
-        }
-
         .toolbar-view {
-            top: 0;
-
-            width: 100%;
-
-            z-index: 1;
-
-            position: sticky;
-
-            flex-grow: 0;
+            flex-grow: 1;
 
             border-bottom-width: 1px;
             border-bottom-style: solid;
@@ -63,7 +49,7 @@ body {
             min-height: 0;
         }
 
-        .sidebar-view {
+        .sidebar-container {
             flex-grow: 0;
 
             min-height: 0;
@@ -74,12 +60,6 @@ body {
             border-right-width: 1px;
             border-right-style: solid;
             border-right-color: hsl(0, 0%, 80%);
-
-            .buttons {
-                border-bottom-width: 1px;
-                border-bottom-style: solid;
-                border-bottom-color: hsl(0, 0%, 80%);
-            }
         }
     }
 }

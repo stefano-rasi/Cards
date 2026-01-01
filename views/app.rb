@@ -39,13 +39,15 @@ class AppView < View
             end
 
             HTML.div 'bottom-pane' do
-                View.SidebarView() do |sidebar_view|
-                    @sidebar_view = sidebar_view
+                HTML.div 'sidebar-container' do
+                    View.SidebarView() do |sidebar_view|
+                        @sidebar_view = sidebar_view
 
-                    @sidebar_view.expand = @sidebar_expand
-                    @sidebar_view.binder_id = @binder_id
+                        @sidebar_view.expand = @sidebar_expand
+                        @sidebar_view.binder_id = @binder_id
 
-                    @sidebar_view.on_binder(&method(:on_binder))
+                        @sidebar_view.on_binder(&method(:on_binder))
+                    end
                 end
 
                 HTML.div 'cards-container' do
