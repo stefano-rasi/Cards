@@ -1,6 +1,7 @@
 require 'lib/View/html'
 require 'lib/View/view'
 require 'lib/View/window'
+require 'lib/View/document'
 
 require_relative 'editor'
 
@@ -32,7 +33,7 @@ class EditorModalView < View
         end
 
         Window.setTimeout do
-            Window.addEventListener('mousedown', &@on_mousedown)
+            Document.addEventListener('mousedown', &@on_mousedown)
         end
     end
 
@@ -54,7 +55,7 @@ class EditorModalView < View
             attributes = @editor.attributes
 
             if @on_close_block.call(type, text, attributes, binder_id) != false
-                Window.removeEventListener('mousedown', &@on_mousedown)
+                Document.removeEventListener('mousedown', &@on_mousedown)
             end
         end
     end
