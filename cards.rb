@@ -125,6 +125,16 @@ end
 patch '/cards/:id' do |id|
     request.body.rewind
 
+    card = DB[:cards].where(id: id).first
+
+    DB[:cards_history].insert({
+        type: card[:type],
+        text: card[:text],
+        card_id: card[:id],
+        binder_id: card[:binder_id],
+        attributes: card[:attributes],
+    })
+
     payload = JSON.parse(request.body.read)
 
     type = payload['type']
