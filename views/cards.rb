@@ -20,6 +20,8 @@ class CardsView < View
                 CardView(id, html, printed, binder_id) do |card_view|
                     @card_views << card_view
 
+                    card_view.zoom = @zoom
+
                     card_view.binders = @binders
 
                     card_view.on_edit(&method(:on_card_edit))
@@ -27,8 +29,6 @@ class CardsView < View
                     card_view.on_binder(&method(:on_card_binder))
                 end
             end
-
-            element.style.zoom = @zoom
         end
     end
 
@@ -43,7 +43,9 @@ class CardsView < View
     def zoom=(zoom)
         @zoom = zoom
 
-        @element.style.zoom = zoom
+        @card_views.each do |card_view|
+            card_view.zoom = zoom
+        end
     end
 
     def cards=(cards)

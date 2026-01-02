@@ -3,8 +3,6 @@ $sans-font: "Source Sans 3";
 $monospace-font: "Source Code Pro";
 
 .card-view {
-    width: 62mm;
-
     display: flex;
 
     position: relative;
@@ -186,6 +184,8 @@ $monospace-font: "Source Code Pro";
     }
 
     .card-container {
+        width: 62mm;
+
         display: flex;
 
         max-height: 88mm;
