@@ -25,7 +25,7 @@ class ModalView < View
         @binder_id = binder_id
         @attributes = attributes
 
-        @on_mousedown = Proc.new do |event|
+        @on_click = Proc.new do |event|
             event = Native(event)
 
             if !@editor.element.contains(event.target)
@@ -34,7 +34,7 @@ class ModalView < View
         end
 
         Window.setTimeout do
-            Document.addEventListener('mousedown', &@on_mousedown)
+            Document.addEventListener('click', &@on_click)
         end
     end
 
@@ -43,7 +43,7 @@ class ModalView < View
     end
 
     def close()
-        Document.removeEventListener('mousedown', &@on_mousedown)
+        Document.removeEventListener('click', &@on_click)
     end
 
     def focus_type()
