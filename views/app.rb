@@ -189,12 +189,10 @@ class AppView < View
         end
     end
 
-    def open_editor_modal(id, type, text, attributes, binder_id)
-        if !id
-            binder_id = @binder_id
-        end
+    def open_modal(id, type, text, attributes, binder_id)
+        binder_id = @binder_id if !id
 
-        modal = EditorModalView.new(type, text, attributes, binder_id)
+        modal = ModalView.new(type, text, attributes, binder_id)
 
         modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
             if !new_type && !new_text.empty?
@@ -257,20 +255,6 @@ class AppView < View
 
         if !event.ctrlKey && !event.shiftKey
             case event.key
-            when 'h'
-                on_home()
-            when 'p'
-                on_print()
-            when 'v'
-                on_cards_expand()
-            when 'e'
-                on_sidebar_expand()
-            when 'n'
-                open_editor_modal()
-            when 'r'
-                get_cards() do |cards|
-                    @cards_view.cards = cards
-                end
             when '+'
                 @zoom += 0.25
 
@@ -279,6 +263,20 @@ class AppView < View
                 @zoom -= 0.25
 
                 @cards_view.zoom = @zoom
+            when 'e'
+                on_sidebar_expand()
+            when 'h'
+                on_home()
+            when 'n'
+                open_modal()
+            when 'p'
+                on_print()
+            when 'r'
+                get_cards() do |cards|
+                    @cards_view.cards = cards
+                end
+            when 'v'
+                on_cards_expand()
             end
         end
     end
@@ -317,7 +315,7 @@ class AppView < View
     end
 
     def on_card_new()
-        open_editor_modal(binder_id: @binder_id)
+        open_modal(binder_id: @binder_id)
     end
 
     def on_card_edit(id)
@@ -331,7 +329,7 @@ class AppView < View
 
             attributes = card['attributes']
 
-            open_editor_modal(id, type, text, attributes, binder_id)
+            open_modal(id, type, text, attributes, binder_id)
         end
     end
 

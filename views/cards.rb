@@ -43,7 +43,7 @@ class CardsView < View
     def zoom=(zoom)
         @zoom = zoom
 
-        element.style.zoom = zoom
+        @element.style.zoom = zoom
     end
 
     def cards=(cards)
@@ -64,9 +64,9 @@ class CardsView < View
         @cards_expand = cards_expand
 
         if @cards_expand
-            element.classList.add('cards-expand')
+            @element.classList.add('cards-expand')
         else
-            element.classList.remove('cards-expand')
+            @element.classList.remove('cards-expand')
         end
     end
 
@@ -74,9 +74,9 @@ class CardsView < View
         @show_binders = show_binders
 
         if @show_binders
-            element.classList.add('show-binders')
+            @element.classList.add('show-binders')
         else
-            element.classList.remove('show-binders')
+            @element.classList.remove('show-binders')
         end
     end
 

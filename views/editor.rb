@@ -38,14 +38,14 @@ class EditorView < View
             end
 
             HTML.div 'text' do
-                HTML.textarea do |text_textarea|
+                HTML.textarea do |text_editor|
                     value @text
 
                     attribute 'spellcheck', false
 
                     placeholder 'text'
 
-                    @text_textarea = text_textarea
+                    @text_editor = text_editor
                 end
             end
 
@@ -96,7 +96,7 @@ class EditorView < View
     end
 
     def text
-        @text_textarea.value
+        @text_editor.value
     end
 
     def type
@@ -124,7 +124,7 @@ class EditorView < View
     end
 
     def focus_text()
-        @text_textarea.focus()
+        @text_editor.focus()
     end
 
     def on_close(&block)
