@@ -6,32 +6,18 @@
     flex-direction: column;
 
     &.insert-mode {
-        &:focus {
-            .cursor {
-                border-left-color: black;
-            }
-        }
-
         .cursor {
-            background-color: initial;
+            margin: 0;
 
-            border-left-width: 1px;
-            border-left-style: solid;
-            border-left-color: hsl(0, 0%, 50%);
-        }
-    }
+            padding: 0;
 
-    &.normal-mode {
-        &:focus {
-            .cursor {
-                background-color: black;
-            }
-        }
+            border: none;
 
-        .cursor {
-            color: white;
+            outline: none;
 
-            background-color: hsl(0, 0, 50%);
+            line-height: 1em;
+
+            field-sizing: content;
         }
     }
 
@@ -50,8 +36,6 @@
             flex-direction: row;
 
             .character {
-                height: 1.4em;
-
                 display: inline-flex;
 
                 line-height: 1em;
@@ -66,8 +50,6 @@
 
     .status-bar {
         display: flex;
-
-        column-gap: 8px;
 
         flex-grow: 0;
         flex-direction: row;
