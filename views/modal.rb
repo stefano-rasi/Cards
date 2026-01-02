@@ -24,7 +24,7 @@ class ModalView < View
         @binder_id = binder_id
         @attributes = attributes
 
-        @on_mousedown = Proc.new do |event|
+        @on_click = Proc.new do |event|
             event = Native(event)
 
             if !@editor.element.contains(event.target)
@@ -32,7 +32,7 @@ class ModalView < View
             end
         end
 
-        @on_keydown = Proc.new do |event|
+        @on_keyup = Proc.new do |event|
             event = Native(event)
 
             if event.key == 'Escape'
@@ -41,8 +41,8 @@ class ModalView < View
         end
 
         Window.setTimeout do
-            Document.addEventListener('keydown', &@on_keydown)
-            Document.addEventListener('mousedown', &@on_mousedown)
+            Document.addEventListener('click', &@on_click)
+            Document.addEventListener('keyup', &@on_keyup)
         end
     end
 
@@ -64,8 +64,8 @@ class ModalView < View
             attributes = @editor.attributes
 
             if @on_close_block.call(type, text, attributes, binder_id) != false
+                Document.removeEventListener('click', &@on_click)
                 Document.removeEventListener('keyup', &@on_keyup)
-                Document.removeEventListener('mousedown', &@on_click)
             end
         end
     end
