@@ -239,7 +239,7 @@ class AppView < View
 
     def close_modal()
         get_cards(html: true) do |cards|
-            @cards = cards
+            @cards_view.cards = cards
         end
 
         @modal.close()
