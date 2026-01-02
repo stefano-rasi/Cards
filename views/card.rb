@@ -7,14 +7,10 @@ require 'lib/View/view'
 class CardView < View
     draw do
         HTML.div 'card-view', ('loading' if !@html) do
-            HTML.div 'card-container' do |card_container|
+            HTML.div 'card-container' do
                 html @html
 
-                style.zoom = @zoom
-
                 on(:click) { on_edit(@id) }
-
-                @card_container = card_container
             end
 
             HTML.div 'binder' do
@@ -74,12 +70,6 @@ class CardView < View
                 draw
             end
         end
-    end
-
-    def zoom=(zoom)
-        @zoom = zoom
-
-        @card_container.style.zoom = zoom
     end
 
     def binders=(binders)
