@@ -43,6 +43,9 @@ class EditorView < View
                 Vi(@text, true) do |text_editor|
                     @text_editor = text_editor
 
+                    @text_editor.on_save(&method(:on_save))
+                    @text_editor.on_close(&method(:on_close))
+
                     Window.setTimeout do
                         @text_editor.scroll
                     end
@@ -125,6 +128,14 @@ class EditorView < View
 
     def focus_text()
         @text_editor.element.focus()
+    end
+
+    def on_save(&block)
+        if block_given?
+            @on_save_block = block
+        else
+            @on_save_block.call(type, text, attributes, binder_id)
+        end
     end
 
     def on_close(&block)
