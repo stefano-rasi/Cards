@@ -47,7 +47,7 @@ class EditorView < View
                     @text_editor.on_close(&method(:on_close))
 
                     Window.setTimeout do
-                        @text_editor.scroll
+                        @text_editor.scroll()
                     end
                 end
             end
