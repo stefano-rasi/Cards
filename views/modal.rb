@@ -5,13 +5,14 @@ require 'lib/View/document'
 
 require_relative 'editor'
 
-class EditorModalView < View
+class ModalView < View
     draw do
-        HTML.div 'editor-modal-view' do
+        HTML.div 'modal-view' do
             HTML.div 'editor-container' do
                 EditorView(@type, @text, @attributes, @binder_id) do |editor|
                     @editor = editor
 
+                    @editor.on_save &method(:on_save)
                     @editor.on_close &method(:on_close)
                 end
             end
@@ -37,6 +38,14 @@ class EditorModalView < View
         end
     end
 
+    def editor
+        @editor
+    end
+
+    def close()
+        Document.removeEventListener('mousedown', &@on_mousedown)
+    end
+
     def focus_type()
         @editor.focus_type()
     end
@@ -45,18 +54,19 @@ class EditorModalView < View
         @editor.focus_text()
     end
 
+    def on_save(&block)
+        if block_given?
+            @on_save_block = block
+        else
+            @on_save_block.call(@editor.type, @editor.text, @editor.attributes, @editor.binder_id)
+        end
+    end
+
     def on_close(&block)
         if block_given?
             @on_close_block = block
         else
-            type = @editor.type
-            text = @editor.text
-            binder_id = @editor.binder_id
-            attributes = @editor.attributes
-
-            if @on_close_block.call(type, text, attributes, binder_id) != false
-                Document.removeEventListener('mousedown', &@on_mousedown)
-            end
+            @on_close_block.call()
         end
     end
 end
