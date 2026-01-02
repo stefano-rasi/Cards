@@ -189,81 +189,64 @@ class AppView < View
         end
     end
 
-    def open_editor_modal(id, type, text, attributes, binder_id)
-        if !id
-            binder_id = @binder_id
+    def open_modal(id, type, text, attributes, binder_id)
+        binder_id = @binder_id if !id
+
+        @modal = ModalView.new(type, text, attributes, binder_id)
+
+        @modal.on_save do |new_type, new_text, new_attributes, new_binder_id|
+            on_card_save(id, new_type, new_text, new_attributes, new_binder_id)
         end
 
-        modal = EditorModalView.new(type, text, attributes, binder_id)
+        @modal.on_close do
+            new_type = @modal.editor.type
+            new_text = @modal.editor.text
+            new_binder_id = @modal.editor.binder_id
+            new_attributes = @modal.editor.attributes
 
-        modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
-            if !new_type && !new_text.empty?
-                Window.alert('Type is empty')
+            if id
+                HTTP.get("/cards/#{id}") do |body|
+                    card = JSON.parse(body)
 
-                false
-            elsif !new_binder_id && !new_text.empty?
-                Window.alert('Binder is empty')
+                    old_type = card[:type]
+                    old_text = card[:text]
+                    old_binder_id = card[:binder_id]
+                    old_attributes = card[:attributes]
 
-                false
-            else
-                if !id && new_text.empty?
-                    Window.addEventListener('keydown', &@on_keydown)
-
-                    Document.body.removeChild(modal.element)
-                else
-                    payload = {
-                        type: new_type,
-                        text: new_text,
-                        binder_id: new_binder_id,
-                        attributes: new_attributes
-                    }
-
-                    if id
-                        if new_text != text || new_type != type || new_binder_id != binder_id || new_attributes != attributes
-                            if Window.confirm('Do you want to save changes?')
-                                HTTP.patch("/cards/#{id}", payload.to_json) do
-                                    get_cards(html: true) do |cards|
-                                        @cards_view.cards = cards
-                                    end
-                                end
-
-                                Window.addEventListener('keydown', &@on_keydown)
-
-                                Document.body.removeChild(modal.element)
-                            end
-                        else
-                            Window.addEventListener('keydown', &@on_keydown)
-
-                            Document.body.removeChild(modal.element)
+                    if new_type != old_type || new_text != old_text || new_binder_id != old_binder_id || new_attributes != old_attributes
+                        if Window.confirm('Discard changes?')
+                            close_modal()
                         end
                     else
-                        if @state == :print
-                            payload[:printed] = 1
-                        end
-
-                        HTTP.post('/cards', payload.to_json) do
-                            get_cards(html: true) do |cards|
-                                @cards_view.cards = cards
-                            end
-                        end
-
-                        Window.addEventListener('keydown', &@on_keydown)
-
-                        Document.body.removeChild(modal.element)
+                        close_modal()
                     end
                 end
+            else
+                close_modal()
             end
         end
 
         Window.removeEventListener('keydown', &@on_keydown)
 
-        Document.body.appendChild(modal.element)
+        Document.body.appendChild(@modal.element)
 
         if id
-            modal.focus_text()
+            @modal.focus_text()
         else
-            modal.focus_type()
+            @modal.focus_type()
         end
+    end
+
+    def close_modal()
+        get_cards(html: true) do |cards|
+            @cards = cards
+        end
+
+        @modal.close()
+
+        Window.addEventListener('keydown', &@on_keydown)
+
+        Document.body.removeChild(@modal.element)
     end
 
     def on_keydown(event)
@@ -271,20 +254,6 @@ class AppView < View
 
         if !event.ctrlKey && !event.shiftKey
             case event.key
-            when 'h'
-                on_home()
-            when 'p'
-                on_print()
-            when 'v'
-                on_cards_expand()
-            when 'e'
-                on_sidebar_expand()
-            when 'n'
-                open_editor_modal()
-            when 'r'
-                get_cards() do |cards|
-                    @cards_view.cards = cards
-                end
             when '+'
                 @zoom += 0.25
 
@@ -293,6 +262,20 @@ class AppView < View
                 @zoom -= 0.25
 
                 @cards_view.zoom = @zoom
+            when 'e'
+                on_sidebar_expand()
+            when 'h'
+                on_home()
+            when 'n'
+                open_modal()
+            when 'p'
+                on_print()
+            when 'r'
+                get_cards() do |cards|
+                    @cards_view.cards = cards
+                end
+            when 'v'
+                on_cards_expand()
             end
         end
     end
@@ -331,7 +314,7 @@ class AppView < View
     end
 
     def on_card_new()
-        open_editor_modal(binder_id: @binder_id)
+        open_modal(binder_id: @binder_id)
     end
 
     def on_card_edit(id)
@@ -345,7 +328,28 @@ class AppView < View
 
             attributes = card['attributes']
 
-            open_editor_modal(id, type, text, attributes, binder_id)
+            open_modal(id, type, text, attributes, binder_id)
+        end
+    end
+
+    def on_card_save(id, type, text, attributes, binder_id)
+        if !type && !text.empty?
+            Window.alert('Type is empty')
+        elsif !binder_id && !text.empty?
+            Window.alert('Binder is empty')
+        else
+            payload = {
+                type: type,
+                text: text,
+                binder_id: binder_id,
+                attributes: attributes
+            }
+
+            if id
+                HTTP.patch("/cards/#{id}", payload.to_json)
+            else
+                HTTP.post('/cards', payload.to_json)
+            end
         end
     end
 
