@@ -74,8 +74,6 @@ $monospace-font: "Source Code Pro";
         .vi-view {
             flex-grow: 1;
 
-            min-height: 0;
-
             font-size: 14px;
             font-family: $monospace-font;
 
@@ -88,18 +86,11 @@ $monospace-font: "Source Code Pro";
                 padding-left: 8px;
                 padding-right: 8px;
 
-                flex-grow: 1;
-
-                overflow-x: auto;
-                overflow-y: auto;
-
                 background-color: white;
             }
 
             .status-bar {
                 padding: 8px;
-
-                flex-grow: 0;
 
                 margin-top: 8px;
 
