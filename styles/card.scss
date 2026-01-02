@@ -21,12 +21,6 @@ $monospace-font: "Source Code Pro";
     &:hover {
         cursor: pointer;
 
-        .card-container {
-            .card {
-                border-color: hsl(0, 0%, 80%);
-            }
-        }
-
         .binder {
             display: block;
         }
@@ -37,6 +31,12 @@ $monospace-font: "Source Code Pro";
 
         .delete-button {
             visibility: initial;
+        }
+
+        .card-container {
+            .card {
+                border-color: hsl(0, 0%, 80%);
+            }
         }
     }
 
