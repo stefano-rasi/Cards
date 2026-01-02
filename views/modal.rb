@@ -58,7 +58,12 @@ class ModalView < View
         if block_given?
             @on_save_block = block
         else
-            @on_save_block.call(@editor.type, @editor.text, @editor.attributes, @editor.binder_id)
+            type = @editor.type
+            text = @editor.text
+            binder_id = @editor.binder_id
+            attributes = @editor.attributes
+
+            @on_save_block.call(type, text, attributes, binder_id)
         end
     end
 
