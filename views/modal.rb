@@ -5,14 +5,16 @@ require 'lib/view/document'
 
 require_relative 'editor'
 
-class ModalView < View
+class ModalView
+    include View
+
     draw do
         HTML.div 'modal-view' do
             HTML.div 'editor-container' do
                 EditorView(@type, @text, @attributes, @binder_id) do |editor|
                     @editor = editor
 
-                    @editor.on_close &method(:on_close)
+                    @editor.on_close(&method(:on_close))
                 end
             end
         end

@@ -11,7 +11,9 @@ require_relative 'modal'
 require_relative 'sidebar'
 require_relative 'toolbar'
 
-class AppView < View
+class AppView
+    include View
+
     draw do
         HTML.div 'app-view' do
             HTML.div 'top-pane' do
