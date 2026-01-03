@@ -42,7 +42,7 @@ class EditorView
             end
 
             HTML.div 'text' do
-                ViView(@text, true) do |text_editor|
+                ViView(@text, :end) do |text_editor|
                     @text_editor = text_editor
 
                     @text_editor.on_quit(&method(:on_close))
