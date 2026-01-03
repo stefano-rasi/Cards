@@ -1,10 +1,10 @@
 require 'json'
 
-require 'lib/Vi/view'
+require 'lib/vi/view'
 
-require 'lib/View/html'
-require 'lib/View/http'
-require 'lib/View/view'
+require 'lib/view/html'
+require 'lib/view/http'
+require 'lib/view/view'
 
 class EditorView < View
     draw do

@@ -1,20 +1,12 @@
 require 'json'
 
-require 'lib/View/html'
-require 'lib/View/http'
-require 'lib/View/view'
+require 'lib/view/html'
+require 'lib/view/http'
+require 'lib/view/view'
 
 class CardView < View
     draw do
         HTML.div 'card-view', ('loading' if !@html) do
-            HTML.div 'button delete-button' do
-                title 'delete'
-
-                HTML.span text: 'X'
-
-                on(:click) { on_delete(@id) }
-            end
-
             HTML.div 'card-container' do
                 html @html
 
@@ -34,6 +26,14 @@ class CardView < View
                 end
 
                 on(:change) { |event| on_binder(@id, Native(event).target.value) }
+            end
+
+            HTML.div 'button delete-button' do
+                title 'delete'
+
+                HTML.span text: 'X'
+
+                on(:click) { on_delete(@id) }
             end
 
             HTML.div 'button print-button', ('not-printed' if @printed == 0), ('print-ready' if @printed == 1), ('printed' if @printed == 2) do

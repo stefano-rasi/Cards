@@ -1,5 +1,5 @@
-require 'lib/View/html'
-require 'lib/View/view'
+require 'lib/view/html'
+require 'lib/view/view'
 
 class ToolbarView < View
     draw do
