@@ -4,7 +4,9 @@ require 'lib/view/html'
 require 'lib/view/http'
 require 'lib/view/view'
 
-class SidebarView < View
+class SidebarView
+    include View
+
     draw do
         HTML.div 'sidebar-view', ('expanded' if @expand) do
             HTML.div 'binders' do

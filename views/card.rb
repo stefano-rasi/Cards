@@ -4,7 +4,9 @@ require 'lib/view/html'
 require 'lib/view/http'
 require 'lib/view/view'
 
-class CardView < View
+class CardView
+    include View
+
     draw do
         HTML.div 'card-view', ('loading' if !@html) do
             HTML.div 'card-container' do

@@ -6,7 +6,9 @@ require 'lib/view/html'
 require 'lib/view/http'
 require 'lib/view/view'
 
-class EditorView < View
+class EditorView
+    include View
+
     draw do
         HTML.div 'editor-view' do
             HTML.div 'top-row' do

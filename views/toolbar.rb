@@ -1,7 +1,9 @@
 require 'lib/view/html'
 require 'lib/view/view'
 
-class ToolbarView < View
+class ToolbarView
+    include View
+
     draw do
         HTML.div 'toolbar-view' do
             HTML.div 'left-buttons' do

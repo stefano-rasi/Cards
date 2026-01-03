@@ -5,7 +5,9 @@ require 'lib/view/document'
 
 require_relative 'editor'
 
-class ModalView < View
+class ModalView
+    include View
+
     draw do
         HTML.div 'modal-view' do
             HTML.div 'editor-container' do

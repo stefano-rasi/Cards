@@ -6,7 +6,9 @@ require 'lib/view/view'
 
 require_relative 'card'
 
-class CardsView < View
+class CardsView
+    include View
+
     draw do
         HTML.div 'cards-view', ('cards-expand' if @cards_expand), ('show-binders' if @show_binders) do |element|
             @card_views = []
