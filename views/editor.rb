@@ -1,6 +1,6 @@
 require 'json'
 
-require 'lib/Vi/vi'
+require 'lib/Vi/view'
 
 require 'lib/View/html'
 require 'lib/View/http'
@@ -40,7 +40,7 @@ class EditorView < View
             end
 
             HTML.div 'text' do
-                Vi(@text, true) do |text_editor|
+                ViView(@text, true) do |text_editor|
                     @text_editor = text_editor
 
                     @text_editor.on_save(&method(:on_save))

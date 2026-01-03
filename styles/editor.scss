@@ -76,6 +76,8 @@ $monospace-font: "Source Code Pro";
 
             flex-grow: 1;
 
+            line-height: 1.4em;
+
             font-size: 14px;
             font-family: $monospace-font;
 
@@ -85,7 +87,7 @@ $monospace-font: "Source Code Pro";
 
             &.insert-mode {
                 .cursor {
-                    height: 1.4em;
+                    line-height: 1.4em;
 
                     font-size: 14px;
                     font-family: "Source Code Pro";
@@ -112,10 +114,6 @@ $monospace-font: "Source Code Pro";
                 padding-right: 8px;
 
                 background-color: white;
-
-                .character {
-                    height: 1.4em;
-                }
             }
 
             .status-bar {

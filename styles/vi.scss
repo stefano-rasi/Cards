@@ -1,21 +1,15 @@
 .vi-view {
     display: flex;
 
-    min-height: 0;
-
     flex-direction: column;
 
     &.insert-mode {
         .cursor {
             margin: 0;
-
             padding: 0;
 
             border: none;
-
             outline: none;
-
-            line-height: 1em;
 
             field-sizing: content;
         }
@@ -31,19 +25,14 @@
         flex-direction: column;
 
         .line {
-            display: flex;
-
-            flex-direction: row;
+            white-space: nowrap;
 
             .character {
-                display: inline-flex;
+                display: inline-block;
 
-                line-height: 1em;
-
-                align-items: center;
-
-                flex-shrink: 0;
-                flex-direction: row;
+                &.empty {
+                    user-select: none;
+                }
             }
         }
     }
