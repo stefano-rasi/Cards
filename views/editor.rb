@@ -43,8 +43,8 @@ class EditorView < View
                 ViView(@text, true) do |text_editor|
                     @text_editor = text_editor
 
-                    @text_editor.on_save(&method(:on_save))
-                    @text_editor.on_close(&method(:on_close))
+                    @text_editor.on_quit(&method(:on_close))
+                    @text_editor.on_write(&method(:on_save))
 
                     Window.setTimeout do
                         @text_editor.scroll()
