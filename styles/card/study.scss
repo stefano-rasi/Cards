@@ -3,6 +3,8 @@
 
     display: inline-block;
 
+    position: relative;
+
     * {
         margin: 0;
 
@@ -61,5 +63,17 @@
                 margin-left: -4pt;
             }
         }
+    }
+
+    .reference {
+        right: 5mm;
+        bottom: 5mm;
+
+        position: absolute;
+
+        padding-top: 4pt;
+        padding-left: 4pt;
+
+        background-color: white;
     }
 }
