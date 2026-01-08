@@ -83,6 +83,8 @@ class AppView
         if !printed_value.empty?
             @state = :print
 
+            @printed = printed_value.to_i
+
             @binder_id = nil
 
             @cards_show_binders = false
@@ -144,6 +146,8 @@ class AppView
 
             @toolbar_view.state = :home
         when :print
+            @printed = 1
+
             @binder_id = nil
 
             @cards_show_binders = false
@@ -177,7 +181,7 @@ class AppView
 
         case @state
         when :print
-            params[:printed] = 1
+            params[:printed] = @printed
         when :binder
             params[:binder_id] = @binder_id
         end
