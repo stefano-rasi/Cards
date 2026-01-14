@@ -40,10 +40,6 @@ $monospace-font: "Source Code Pro";
             }
 
             &.selected {
-                &:hover {
-                    background-color: hsl(0, 0%, 90%);
-                }
-
                 background-color: hsl(0, 0%, 95%);
             }
         }

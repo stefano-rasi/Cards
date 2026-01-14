@@ -82,7 +82,11 @@
 
         tr {
             td, th {
-                padding-right: 2pt;
+                padding-right: 4pt;
+
+                &.halign-center {
+                    text-align: center;
+                }
 
                 p {
                     margin: 0;
@@ -90,7 +94,7 @@
             }
 
             td + td, th + th {
-                padding-left: 2pt;
+                padding-left: 4pt;
 
                 border-left-width: 1pt;
                 border-left-style: solid;

@@ -120,52 +120,31 @@ $monospace-font: "Source Code Pro";
             bottom: 6px;
 
             &.printed {
-                $color: hsl(90, 100%, 80%);
-                $hover-color: hsl(90, 100%, 60%);
+                $color: hsl(90, 100%, 70%);
 
                 border-color: $color;
 
                 background-color: $color;
-
-                &:hover {
-                    border-color: $hover-color;
-
-                    background-color: $hover-color;
-                }
             }
 
             &.print-ready {
-                $color: hsl(60, 100%, 80%);
-                $hover-color: hsl(60, 100%, 50%);
+                $color: hsl(60, 100%, 70%);
 
                 visibility: initial;
 
                 border-color: $color;
 
                 background-color: $color;
-
-                &:hover {
-                    border-color: $hover-color;
-
-                    background-color: $hover-color;
-                }
             }
 
             &.not-printed {
-                $color: hsl(0, 100%, 90%);
-                $hover-color: hsl(0, 100%, 80%);
+                $color: hsl(0, 100%, 80%);
 
                 visibility: initial;
 
                 border-color: $color;
 
                 background-color: $color;
-
-                &:hover {
-                    border-color: $hover-color;
-
-                    background-color: $hover-color;
-                }
             }
         }
 
