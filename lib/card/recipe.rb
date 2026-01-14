@@ -3,7 +3,9 @@ require 'asciidoctor'
 
 require_relative '../card'
 
-class RecipeCard < Card
+class RecipeCard
+    include Card
+
     name 'recipe'
 
     def initialize(text, attributes)

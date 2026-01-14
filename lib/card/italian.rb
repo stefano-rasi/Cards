@@ -5,7 +5,9 @@ require 'parslet'
 
 require_relative '../card'
 
-class ItalianWordsCard < Card
+class ItalianWordsCard
+    include Card
+
     name 'words'
 
     def initialize(text, attributes)
@@ -27,7 +29,9 @@ class ItalianWordsCard < Card
     end
 end
 
-class ItalianPhrasesCard < Card
+class ItalianPhrasesCard
+    include Card
+
     name 'phrases'
 
     def initialize(text, attributes)

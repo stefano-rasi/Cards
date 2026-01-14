@@ -1,11 +1,19 @@
-class Card
-    @@classes = {}
+module Card
+    extend self
 
-    def self.name(name)
-        @@classes[name] = self
+    @classes = {}
+
+    module ClassMethods
+        def name(name)
+            Card.classes[name] = self
+        end
     end
 
-    def self.classes
-        @@classes
+    def classes
+        @classes
+    end
+
+    def included(base)
+        base.extend(ClassMethods)
     end
 end
