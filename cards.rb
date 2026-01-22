@@ -90,7 +90,7 @@ end
 get '/binders' do
     content_type 'application/json'
 
-    binders = DB[:binders].order(:order).all
+    binders = DB[:binders].where(disabled: 0).order(:order).all
 
     binders.to_json
 end
