@@ -35,7 +35,9 @@ class ModalView
         @on_keyup = Proc.new do |event|
             event = Native(event)
 
-            on_close() if event.key == 'Escape'
+            if event.key == 'Escape'
+                on_close()
+            end
         end
 
         Window.setTimeout do
