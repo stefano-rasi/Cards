@@ -1,15 +1,10 @@
 .cards-view {
-    gap: 8px;
-
     padding: 16px;
 
-    display: masonry;
-
-    position: relative;
-
-    justify-content: start;
-
-    grid-template-columns: repeat(auto-fill, auto);
+    column-gap: 16px;
+    column-fill: balance;
+    column-width: 62mm;
+    column-count: auto;
 
     &.cards-expand {
         .card-view {
@@ -27,5 +22,11 @@
                 position: relative;
             }
         }
+    }
+
+    .card-view {
+        break-inside: avoid;
+
+        margin-bottom: 16px;
     }
 }
