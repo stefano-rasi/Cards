@@ -17,6 +17,8 @@
             .cards-view {
                 zoom: 1 !important;
 
+                columns: 1;
+
                 padding: 0;
 
                 display: block;
@@ -24,10 +26,10 @@
                 .card-view {
                     display: inline-block;
 
-                    break-inside: avoid;
-
                     border-color: hsl(0, 0%, 95%);
                     border-radius: 0;
+
+                    margin-bottom: 0;
 
                     vertical-align: top;
 
