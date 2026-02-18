@@ -321,7 +321,7 @@ class AppView
     end
 
     def on_card_new()
-        open_modal(binder_id: @binder_id)
+        open_modal()
     end
 
     def on_card_edit(id)
