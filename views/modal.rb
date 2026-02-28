@@ -29,7 +29,9 @@ class ModalView
         @on_click = Proc.new do |event|
             event = Native(event)
 
-            on_close() if !@editor.element.contains(event.target)
+            if !@editor.element.contains(event.target)
+                on_close()
+            end
         end
 
         @on_keyup = Proc.new do |event|
