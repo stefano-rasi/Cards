@@ -1,0 +1,91 @@
+.card.japanese.phrases {
+    row-gap: 1pt;
+
+    padding: 5mm;
+
+    display: inline-flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    .phrase {
+        .japanese {
+            font-family: "Noto Sans JP";
+
+            .section {
+                display: inline;
+
+                .character, .furigana {
+                    display: inline-block;
+                }
+
+                .character, .furigana .base {
+                    font-size: 8pt;
+                }
+
+                .character {
+                    line-height: 1.2;
+                }
+
+                .furigana {
+                    .base {
+                        line-height: 1;
+                    }
+
+                    .text {
+                        font-size: 3pt;
+
+                        line-height: 1;
+
+                        margin-bottom: 1pt;
+                    }
+
+                    .base, .text {
+                        text-align: center;
+                    }
+                }
+
+                &.bold {
+                    .character, .furigana .base {
+                        font-weight: bold;
+                    }
+                }
+
+            }
+        }
+
+        .english {
+            margin-top: 1pt;
+
+            line-height: 1.2;
+
+            font-size: 5pt;
+            font-family: "Noto Serif";
+        }
+    }
+
+    .color-1 {
+        .character, .furigana .base {
+            background-color: hsl(0, 100%, 90%);
+        }
+    }
+
+    .color-2 {
+        .character, .furigana .base {
+            background-color: hsl(40, 100%, 70%);
+        }
+    }
+
+    .color-3 {
+        .character, .furigana .base {
+            background-color: hsl(60, 100%, 50%);
+        }
+    }
+
+    .color-4 {
+        .character, .furigana .base {
+            background-color: hsl(90, 100%, 80%);
+        }
+    }
+}

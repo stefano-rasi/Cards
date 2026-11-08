@@ -1,0 +1,79 @@
+.card.study {
+    padding: 5mm;
+
+    display: inline-block;
+
+    position: relative;
+
+    * {
+        margin: 0;
+
+        font-size: 5pt;
+        font-family: "Source Serif 4";
+    }
+
+    h2, h3, h4, p, ul {
+        margin-bottom: 2pt;
+    }
+
+    h2, h3, h4 {
+        line-height: 1;
+
+        font-family: "Source Sans 3";
+
+        padding-bottom: 1pt;
+
+        border-bottom-width: 1pt;
+        border-bottom-style: solid;
+        border-bottom-color: black;
+    }
+
+    h2 {
+        font-size: 9pt;
+    }
+
+    h3 {
+        font-size: 8pt;
+    }
+
+    h4 {
+        font-size: 7pt;
+    }
+
+    h5 {
+        font-size: 6pt;
+    }
+
+    h6 {
+        font-size: 5pt;
+    }
+
+    p {
+        text-align: justify;
+
+        line-height: 1;
+    }
+
+    ul {
+        padding-left: 3mm;
+
+        li {
+            p {
+                margin: 0;
+                margin-left: -4pt;
+            }
+        }
+    }
+
+    .reference {
+        right: 5mm;
+        bottom: 5mm;
+
+        position: absolute;
+
+        padding-top: 4pt;
+        padding-left: 4pt;
+
+        background-color: white;
+    }
+}

@@ -1,0 +1,57 @@
+@page {
+    size: A4;
+
+    margin-top: 10mm;
+    margin-left: 10mm;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+@media print {
+    .app-view {
+        .top-pane {
+            display: none;
+        }
+
+        .bottom-pane {
+            .cards-view {
+                zoom: 1 !important;
+
+                columns: 1;
+
+                padding: 0;
+
+                display: block;
+
+                .card-view {
+                    display: inline-block;
+
+                    border-color: hsl(0, 0%, 95%);
+                    border-radius: 0;
+
+                    margin-bottom: 0;
+
+                    vertical-align: top;
+
+                    .button, .binder {
+                        display: none;
+                    }
+
+                    .card-container {
+                        .card {
+                            height: 88mm;
+                        }
+                    }
+                }
+            }
+
+            .sidebar-container {
+                display: none;
+            }
+        }
+    }
+
+    .modal-view {
+        display: none;
+    }
+}

@@ -1,0 +1,61 @@
+.modal-view {
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+
+    display: flex;
+
+    position: fixed;
+
+    box-sizing: border-box;
+
+    align-items: center;
+
+    padding-top: 10vh;
+    padding-left: min(10vw, 10vh);
+    padding-right: min(10vw, 10vh);
+    padding-bottom: 10vh;
+
+    flex-direction: column;
+
+    background-color: hsla(0, 0%, 0%, 0.4);
+
+    .editor-container {
+        display: flex;
+
+        min-width: min(550px, 100%);
+        min-height: min(600px, 100%);
+
+        max-width: 100%;
+        max-height: 100%;
+
+        position: relative;
+
+        .editor-view {
+            overflow: hidden;
+
+            flex-grow: 1;
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: hsl(0, 0%, 50%);
+            border-radius: 6mm;
+
+            background-color: hsl(0, 0%, 95%);
+
+            .text {
+                overflow: auto;
+
+                background-color: white;
+
+                textarea {
+                    field-sizing: content;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,47 @@
+$sans-font: "Source Sans 3";
+
+$monospace-font: "Source Code Pro";
+
+.sidebar-view {
+    display: flex;
+
+    flex-direction: column;
+
+    &.expanded {
+        .binders {
+            display: flex;
+        }
+    }
+
+    .binders {
+        display: none;
+
+        flex-direction: column;
+
+        .binder {
+            user-select: none;
+
+            font-size: 14px;
+            font-family: $monospace-font;
+
+            padding-top: 6px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 6px;
+
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: hsl(0, 0%, 90%);
+
+            &:hover {
+                cursor: pointer;
+
+                background-color: hsl(0, 0%, 95%);
+            }
+
+            &.selected {
+                background-color: hsl(0, 0%, 95%);
+            }
+        }
+    }
+}

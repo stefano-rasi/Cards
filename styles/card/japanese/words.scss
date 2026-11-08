@@ -1,0 +1,101 @@
+.card.japanese.words {
+    row-gap: 1pt;
+
+    padding: 5mm;
+
+    display: inline-flex;
+
+    flex-wrap: wrap;
+
+    column-gap: 4pt;
+
+    align-items: end;
+    align-content: space-between;
+
+    justify-content: space-between;
+
+    .word {
+        display: flex;
+
+        column-gap: 2pt;
+
+        align-items: end;
+
+        .japanese {
+            font-family: "Noto Sans JP";
+
+            .section {
+                display: inline;
+    
+                .character, .furigana {
+                    display: inline-block;
+                }
+
+                .character, .furigana .base {
+                    font-size: 8pt;
+
+                    line-height: 1;
+                }
+
+                .furigana {
+                    .text {
+                        font-size: 3pt;
+
+                        line-height: 1;
+
+                        margin-bottom: 1pt;
+                    }
+    
+                    .base, .text {
+                        text-align: center;
+                    }
+                }
+
+                &.bold {
+                    .character, .furigana .base {
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+
+        .english {
+            flex-grow: 1;
+
+            line-height: 1;
+
+            font-size: 5pt;
+            font-family: "Noto Serif";
+        }
+    }
+
+    .color-1 {
+        .character, .furigana .base {
+            background-color: hsl(0, 100%, 90%);
+        }
+    }
+
+    .color-2 {
+        .character, .furigana .base {
+            background-color: hsl(40, 100%, 70%);
+        }
+    }
+
+    .color-3 {
+        .character, .furigana .base {
+            background-color: hsl(60, 100%, 50%);
+        }
+    }
+
+    .color-4 {
+        .character, .furigana .base {
+            background-color: hsl(90, 100%, 80%);
+        }
+    }
+
+    .color-5 {
+        .character, .furigana .base {
+            background-color: hsl(180, 100%, 80%);
+        }
+    }
+}
