@@ -13,7 +13,7 @@ class NoteCard
     end
     
     def to_html
-        template = Slim::Template.new('views/card/note.slim')
+        template = Slim::Template.new('templates/card/note.slim')
 
         template.render(self)
     end

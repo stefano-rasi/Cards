@@ -13,7 +13,7 @@ class StudyCard
     end
     
     def to_html
-        template = Slim::Template.new('views/card/study.slim')
+        template = Slim::Template.new('templates/card/study.slim')
 
         template.render(self)
     end

@@ -13,7 +13,7 @@ class RecipeCard
     end
     
     def to_html
-        template = Slim::Template.new('views/card/recipe.slim')
+        template = Slim::Template.new('templates/card/recipe.slim')
 
         template.render(self)
     end

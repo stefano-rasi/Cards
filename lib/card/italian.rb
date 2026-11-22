@@ -6,7 +6,7 @@ require_relative '../card'
 class ItalianWordsCard
     include Card
 
-    name 'words'
+    name 'italian/words'
 
     def initialize(text, attributes)
         @words = text.split(/\n+/).map { |word|
@@ -21,7 +21,7 @@ class ItalianWordsCard
     end
 
     def to_html
-        template = Slim::Template.new('views/card/italian/words.slim')
+        template = Slim::Template.new('templates/card/italian/words.slim')
 
         template.render(self)
     end
@@ -30,7 +30,7 @@ end
 class ItalianPhrasesCard
     include Card
 
-    name 'phrases'
+    name 'italian/phrases'
 
     def initialize(text, attributes)
         @phrases = text.split(/\n+/).map { |phrase|
@@ -41,7 +41,7 @@ class ItalianPhrasesCard
     end
 
     def to_html
-        template = Slim::Template.new('views/card/italian/phrases.slim')
+        template = Slim::Template.new('templates/card/italian/phrases.slim')
 
         template.render(self)
     end
