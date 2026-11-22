@@ -13,11 +13,12 @@ end
 
 namespace :opal do
     source = 'views/app.rb'
-    output = 'public/app.js'
+    output = 'build/app.js'
 
     file output => FileList['views/**/*.rb', 'lib/view/**/*.rb'] do
         require 'json'
         require 'opal'
+        require 'base64'
 
         builder = Opal::Builder.new
 
@@ -26,29 +27,19 @@ namespace :opal do
         builder.build('lib/view/console')
         builder.build(source)
 
-        File.write(output, "#{builder}\n//# sourceMappingURL=app.js.map")
-        File.write("#{output}.map", JSON.dump(builder.source_map.as_json))
+        source_map = Base64.strict_encode64(JSON.dump(builder.source_map.as_json))
+
+        mkdir_p File.dirname(output), verbose: false
+
+        File.write(output, "#{builder}\n//# sourceMappingURL=data:application/json;base64,#{source_map}")
 
         puts "Compiled #{source} to #{output}"
     end
 
     task build: output
-
-    task :watch do
-        loop do
-            begin
-                Rake::Task[output].reenable
-                Rake::Task[output].invoke
-            rescue => error
-                puts error.message
-            end
-
-            sleep 1
-        end
-    end
 end
 
-task :start, [:port] => ['style:build', 'opal:build'] do |task, arguments|
+task :start, [:port] => 'style:build' do |task, arguments|
     port = arguments.fetch(:port, '4567')
 
     ruby 'app.rb', '-p', port

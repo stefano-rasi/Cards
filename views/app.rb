@@ -121,7 +121,11 @@ class AppView
             url = '/cards'
         end
 
+        @cards_url = url
+
         HTTP.get(url) do |cards|
+            next if url != @cards_url
+
             @cards = cards
 
             refresh
