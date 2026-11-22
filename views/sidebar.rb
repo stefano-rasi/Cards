@@ -1,60 +1,22 @@
-require 'json'
-
 require 'lib/view/html'
-require 'lib/view/http'
 require 'lib/view/view'
 
 class SidebarView
     include View
 
     draw do
-        HTML.div 'sidebar-view', ('expanded' if @expand) do
+        HTML.div 'sidebar-view', ('expanded' if @app.sidebar_expand) do
             HTML.div 'binders' do
-                @binders.each do |binder|
-                    binder_id = binder['id']
-                    binder_name = binder['name']
-
-                    HTML.div 'binder', ('selected' if binder_id == @binder_id) do
-                        text binder_name
-
-                        on(:click) { on_binder(binder_id, binder_name) }
+                @app.binders.each do |binder|
+                    HTML.div 'binder', ('selected' if binder['id'] == @app.binder_id), text: binder['name'] do
+                        on(:click) { @app.binder(binder['id']) }
                     end
                 end
             end
         end
     end
 
-    def initialize()
-        @expand = nil
-
-        @binders = []
-
-        @binder_id = nil
-
-        HTTP.get('/binders') do |body|
-            @binders = JSON.parse(body)
-
-            draw
-        end
-    end
-
-    def expand=(expand)
-        @expand = expand
-
-        draw
-    end
-
-    def binder_id=(binder_id)
-        @binder_id = binder_id
-
-        draw
-    end
-
-    def on_binder(id, name, &block)
-        if block_given?
-            @on_binder_block = block
-        else
-            @on_binder_block.call(id, name)
-        end
+    def initialize(app)
+        @app = app
     end
 end

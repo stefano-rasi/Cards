@@ -14,373 +14,247 @@ require_relative 'toolbar'
 class AppView
     include View
 
+    attr_reader :zoom
+    attr_reader :state
+    attr_reader :cards
+    attr_reader :types
+    attr_reader :binders
+    attr_reader :binder_id
+    attr_reader :sidebar_expand
+
     draw do
         HTML.div 'app-view' do
             HTML.div 'top-pane' do
-                ToolbarView do |toolbar_view|
-                    @toolbar_view = toolbar_view
-
-                    case @state
-                    when :home
-                        @toolbar_view.state = :home
-                    when :print
-                        @toolbar_view.state = :print
-                    when :binder
-                        @toolbar_view.state = :binder
-                    end
-
-                    @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
-                    @toolbar_view.sidebar_expand = @sidebar_expand
-
-                    @toolbar_view.on_home(&method(:on_home))
-                    @toolbar_view.on_print(&method(:on_print))
-                    @toolbar_view.on_card_new(&method(:on_card_new))
-                    @toolbar_view.on_cards_expand(&method(:on_cards_expand))
-                    @toolbar_view.on_sidebar_expand(&method(:on_sidebar_expand))
-                end
+                ToolbarView(self) { |view| @toolbar_view = view }
             end
 
             HTML.div 'bottom-pane' do
                 HTML.div 'sidebar-container' do
-                    SidebarView do |sidebar_view|
-                        @sidebar_view = sidebar_view
-
-                        @sidebar_view.expand = @sidebar_expand
-                        @sidebar_view.binder_id = @binder_id
-
-                        @sidebar_view.on_binder(&method(:on_binder))
-                    end
+                    SidebarView(self) { |view| @sidebar_view = view }
                 end
 
                 HTML.div 'cards-container' do
-                    CardsView do |cards_view|
-                        @cards_view = cards_view
-
-                        @cards_view.zoom = @zoom
-
-                        @cards_view.show_binders = @cards_show_binders
-                        @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
-
-                        @cards_view.on_card_edit(&method(:on_card_edit))
-                        @cards_view.on_card_delete(&method(:on_card_delete))
-                        @cards_view.on_card_binder(&method(:on_card_binder))
-                    end
+                    CardsView(self) { |view| @cards_view = view }
                 end
             end
         end
     end
 
     def initialize()
-        printed_value = Document.getElementById('printed').value
-        binder_id_value = Document.getElementById('binder_id').value
-
         @zoom = 1
 
-        @cards_expand = false
+        @cards = []
+        @types = []
+        @binders = []
 
+        @cards_expand = false
         @sidebar_expand = true
 
-        if !printed_value.empty?
-            @state = :print
+        printed = Document.getElementById('printed').value
+        binder_id = Document.getElementById('binder_id').value
 
-            @printed = printed_value.to_i
-
-            @binder_id = nil
-
-            @cards_show_binders = false
-
-            @temporary_cards_expand = true
-        elsif !binder_id_value.empty?
-            @state = :binder
-
-            @binder_id = binder_id_value.to_i
-
-            @cards_show_binders = false
-
-            @temporary_cards_expand = false
+        if !printed.empty?
+            show(:print, printed: printed.to_i)
+        elsif !binder_id.empty?
+            show(:binder, binder_id: binder_id.to_i)
         else
-            @state = :home
-
-            @binder_id = nil
-
-            @cards_show_binders = true
-
-            @temporary_cards_expand = false
+            show(:home)
         end
 
-        get_cards() do |cards|
+        Window.history.replaceState(history_state, nil)
+
+        HTTP.get('/types') do |types|
+            @types = types
+        end
+
+        HTTP.get('/binders') do |binders|
+            @binders = binders
+
+            refresh
+        end
+
+        Window.addEventListener('keydown') { |event| on_keydown(Native(event)) }
+        Window.addEventListener('popstate') { |event| on_popstate(Native(event).state) }
+    end
+
+    def refresh()
+        return if !@element
+
+        @toolbar_view.draw
+        @sidebar_view.draw
+        @cards_view.draw
+    end
+
+    def cards_expand?
+        @cards_expand || @temporary_cards_expand
+    end
+
+    def show(state, binder_id: nil, printed: 1)
+        @state = state
+        @printed = printed
+        @binder_id = binder_id
+
+        @temporary_cards_expand = state == :print
+
+        load_cards
+    end
+
+    def go(state, binder_id: nil)
+        show(state, binder_id: binder_id)
+
+        url = {home: '/', print: '/?printed=1', binder: "/?binder_id=#{binder_id}"}[state]
+
+        Window.history.pushState(history_state, nil, url)
+    end
+
+    def history_state
+        {state: @state, binder_id: @binder_id, printed: @printed}
+    end
+
+    def load_cards()
+        case @state
+        when :print
+            url = "/cards?printed=#{@printed}"
+        when :binder
+            url = "/cards?binder_id=#{@binder_id}"
+        else
+            url = '/cards'
+        end
+
+        HTTP.get(url) do |cards|
             @cards = cards
 
-            @cards_view.cards = cards
-        end
-
-        HTTP.get('/binders') do |body|
-            binders = JSON.parse(body)
-
-            @cards_view.binders = binders
-        end
-
-        @on_keydown = Proc.new { |event|
-            on_keydown(event)
-        }
-
-        Window.addEventListener('keydown', &@on_keydown)
-
-        Window.addEventListener('popstate') do |event|
-            event = Native(event)
-
-            on_popstate(event.state)
+            refresh
         end
     end
 
-    def state(state)
-        @state = state
-
-        case @state
-        when :home
-            @binder_id = nil
-
-            @cards_show_binders = true
-
-            @temporary_cards_expand = false
-
-            @toolbar_view.state = :home
-        when :print
-            @printed = 1
-
-            @binder_id = nil
-
-            @cards_show_binders = false
-
-            @temporary_cards_expand = true
-
-            @toolbar_view.state = :print
-        when :binder
-            @cards_show_binders = false
-
-            @temporary_cards_expand = false
-
-            @toolbar_view.state = :binder
-        end
-
-        @sidebar_view.binder_id = @binder_id
-
-        @toolbar_view.cards_expand = @cards_expand || @temporary_cards_expand
-
-        get_cards() do |cards|
-            @cards_view.cards = cards
-
-            @cards_view.show_binders = @cards_show_binders
-
-            @cards_view.cards_expand = @cards_expand || @temporary_cards_expand
-        end
+    def home()
+        go(:home)
     end
 
-    def get_cards(html: false, &block)
-        params = {}
-
-        case @state
-        when :print
-            params[:printed] = @printed
-        when :binder
-            params[:binder_id] = @binder_id
-        end
-
-        params[:html] = true if html
-
-        HTTP.get("/cards?#{params.map { |key, value| "#{key}=#{value}" }.join('&')}") do |body|
-            cards = JSON.load(body)
-
-            block.call(cards)
-        end
+    def print()
+        go(:print)
     end
 
-    def open_modal(id, type, text, attributes, binder_id)
-        binder_id = @binder_id if !id
-
-        modal = ModalView.new(type, text, attributes, binder_id)
-
-        modal.on_close do |new_type, new_text, new_attributes, new_binder_id|
-            if !new_type && !new_text.empty?
-                Window.alert('Insert card type')
-
-                false
-            elsif !new_binder_id && !new_text.empty?
-                Window.alert('Insert card binder')
-
-                false
-            else
-                if !new_text.empty?
-                    payload = {
-                        type: new_type,
-                        text: new_text,
-                        binder_id: new_binder_id,
-                        attributes: new_attributes
-                    }
-
-                    if id
-                        if new_text != text || new_type != type || new_binder_id != binder_id || new_attributes != attributes
-                            HTTP.patch("/cards/#{id}", payload.to_json) do
-                                get_cards(html: true) do |cards|
-                                    @cards_view.cards = cards
-                                end
-                            end
-                        end
-                    else
-                        if @state == :print
-                            payload[:printed] = 1
-                        end
-
-                        HTTP.post('/cards', payload.to_json) do
-                            get_cards(html: true) do |cards|
-                                @cards_view.cards = cards
-                            end
-                        end
-                    end
-                end
-
-                Window.addEventListener('keydown', &@on_keydown)
-
-                Document.body.removeChild(modal.element)
-            end
-        end
-
-        Window.removeEventListener('keydown', &@on_keydown)
-
-        Document.body.appendChild(modal.element)
-
-        if id
-            modal.focus_text()
-        else
-            modal.focus_type()
-        end
+    def binder(id)
+        go(:binder, binder_id: id)
     end
 
-    def on_keydown(event)
-        event = Native(event)
+    def toggle_sidebar()
+        @sidebar_expand = !@sidebar_expand
 
-        if !event.ctrlKey && !event.shiftKey
-            case event.key
-            when '+'
-                @zoom += 0.25
-
-                @cards_view.zoom = @zoom
-            when '-'
-                @zoom -= 0.25
-
-                @cards_view.zoom = @zoom
-            when 'e'
-                on_sidebar_expand()
-            when 'h'
-                on_home()
-            when 'n'
-                open_modal()
-            when 'p'
-                on_print()
-            when 'r'
-                get_cards() do |cards|
-                    @cards_view.cards = cards
-                end
-            when 'v'
-                on_cards_expand()
-            end
-        end
+        refresh
     end
 
-    def on_home()
-        state(:home)
-
-        Window.history.pushState({state: :home}, nil, '/')
-    end
-
-    def on_print()
-        state(:print)
-
-        Window.history.pushState({state: :print}, nil, '/?printed=1')
-    end
-
-    def on_binder(id, name)
-        @binder_id = id
-
-        state(:binder)
-
-        Window.history.pushState({state: :binder, binder_id: id}, nil, "/?binder_id=#{id}")
-    end
-
-    def on_popstate(state)
-        case state[:state]
-        when :home
-            state(:home)
-        when :print
-            state(:print)
-        when :binder
-            @binder_id = state[:binder_id]
-
-            state(:binder)
-        end
-    end
-
-    def on_card_new()
-        open_modal()
-    end
-
-    def on_card_edit(id)
-        HTTP.get("/cards/#{id}") do |body|
-            card = JSON.parse(body)
-
-            type = card['type']
-            text = card['text']
-
-            binder_id = card['binder_id']
-
-            attributes = card['attributes']
-
-            open_modal(id, type, text, attributes, binder_id)
-        end
-    end
-
-    def on_card_binder(id, binder_id)
-        HTTP.patch("/cards/#{id}", {binder_id:}.to_json) do
-            get_cards(html: true) do |cards|
-                @cards_view.cards = cards
-            end
-        end
-    end
-
-    def on_card_delete(id)
-        if Window.confirm('Sei sicuro di voler cancellare la carta?')
-            HTTP.delete("/cards/#{id}") do
-                get_cards(html: true) do |cards|
-                    @cards_view.cards = cards
-                end
-            end
-        end
-    end
-
-    def on_cards_expand()
-        if @cards_expand || @temporary_cards_expand
-            @cards_expand = false
-        else
-            @cards_expand = true
-        end
+    def toggle_cards_expand()
+        @cards_expand = !cards_expand?
 
         @temporary_cards_expand = false
 
-        @cards_view.cards_expand = @cards_expand
-
-        @toolbar_view.cards_expand = @cards_expand
+        refresh
     end
 
-    def on_sidebar_expand()
-        if @sidebar_expand
-            @sidebar_expand = false
-        else
-            @sidebar_expand = true
+    def zoom_by(amount)
+        @zoom += amount
+
+        refresh
+    end
+
+    def new_card()
+        open_editor({'binder_id' => @binder_id})
+    end
+
+    def edit_card(card)
+        open_editor(card)
+    end
+
+    def open_editor(card)
+        @modal = ModalView.new(self, card)
+
+        Document.body.appendChild(@modal.element)
+
+        @modal.open
+    end
+
+    def close_editor(card, fields)
+        if !fields['text'].empty?
+            if !fields['type']
+                Window.alert('Insert card type')
+
+                return false
+            end
+
+            if !fields['binder_id']
+                Window.alert('Insert card binder')
+
+                return false
+            end
+
+            save_card(card, fields)
         end
 
-        @sidebar_view.expand = @sidebar_expand
+        @modal.element.remove
 
-        @toolbar_view.sidebar_expand = @sidebar_expand
+        @modal = nil
+
+        true
+    end
+
+    def save_card(card, fields)
+        if card['id']
+            if fields.any? { |key, value| card[key] != value }
+                HTTP.patch("/cards/#{card['id']}", fields.to_json) { load_cards }
+            end
+        else
+            fields['printed'] = 1 if @state == :print
+
+            HTTP.post('/cards', fields.to_json) { load_cards }
+        end
+    end
+
+    def move_card(card, binder_id)
+        HTTP.patch("/cards/#{card['id']}", {binder_id: binder_id}.to_json) { load_cards }
+    end
+
+    def delete_card(card)
+        if Window.confirm('Sei sicuro di voler cancellare la carta?')
+            HTTP.delete("/cards/#{card['id']}") { load_cards }
+        end
+    end
+
+    def print_card(card)
+        card['printed'] = (card['printed'] + 1) % 3
+
+        HTTP.patch("/cards/#{card['id']}", {printed: card['printed']}.to_json) { refresh }
+    end
+
+    def on_keydown(event)
+        return if @modal || event.ctrlKey || event.shiftKey
+
+        case event.key
+        when '+'
+            zoom_by(0.25)
+        when '-'
+            zoom_by(-0.25)
+        when 'e'
+            toggle_sidebar
+        when 'h'
+            home
+        when 'n'
+            new_card
+        when 'p'
+            print
+        when 'r'
+            load_cards
+        when 'v'
+            toggle_cards_expand
+        end
+    end
+
+    def on_popstate(state)
+        return if !state
+
+        show(state[:state].to_sym, binder_id: state[:binder_id], printed: state[:printed])
     end
 end
 
