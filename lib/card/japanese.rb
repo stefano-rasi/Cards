@@ -1,5 +1,3 @@
-require 'yaml'
-
 require 'slim'
 require 'parslet'
 
