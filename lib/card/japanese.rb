@@ -39,22 +39,14 @@ class JapanesePhrasesCard
     name 'japanese/phrases'
 
     def initialize(text, attributes)
-        @phrases = text.sub(/\s*-\s*/, '').split(/\n+\s*-\s*/).map { |phrase|
-            phrase = phrase.sub(/^\s*jp:\s*/, '')
+        @phrases = text.strip.split(/\n(?=\s*-)/).map { |phrase|
+            match = phrase.match(/\A\s*-\s*jp:\s*(.*?)\n\s*en:\s*(.*)\z/m)
 
-            japanese = ''
-
-            while not /^\n+\s*en:/.match?(phrase)
-                japanese += phrase[0]
-
-                phrase = phrase[1..-1]
-            end
-
-            english = phrase.sub(/^\s*en:\s*/, '')
+            raise "Missing jp: or en: in #{phrase.inspect}" if !match
 
             {
-                english: english,
-                japanese: JapaneseParser.new.parse(japanese)
+                english: match[2],
+                japanese: JapaneseParser.new.parse(match[1])
             }
         }
     end

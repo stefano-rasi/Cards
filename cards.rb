@@ -13,6 +13,26 @@ require_relative 'lib/card/japanese'
 
 DB = Sequel.connect('sqlite://cards.db')
 
+FIELDS = ['type', 'text', 'printed', 'binder_id', 'attributes']
+
+def render(card)
+    attributes = card[:attributes].split.map { |attribute|
+        key, value = attribute.split('=', 2)
+
+        [key, value]
+    }.to_h
+
+    Card.classes.fetch(card[:type]).new(card[:text], attributes).to_html
+rescue => error
+    "<div class=\"card error\"><pre>#{Rack::Utils.escape_html("#{error.class}: #{error.message}")}</pre></div>"
+end
+
+def payload
+    request.body.rewind
+
+    JSON.parse(request.body.read).slice(*FIELDS).compact.transform_keys(&:to_sym)
+end
+
 get '/cards' do
     content_type 'application/json'
 
@@ -32,53 +52,11 @@ get '/cards' do
 
     cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), order).all
 
-    if params[:html]
-        cards.each do |card|
-            type = card[:type]
-            text = card[:text]
-
-            attributes = card[:attributes].split(/\s+/).map { |attribute|
-                key, value = attribute.split('=')
-
-                [key, value]
-            }.to_h
-
-            begin
-                html = Card.classes[type].new(text, attributes).to_html
-            rescue
-                html = nil
-            end
-
-            card[:html] = html
-        end
+    cards.each do |card|
+        card[:html] = render(card)
     end
 
     cards.to_json
-end
-
-get '/cards/:id' do |id|
-    content_type 'application/json'
-
-    card = DB[:cards].where(id: id).first
-
-    type = card[:type]
-    text = card[:text]
-
-    attributes = card[:attributes].split(/\s+/).map { |attribute|
-        key, value = attribute.split('=')
-
-        [key, value]
-    }.to_h
-
-    begin
-        html = Card.classes[type].new(text, attributes).to_html
-    rescue
-        html = nil
-    end
-
-    card[:html] = html
-
-    card.to_json
 end
 
 get '/types' do
@@ -90,70 +68,39 @@ end
 get '/binders' do
     content_type 'application/json'
 
-    binders = DB[:binders].where(disabled: 0).order(:order).all
-
-    binders.to_json
+    DB[:binders].where(disabled: 0).order(:order).all.to_json
 end
 
 post '/cards' do
     content_type 'application/json'
 
-    request.body.rewind
-
-    payload = JSON.parse(request.body.read)
-
-    type = payload['type']
-    text = payload['text']
-    printed = payload['printed']
-    binder_id = payload['binder_id']
-    attributes = payload['attributes']
-
-    fields = {
-        type: type,
-        text: text,
-        binder_id: binder_id,
-        attributes: attributes
-    }
-
-    fields[:printed] = printed if printed
-
-    id = DB[:cards].insert(fields)
+    id = DB[:cards].insert(payload)
 
     {id: id}.to_json
 end
 
 patch '/cards/:id' do |id|
-    request.body.rewind
-
     card = DB[:cards].where(id: id).first
 
-    DB[:cards_history].insert({
-        type: card[:type],
-        text: card[:text],
-        card_id: card[:id],
-        binder_id: card[:binder_id],
-        attributes: card[:attributes],
-    })
+    fields = payload
 
-    payload = JSON.parse(request.body.read)
-
-    type = payload['type']
-    text = payload['text']
-    printed = payload['printed']
-    binder_id = payload['binder_id']
-    attributes = payload['attributes']
-
-    fields = {}
-
-    fields[:type] = type if type
-    fields[:text] = text if text
-    fields[:printed] = printed if printed
-    fields[:binder_id] = binder_id if binder_id
-    fields[:attributes] = attributes if attributes
+    if [:type, :text, :attributes].any? { |key| fields.key?(key) && fields[key] != card[key] }
+        DB[:cards_history].insert(
+            type: card[:type],
+            text: card[:text],
+            card_id: card[:id],
+            binder_id: card[:binder_id],
+            attributes: card[:attributes]
+        )
+    end
 
     DB[:cards].where(id: id).update(fields)
+
+    204
 end
 
 delete '/cards/:id' do |id|
     DB[:cards].where(id: id).update(deleted: 1)
+
+    204
 end
