@@ -15,7 +15,7 @@ DB = Sequel.connect('sqlite://cards.db')
 
 FIELDS = ['type', 'text', 'printed', 'binder_id', 'attributes']
 
-def render(card)
+def card_html(card)
     attributes = card[:attributes].split.map { |attribute|
         key, value = attribute.split('=', 2)
 
@@ -53,7 +53,7 @@ get '/cards' do
     cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), order).all
 
     cards.each do |card|
-        card[:html] = render(card)
+        card[:html] = card_html(card)
     end
 
     cards.to_json
