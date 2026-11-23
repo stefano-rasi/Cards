@@ -1,4 +1,4 @@
-require 'lib/view/html'
+﻿require 'lib/view/html'
 require 'lib/view/view'
 
 require_relative 'icons'
@@ -9,11 +9,21 @@ class CardView
     PRINTED = ['not-printed', 'print-ready', 'printed']
 
     draw do
-        HTML.div 'card-view' do
+        content = @app.card_html(@card)
+
+        HTML.div 'card-view', ('loading' if !content) do |element|
             HTML.div 'card-container' do
-                html @card['html']
+                html content if content
 
                 on(:click) { @app.edit_card(@card) }
+            end
+
+            if !content
+                if @app.state == :print
+                    load_html
+                else
+                    observe(element)
+                end
             end
 
             HTML.div 'button delete-button', title: 'delete' do
@@ -47,5 +57,25 @@ class CardView
     def initialize(app, card)
         @app = app
         @card = card
+    end
+
+    def load_html()
+        @app.load_card_html(@card) { draw }
+    end
+
+    def observe(element)
+        callback = proc { load_html }
+
+        root = Document.querySelector('.cards-container').to_n
+
+        %x{
+            new IntersectionObserver(function(entries, observer) {
+                if (entries.some(function(entry) { return entry.isIntersecting })) {
+                    observer.disconnect();
+
+                    #{callback}();
+                }
+            }, {root: #{root}, rootMargin: '100% 0px'}).observe(#{element.to_n})
+        }
     end
 end

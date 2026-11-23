@@ -94,17 +94,21 @@ get '/cards' do
         order = Sequel.desc(:id)
     end
 
-    cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), order).all
+    DB[:cards].where(conditions).order(Sequel.asc(:printed), order).all.to_json
+end
+
+get '/cards/:id/html' do
+    content_type 'application/json'
+
+    card = DB[:cards].where(id: params[:id].to_i).first
+
+    halt 404 if !card
 
     templates = Dir['templates/card/**/*.slim'].map { |file| [file, File.mtime(file)] }
 
     CARDS_HTML.replace(templates: templates) if CARDS_HTML[:templates] != templates
 
-    cards.each do |card|
-        card[:html] = CARDS_HTML[card.values_at(:type, :text, :attributes)] ||= card_html(card)
-    end
-
-    cards.to_json
+    {html: CARDS_HTML[card.values_at(:type, :text, :attributes)] ||= card_html(card)}.to_json
 end
 
 get '/types' do

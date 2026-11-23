@@ -47,6 +47,8 @@ class AppView
         @types = []
         @binders = []
 
+        @cards_html = {}
+
         @cards_expand = false
         @sidebar_expand = true
 
@@ -129,6 +131,20 @@ class AppView
             @cards = cards
 
             refresh
+        end
+    end
+
+    def card_html(card)
+        @cards_html[card.values_at('type', 'text', 'attributes')]
+    end
+
+    def load_card_html(card, &block)
+        key = card.values_at('type', 'text', 'attributes')
+
+        HTTP.get("/cards/#{card['id']}/html") do |response|
+            @cards_html[key] = response['html']
+
+            block.call
         end
     end
 
