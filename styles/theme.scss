@@ -1,0 +1,25 @@
+:root {
+    --sans-font: "Source Sans 3";
+    --monospace-font: "Source Code Pro";
+
+    --text: hsl(0, 0%, 15%);
+    --muted: hsl(0, 0%, 55%);
+
+    --desk: hsl(0, 0%, 95%);
+    --hover: hsl(0, 0%, 93%);
+    --selected: hsl(0, 0%, 89%);
+    --surface: white;
+
+    --border: hsl(0, 0%, 88%);
+    --border-strong: hsl(0, 0%, 65%);
+
+    --radius: 4mm;
+    --radius-small: 2mm;
+
+    --shadow: 0 1px 2px hsla(0, 0%, 0%, 0.08), 0 2px 8px hsla(0, 0%, 0%, 0.05);
+    --shadow-hover: 0 2px 4px hsla(0, 0%, 0%, 0.1), 0 6px 16px hsla(0, 0%, 0%, 0.08);
+
+    --not-printed: hsl(0, 75%, 62%);
+    --print-ready: hsl(42, 95%, 52%);
+    --printed: hsl(110, 40%, 52%);
+}

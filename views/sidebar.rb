@@ -7,8 +7,18 @@ class SidebarView
     draw do
         HTML.div 'sidebar-view', ('expanded' if @app.sidebar_expand) do
             HTML.div 'binders' do
+                group = nil
+
                 @app.binders.each do |binder|
-                    HTML.div 'binder', ('selected' if binder['id'] == @app.binder_id), text: binder['name'] do
+                    prefix, _, name = binder['name'].rpartition('/')
+
+                    HTML.div 'group', text: prefix if !prefix.empty? && prefix != group
+
+                    group = prefix
+
+                    selected = binder['id'] == @app.binder_id
+
+                    HTML.div 'binder', ('nested' if !prefix.empty?), ('selected' if selected), text: name, title: binder['name'] do
                         on(:click) { @app.binder(binder['id']) }
                     end
                 end

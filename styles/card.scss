@@ -1,41 +1,20 @@
-$sans-font: "Source Sans 3";
-
-$monospace-font: "Source Code Pro";
-
 .card-view {
     width: 62mm;
 
     display: flex;
 
-    position: relative;
-
-    min-height: 30mm;
-
-    border-width: 1px;
-    border-style: solid;
-    border-color: hsl(0, 0%, 90%);
-    border-radius: 5mm;
+    row-gap: 6px;
 
     flex-direction: column;
 
     &:hover {
-        cursor: pointer;
-
-        .binder {
-            display: block;
-        }
-
-        .print-button {
-            visibility: initial;
-        }
-
-        .delete-button {
-            visibility: initial;
-        }
-
         .card-container {
-            .card {
-                border-color: hsl(0, 0%, 80%);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-actions {
+            .binder, .delete-button, .print-button {
+                visibility: visible;
             }
         }
     }
@@ -46,131 +25,27 @@ $monospace-font: "Source Code Pro";
         }
     }
 
-    .binder {
-        left: 0;
-        bottom: 0;
-
-        display: none;
-
-        position: absolute;
-
-        padding-left: 6px;
-        padding-bottom: 6px;
-
-        select {
-            padding: 4px;
-
-            font-size: 12px;
-            font-family: $monospace-font;
-
-            border-width: 1px;
-            border-style: solid;
-            border-color: hsl(0, 0%, 90%);
-            border-radius: 3.5mm;
-
-            option {
-                color: black;
-
-                &[value=""] {
-                    font-size: 0;
-                }
-            }
-
-            &:hover {
-                border-color: hsl(0, 0%, 80%);
-            }
-
-            &:focus {
-                outline: none;
-
-                border-color: hsl(0, 0%, 80%);
-            }
-
-            &:has(option[value=""]:checked) {
-                color: hsl(0, 0%, 70%);
-            }
-        }
-    }
-
-    .button {
-        width: 28px;
-        height: 28px;
-
-        display: flex;
-
-        position: absolute;
-
-        visibility: hidden;
-
-        user-select: none;
-
-        align-items: center;
-
-        font-size: 16px;
-        font-family: $sans-font;
-
-        border-width: 1px;
-        border-style: solid;
-        border-radius: 28px;
-
-        justify-content: center;
-
-        &.print-button {
-            right: 6px;
-            bottom: 6px;
-
-            &.printed {
-                $color: hsl(90, 100%, 70%);
-
-                border-color: $color;
-
-                background-color: $color;
-            }
-
-            &.print-ready {
-                $color: hsl(60, 100%, 70%);
-
-                visibility: initial;
-
-                border-color: $color;
-
-                background-color: $color;
-            }
-
-            &.not-printed {
-                $color: hsl(0, 100%, 80%);
-
-                visibility: initial;
-
-                border-color: $color;
-
-                background-color: $color;
-            }
-        }
-
-        &.delete-button {
-            top: 6px;
-            right: 6px;
-
-            border-color: hsl(0, 0%, 90%);
-
-            background-color: white;
-
-            &:hover {
-                border-color: hsl(0, 0%, 80%);
-
-                background-color: hsl(0, 0%, 95%);
-            }
-        }
-    }
-
     .card-container {
         display: flex;
 
+        cursor: pointer;
+
+        overflow: hidden;
+
+        min-height: 30mm;
         max-height: 88mm;
 
         flex-grow: 1;
+
+        box-shadow: var(--shadow);
+
+        border-radius: var(--radius);
+
         flex-direction: column;
+
+        background-color: var(--surface);
+
+        transition: box-shadow 0.15s;
 
         .card {
             height: initial;
@@ -182,7 +57,125 @@ $monospace-font: "Source Code Pro";
             box-sizing: border-box;
         }
     }
+
+    .card-actions {
+        height: 24px;
+
+        display: flex;
+
+        column-gap: 4px;
+
+        align-items: center;
+
+        flex-direction: row;
+
+        .binder {
+            min-width: 0;
+
+            flex-grow: 1;
+
+            visibility: hidden;
+
+            select {
+                max-width: 100%;
+
+                color: var(--muted);
+
+                padding: 2px 4px;
+
+                font-size: 12px;
+                font-family: var(--monospace-font);
+
+                border: 1px solid transparent;
+                border-radius: var(--radius-small);
+
+                background-color: transparent;
+
+                option {
+                    color: black;
+                }
+
+                &:hover, &:focus {
+                    color: var(--text);
+
+                    outline: none;
+
+                    border-color: var(--border);
+
+                    background-color: var(--surface);
+                }
+            }
+        }
+
+        .button {
+            width: 24px;
+            height: 24px;
+
+            display: flex;
+
+            flex-shrink: 0;
+
+            cursor: pointer;
+
+            visibility: hidden;
+
+            user-select: none;
+
+            align-items: center;
+
+            border-radius: 50%;
+
+            justify-content: center;
+
+            &:hover {
+                background-color: var(--hover);
+            }
+        }
+
+        .delete-button {
+            color: var(--muted);
+
+            svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            &:hover {
+                color: var(--not-printed);
+            }
+        }
+
+        .print-button {
+            span {
+                width: 10px;
+                height: 10px;
+
+                border-radius: 50%;
+            }
+
+            &.not-printed {
+                visibility: visible;
+
+                span {
+                    background-color: var(--not-printed);
+                }
+            }
+
+            &.print-ready {
+                visibility: visible;
+
+                span {
+                    background-color: var(--print-ready);
+                }
+            }
+
+            &.printed span {
+                background-color: var(--printed);
+            }
+        }
+    }
 }
+
 .card.error {
     padding: 4mm;
 

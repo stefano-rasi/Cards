@@ -7,7 +7,11 @@ body {
 
     display: flex;
 
+    color: var(--text);
+
     flex-direction: column;
+
+    background-color: var(--surface);
 }
 
 .app-view {
@@ -16,20 +20,20 @@ body {
     min-height: 0;
 
     flex-grow: 1;
+
     flex-direction: column;
 
     .top-pane {
         display: flex;
 
         flex-grow: 0;
+
         flex-direction: row;
 
         .toolbar-view {
             flex-grow: 1;
 
-            border-bottom-width: 1px;
-            border-bottom-style: solid;
-            border-bottom-color: hsl(0, 0%, 80%);
+            border-bottom: 1px solid var(--border);
         }
     }
 
@@ -39,6 +43,7 @@ body {
         display: flex;
 
         flex-grow: 1;
+
         flex-direction: row;
 
         .cards-container {
@@ -47,6 +52,8 @@ body {
             flex-grow: 1;
 
             min-height: 0;
+
+            background-color: var(--desk);
         }
 
         .sidebar-container {
@@ -57,9 +64,7 @@ body {
             overflow-y: auto;
             overflow-x: hidden;
 
-            border-right-width: 1px;
-            border-right-style: solid;
-            border-right-color: hsl(0, 0%, 80%);
+            border-right: 1px solid var(--border);
         }
     }
 }

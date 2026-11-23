@@ -1,5 +1,3 @@
-$sans-font: "Source Sans 3";
-
 .toolbar-view {
     padding: 8px;
 
@@ -11,7 +9,15 @@ $sans-font: "Source Sans 3";
 
     justify-content: space-between;
 
-    background-color: hsl(0, 0%, 95%);
+    background-color: var(--surface);
+
+    .left-buttons, .right-buttons {
+        display: flex;
+
+        column-gap: 4px;
+
+        flex-direction: row;
+    }
 
     .button {
         width: 36px;
@@ -25,106 +31,32 @@ $sans-font: "Source Sans 3";
 
         align-items: center;
 
-        font-family: $sans-font;
-
-        border-width: 1px;
-        border-style: solid;
-        border-radius: 28px;
+        border: 1px solid transparent;
+        border-radius: 50%;
 
         justify-content: center;
 
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+
         &:hover {
             cursor: pointer;
+
+            background-color: var(--hover);
         }
 
-        &.home-button {
-            font-size: 20px;
-
-            border-color: transparent;
-
-            &:hover {
-                background-color: hsl(0, 0%, 90%);
-            }
-
-            &.selected {
-                background-color: hsl(0, 0%, 90%);
-            }
-        }
-
-        &.print-button {
-            font-size: 20px;
-
-            border-color: transparent;
-
-            &:hover {
-                background-color: hsl(0, 0%, 90%);
-            }
-
-            &.selected {
-                background-color: hsl(0, 0%, 90%);
-            }
+        &.selected {
+            background-color: var(--selected);
         }
 
         &.card-new-button {
-            font-size: 26px;
-
-            border-color: hsl(0, 0%, 80%);
-
-            background-color: white;
+            border-color: var(--border);
 
             &:hover {
-                border-color: hsl(0, 0%, 70%);
-
-                background-color: hsl(0, 0%, 95%);
+                border-color: var(--border-strong);
             }
         }
-
-        &.cards-expand-button {
-            font-size: 20px;
-
-            border-color: transparent;
-
-            &:hover {
-                background-color: hsl(0, 0%, 90%);
-            }
-
-            &.selected {
-                background-color: hsl(0, 0%, 90%);
-            }
-
-            span {
-                margin-top: 2px;
-            }
-        }
-
-        &.sidebar-expand-button {
-            font-size: 20px;
-
-            border-color: transparent;
-
-            &:hover {
-                background-color: hsl(0, 0%, 90%);
-            }
-
-            &.selected {
-                background-color: hsl(0, 0%, 90%);
-            }
-        }
-    }
-
-    .left-buttons {
-        display: flex;
-
-        column-gap: 8px;
-
-        flex-direction: row;
-    }
-
-    .right-buttons {
-        display: flex;
-
-        column-gap: 8px;
-
-        flex-direction: row;
     }
 }

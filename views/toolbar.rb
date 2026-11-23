@@ -1,31 +1,33 @@
 require 'lib/view/html'
 require 'lib/view/view'
 
+require_relative 'icons'
+
 class ToolbarView
     include View
 
     draw do
         HTML.div 'toolbar-view' do
             HTML.div 'left-buttons' do
-                button 'sidebar-expand-button', '☰', 'expand sidebar', @app.sidebar_expand do
+                button 'sidebar-expand-button', :menu, 'Sidebar (e)', @app.sidebar_expand do
                     @app.toggle_sidebar
                 end
 
-                button 'home-button', 'H', 'home', @app.state == :home do
+                button 'home-button', :home, 'Home (h)', @app.state == :home do
                     @app.home
                 end
 
-                button 'print-button', 'P', 'print', @app.state == :print do
+                button 'print-button', :print, 'Print (p)', @app.state == :print do
                     @app.print
                 end
             end
 
             HTML.div 'right-buttons' do
-                button 'cards-expand-button', 'V', 'expand cards', @app.cards_expand? do
+                button 'cards-expand-button', :expand, 'Expand cards (v)', @app.cards_expand? do
                     @app.toggle_cards_expand
                 end
 
-                button 'card-new-button', '+', 'new card' do
+                button 'card-new-button', :plus, 'New card (n)' do
                     @app.new_card
                 end
             end
@@ -36,9 +38,9 @@ class ToolbarView
         @app = app
     end
 
-    def button(name, label, title, selected = false, &action)
+    def button(name, icon, title, selected = false, &action)
         HTML.div 'button', name, ('selected' if selected), title: title do
-            HTML.span text: label
+            html Icons[icon]
 
             on(:click, &action)
         end

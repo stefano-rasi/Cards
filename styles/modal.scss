@@ -30,15 +30,15 @@
 
         border-width: 1px;
         border-style: solid;
-        border-color: hsl(0, 0%, 50%);
-        border-radius: 6mm;
+        border-color: var(--border);
+        border-radius: var(--radius);
 
-        background-color: hsl(0, 0%, 95%);
+        background-color: var(--desk);
 
         .text {
             overflow: auto;
 
-            background-color: white;
+            background-color: var(--surface);
 
             textarea {
                 field-sizing: content;

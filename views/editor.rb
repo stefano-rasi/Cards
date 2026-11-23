@@ -1,6 +1,8 @@
 require 'lib/view/html'
 require 'lib/view/view'
 
+require_relative 'icons'
+
 class EditorView
     include View
 
@@ -24,7 +26,7 @@ class EditorView
                 end
 
                 HTML.div 'close-button', title: 'close' do
-                    HTML.span text: 'X'
+                    html Icons[:close]
 
                     on(:click) { @on_close.call }
                 end

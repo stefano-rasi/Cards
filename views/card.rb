@@ -1,6 +1,8 @@
 require 'lib/view/html'
 require 'lib/view/view'
 
+require_relative 'icons'
+
 class CardView
     include View
 
@@ -14,28 +16,30 @@ class CardView
                 on(:click) { @app.edit_card(@card) }
             end
 
-            HTML.div 'binder' do
-                HTML.select do
-                    @app.binders.each do |binder|
-                        HTML.option text: binder['name'], value: binder['id'], selected: binder['id'] == @card['binder_id']
+            HTML.div 'card-actions' do
+                HTML.div 'binder' do
+                    HTML.select do
+                        @app.binders.each do |binder|
+                            HTML.option text: binder['name'], value: binder['id'], selected: binder['id'] == @card['binder_id']
+                        end
                     end
+
+                    on(:change) { |event| @app.move_card(@card, Native(event).target.value.to_i) }
                 end
 
-                on(:change) { |event| @app.move_card(@card, Native(event).target.value.to_i) }
-            end
+                HTML.div 'button delete-button', title: 'delete' do
+                    html Icons[:close]
 
-            HTML.div 'button delete-button', title: 'delete' do
-                HTML.span text: 'X'
+                    on(:click) { @app.delete_card(@card) }
+                end
 
-                on(:click) { @app.delete_card(@card) }
-            end
+                printed = PRINTED[@card['printed']]
 
-            printed = PRINTED[@card['printed']]
+                HTML.div 'button print-button', printed, title: printed.tr('-', ' ') do
+                    HTML.span
 
-            HTML.div 'button print-button', printed, title: printed.tr('-', ' ') do
-                HTML.span text: 'P'
-
-                on(:click) { @app.print_card(@card) }
+                    on(:click) { @app.print_card(@card) }
+                end
             end
         end
     end
