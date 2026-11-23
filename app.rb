@@ -19,6 +19,8 @@ FIELDS = ['type', 'text', 'printed', 'binder_id', 'attributes']
 
 JAVASCRIPT = {}
 
+CARDS_HTML = {}
+
 set :views, 'templates'
 
 def card_html(card)
@@ -94,8 +96,12 @@ get '/cards' do
 
     cards = DB[:cards].where(conditions).order(Sequel.asc(:printed), order).all
 
+    templates = Dir['templates/card/**/*.slim'].map { |file| [file, File.mtime(file)] }
+
+    CARDS_HTML.replace(templates: templates) if CARDS_HTML[:templates] != templates
+
     cards.each do |card|
-        card[:html] = card_html(card)
+        card[:html] = CARDS_HTML[card.values_at(:type, :text, :attributes)] ||= card_html(card)
     end
 
     cards.to_json
