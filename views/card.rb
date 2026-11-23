@@ -16,6 +16,20 @@ class CardView
                 on(:click) { @app.edit_card(@card) }
             end
 
+            HTML.div 'button delete-button', title: 'delete' do
+                html Icons[:trash]
+
+                on(:click) { @app.delete_card(@card) }
+            end
+
+            printed = PRINTED[@card['printed']]
+
+            HTML.div 'button print-button', printed, title: printed.tr('-', ' ') do
+                HTML.span
+
+                on(:click) { @app.print_card(@card) { draw } }
+            end
+
             HTML.div 'card-actions' do
                 HTML.div 'binder' do
                     HTML.select do
@@ -25,20 +39,6 @@ class CardView
                     end
 
                     on(:change) { |event| @app.move_card(@card, Native(event).target.value.to_i) }
-                end
-
-                HTML.div 'button delete-button', title: 'delete' do
-                    html Icons[:close]
-
-                    on(:click) { @app.delete_card(@card) }
-                end
-
-                printed = PRINTED[@card['printed']]
-
-                HTML.div 'button print-button', printed, title: printed.tr('-', ' ') do
-                    HTML.span
-
-                    on(:click) { @app.print_card(@card) }
                 end
             end
         end

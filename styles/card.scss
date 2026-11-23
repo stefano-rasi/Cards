@@ -3,19 +3,31 @@
 
     display: flex;
 
-    row-gap: 6px;
+    overflow: hidden;
+
+    position: relative;
+
+    box-shadow: var(--shadow);
+
+    border-radius: var(--radius);
 
     flex-direction: column;
 
+    background-color: var(--surface);
+
+    transition: box-shadow 0.15s;
+
     &:hover {
-        .card-container {
-            box-shadow: var(--shadow-hover);
+        box-shadow: var(--shadow-hover);
+
+        .card-actions, .delete-button {
+            opacity: 1;
+
+            visibility: visible;
         }
 
-        .card-actions {
-            .binder, .delete-button, .print-button {
-                visibility: visible;
-            }
+        .print-button.printed {
+            visibility: visible;
         }
     }
 
@@ -30,22 +42,12 @@
 
         cursor: pointer;
 
-        overflow: hidden;
-
         min-height: 30mm;
         max-height: 88mm;
 
         flex-grow: 1;
 
-        box-shadow: var(--shadow);
-
-        border-radius: var(--radius);
-
         flex-direction: column;
-
-        background-color: var(--surface);
-
-        transition: box-shadow 0.15s;
 
         .card {
             height: initial;
@@ -58,23 +60,116 @@
         }
     }
 
-    .card-actions {
+    .button {
+        width: 24px;
         height: 24px;
 
         display: flex;
+
+        flex-shrink: 0;
+
+        cursor: pointer;
+
+        user-select: none;
+
+        align-items: center;
+
+        border-radius: 50%;
+
+        justify-content: center;
+
+        &:hover {
+            background-color: var(--hover);
+        }
+    }
+
+    .delete-button {
+        right: 6px;
+        bottom: 6px;
+
+        z-index: 1;
+
+        color: var(--muted);
+
+        opacity: 0;
+
+        position: absolute;
+
+        visibility: hidden;
+
+        background-color: var(--surface);
+
+        transition: opacity 0.15s, visibility 0.15s;
+
+        svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        &:hover {
+            color: var(--not-printed);
+        }
+    }
+
+    .print-button {
+        top: 4px;
+        right: 4px;
+
+        position: absolute;
+
+        span {
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+        }
+
+        &.not-printed span {
+            background-color: var(--not-printed);
+        }
+
+        &.print-ready span {
+            background-color: var(--print-ready);
+        }
+
+        &.printed {
+            visibility: hidden;
+
+            span {
+                background-color: var(--printed);
+            }
+        }
+    }
+
+    .card-actions {
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        display: flex;
+
+        opacity: 0;
+
+        position: absolute;
+
+        visibility: hidden;
 
         column-gap: 4px;
 
         align-items: center;
 
+        padding: 16px 34px 6px 6px;
+
         flex-direction: row;
+
+        background: linear-gradient(to bottom, transparent, var(--surface) 45%);
+
+        transition: opacity 0.15s, visibility 0.15s;
 
         .binder {
             min-width: 0;
 
             flex-grow: 1;
-
-            visibility: hidden;
 
             select {
                 max-width: 100%;
@@ -86,10 +181,10 @@
                 font-size: 12px;
                 font-family: var(--monospace-font);
 
-                border: 1px solid transparent;
+                border: 1px solid var(--border);
                 border-radius: var(--radius-small);
 
-                background-color: transparent;
+                background-color: var(--surface);
 
                 option {
                     color: black;
@@ -100,77 +195,8 @@
 
                     outline: none;
 
-                    border-color: var(--border);
-
-                    background-color: var(--surface);
+                    border-color: var(--border-strong);
                 }
-            }
-        }
-
-        .button {
-            width: 24px;
-            height: 24px;
-
-            display: flex;
-
-            flex-shrink: 0;
-
-            cursor: pointer;
-
-            visibility: hidden;
-
-            user-select: none;
-
-            align-items: center;
-
-            border-radius: 50%;
-
-            justify-content: center;
-
-            &:hover {
-                background-color: var(--hover);
-            }
-        }
-
-        .delete-button {
-            color: var(--muted);
-
-            svg {
-                width: 14px;
-                height: 14px;
-            }
-
-            &:hover {
-                color: var(--not-printed);
-            }
-        }
-
-        .print-button {
-            span {
-                width: 10px;
-                height: 10px;
-
-                border-radius: 50%;
-            }
-
-            &.not-printed {
-                visibility: visible;
-
-                span {
-                    background-color: var(--not-printed);
-                }
-            }
-
-            &.print-ready {
-                visibility: visible;
-
-                span {
-                    background-color: var(--print-ready);
-                }
-            }
-
-            &.printed span {
-                background-color: var(--printed);
             }
         }
     }

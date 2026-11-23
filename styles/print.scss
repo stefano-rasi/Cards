@@ -32,19 +32,19 @@
 
                     border: 1px solid hsl(0, 0%, 95%);
 
+                    box-shadow: none;
+
+                    border-radius: 0;
+
                     margin-bottom: 0;
 
                     vertical-align: top;
 
-                    .card-actions {
+                    .button, .card-actions {
                         display: none;
                     }
 
                     .card-container {
-                        box-shadow: none;
-
-                        border-radius: 0;
-
                         .card {
                             height: 88mm;
                         }

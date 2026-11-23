@@ -147,7 +147,8 @@ class AppView
     def toggle_sidebar()
         @sidebar_expand = !@sidebar_expand
 
-        refresh
+        @toolbar_view.draw
+        @sidebar_view.draw
     end
 
     def toggle_cards_expand()
@@ -155,13 +156,14 @@ class AppView
 
         @temporary_cards_expand = false
 
-        refresh
+        @toolbar_view.draw
+        @cards_view.layout
     end
 
     def zoom_by(amount)
         @zoom += amount
 
-        refresh
+        @cards_view.layout
     end
 
     def new_card()
@@ -226,10 +228,10 @@ class AppView
         end
     end
 
-    def print_card(card)
+    def print_card(card, &block)
         card['printed'] = (card['printed'] + 1) % 3
 
-        HTTP.patch("/cards/#{card['id']}", {printed: card['printed']}.to_json) { refresh }
+        HTTP.patch("/cards/#{card['id']}", {printed: card['printed']}.to_json, &block)
     end
 
     def on_keydown(event)
