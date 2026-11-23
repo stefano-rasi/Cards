@@ -241,17 +241,17 @@ class AppView
         when '-'
             zoom_by(-0.25)
         when 'e'
-            toggle_sidebar
+            toggle_sidebar()
         when 'h'
-            home
+            home()
         when 'n'
-            new_card
+            new_card()
         when 'p'
-            print
+            print()
         when 'r'
-            load_cards
+            load_cards()
         when 'v'
-            toggle_cards_expand
+            toggle_cards_expand()
         end
     end
 
