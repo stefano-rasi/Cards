@@ -28,17 +28,14 @@
 
         flex-grow: 1;
 
-        border-width: 1px;
-        border-style: solid;
-        border-color: var(--border);
+        box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.2);
+
         border-radius: var(--radius);
 
-        background-color: var(--desk);
+        background-color: var(--surface);
 
         .text {
             overflow: auto;
-
-            background-color: var(--surface);
 
             textarea {
                 field-sizing: content;

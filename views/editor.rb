@@ -21,6 +21,16 @@ class EditorView
                     end
                 end
 
+                HTML.div 'binder' do
+                    @binder_select = HTML.select do
+                        HTML.option text: 'binder', value: ''
+
+                        @binders.each do |binder|
+                            HTML.option text: binder['name'], value: binder['id'], selected: binder['id'] == @card['binder_id']
+                        end
+                    end
+                end
+
                 HTML.div 'attributes' do
                     @attributes_input = HTML.input placeholder: 'attributes', value: @card['attributes']
                 end
@@ -34,18 +44,6 @@ class EditorView
 
             HTML.div 'text' do
                 @text_editor = HTML.textarea placeholder: 'text', value: @card['text'], spellcheck: false
-            end
-
-            HTML.div 'bottom-row' do
-                HTML.div 'binder' do
-                    @binder_select = HTML.select do
-                        HTML.option text: 'binder', value: ''
-
-                        @binders.each do |binder|
-                            HTML.option text: binder['name'], value: binder['id'], selected: binder['id'] == @card['binder_id']
-                        end
-                    end
-                end
             end
         end
     end

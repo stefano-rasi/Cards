@@ -12,24 +12,9 @@
     .binders {
         display: none;
 
-        padding: 8px;
-
-        row-gap: 2px;
+        padding-bottom: 6px;
 
         flex-direction: column;
-
-        .group {
-            user-select: none;
-
-            color: var(--muted);
-
-            font-size: 12px;
-            font-family: var(--monospace-font);
-
-            padding-top: 10px;
-            padding-left: 10px;
-            padding-bottom: 2px;
-        }
 
         .binder {
             user-select: none;
@@ -37,16 +22,9 @@
             font-size: 14px;
             font-family: var(--monospace-font);
 
-            padding-top: 5px;
-            padding-left: 10px;
-            padding-right: 16px;
-            padding-bottom: 5px;
+            padding: 7px 16px 7px 12px;
 
-            border-radius: var(--radius-small);
-
-            &.nested {
-                padding-left: 20px;
-            }
+            border-bottom: 1px solid var(--border);
 
             &:hover {
                 cursor: pointer;
@@ -55,8 +33,6 @@
             }
 
             &.selected {
-                font-weight: 600;
-
                 background-color: var(--selected);
             }
         }

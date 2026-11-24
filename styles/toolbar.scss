@@ -50,13 +50,5 @@
         &.selected {
             background-color: var(--selected);
         }
-
-        &.card-new-button {
-            border-color: var(--border);
-
-            &:hover {
-                border-color: var(--border-strong);
-            }
-        }
     }
 }
