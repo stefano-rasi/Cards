@@ -8,9 +8,7 @@ require 'sinatra'
 require_relative 'lib/card'
 
 require_relative 'lib/card/note'
-require_relative 'lib/card/study'
 require_relative 'lib/card/recipe'
-require_relative 'lib/card/italian'
 require_relative 'lib/card/japanese'
 
 DB = Sequel.connect('sqlite://cards.db')

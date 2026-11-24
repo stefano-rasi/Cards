@@ -9,13 +9,23 @@ class EditorView
     draw do
         HTML.div 'editor-view' do
             HTML.div 'top-row' do
+                on(:mousedown) do |event|
+                    event = Native(event)
+
+                    if !['INPUT', 'SELECT'].include?(event.target.tagName)
+                        event.preventDefault
+
+                        event.currentTarget.closest('dialog').focus
+                    end
+                end
+
                 HTML.div 'type' do
                     @type_select = HTML.select required: true do
                         if !@card['type']
                             HTML.option text: 'type', value: '', disabled: true, selected: true
                         end
 
-                        @types.sort.each do |type|
+                        @types.each do |type|
                             HTML.option text: type, value: type, selected: type == @card['type']
                         end
                     end
