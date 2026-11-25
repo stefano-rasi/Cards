@@ -111,7 +111,7 @@
 
             cursor: pointer;
 
-            color: var(--muted);
+            color: var(--text);
 
             align-items: center;
 
@@ -125,8 +125,6 @@
             }
 
             &:hover {
-                color: var(--text);
-
                 background-color: var(--hover);
             }
         }
