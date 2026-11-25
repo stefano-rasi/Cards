@@ -26,6 +26,8 @@ class CardView
                 end
             end
 
+            span(element)
+
             HTML.div 'button delete-button', title: 'delete' do
                 html Icons[:trash]
 
@@ -61,6 +63,14 @@ class CardView
 
     def load_html()
         @app.load_card_html(@card) { draw }
+    end
+
+    def span(element)
+        %x{
+            new ResizeObserver(function() {
+                #{element.to_n}.style.gridRowEnd = 'span ' + Math.ceil(#{element.to_n}.offsetHeight + 20);
+            }).observe(#{element.to_n})
+        }
     end
 
     def observe(element)
