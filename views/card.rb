@@ -1,6 +1,8 @@
 ﻿require 'lib/view/html'
 require 'lib/view/view'
 
+require 'js'
+
 require_relative 'icons'
 
 class CardView
@@ -22,7 +24,7 @@ class CardView
                 if @app.state == :print
                     load_html
                 else
-                    observe(element)
+                    load_html_when_visible(element)
                 end
             end
 
@@ -63,19 +65,17 @@ class CardView
         @app.load_card_html(@card) { draw }
     end
 
-    def observe(element)
-        callback = proc { load_html }
+    def load_html_when_visible(element)
+        root = Document.querySelector('.cards-container')
 
-        root = Document.querySelector('.cards-container').to_n
+        observer = JS.new($$[:IntersectionObserver], proc { |entries|
+            if entries.any? { |entry| Native(entry).isIntersecting }
+                Native(observer).disconnect
 
-        %x{
-            new IntersectionObserver(function(entries, observer) {
-                if (entries.some(function(entry) { return entry.isIntersecting })) {
-                    observer.disconnect();
+                load_html
+            end
+        }, {root: root, rootMargin: '100% 0px'}.to_n)
 
-                    #{callback}();
-                }
-            }, {root: #{root}, rootMargin: '100% 0px'}).observe(#{element.to_n})
-        }
+        Native(observer).observe(element)
     end
 end
